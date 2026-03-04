@@ -7,13 +7,13 @@
     <section class="section">
         <div class="section-header">
             <div class="section-header-back">
-                <a href="{{ route('instructor.index') }}" class="btn btn-icon">
+                <a href="{{ route('trainers.index') }}" class="btn btn-icon">
                     <i class="fas fa-arrow-left"></i>
                 </a>
             </div>
             <h1>{{ __('Trainer Profile') }}</h1>
             <div class="section-header-button">
-                <a href="{{ route('instructor.edit', $trainer) }}" class="btn btn-primary">
+                <a href="{{ route('trainers.edit', $trainer) }}" class="btn btn-primary">
                     <i class="fas fa-edit"></i> {{ __('Edit Profile') }}
                 </a>
             </div>

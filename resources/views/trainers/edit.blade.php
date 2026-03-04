@@ -8,7 +8,7 @@
             <div class="row"><div class="col-lg-8"><div class="card">
                 <div class="card-header"><h4>{{ __('Trainer Information') }}</h4></div>
                 <div class="card-body">
-                    <form action="{{ route('instructor.update', $trainer) }}" method="POST">
+                    <form action="{{ route('trainers.update', $trainer) }}" method="POST">
                         @csrf @method('PUT')
                         <div class="row">
                             <div class="col-md-6"><div class="form-group"><label>{{ __('Name') }} *</label>
@@ -40,7 +40,7 @@
                                 </div></div></div>
                         </div>
                         <button type="submit" class="btn btn-primary btn-lg"><i class="fas fa-save"></i> {{ __('Update Trainer') }}</button>
-                        <a href="{{ route('instructor.index') }}" class="btn btn-secondary btn-lg">{{ __('Cancel') }}</a>
+                        <a href="{{ route('trainers.index') }}" class="btn btn-secondary btn-lg">{{ __('Cancel') }}</a>
                     </form>
                 </div>
             </div></div></div>

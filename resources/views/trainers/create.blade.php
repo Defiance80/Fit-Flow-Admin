@@ -7,7 +7,7 @@
     <section class="section">
         <div class="section-header">
             <div class="section-header-back">
-                <a href="{{ route('instructor.index') }}" class="btn btn-icon">
+                <a href="{{ route('trainers.index') }}" class="btn btn-icon">
                     <i class="fas fa-arrow-left"></i>
                 </a>
             </div>
@@ -22,7 +22,7 @@
                             <h4>{{ __('Trainer Information') }}</h4>
                         </div>
                         <div class="card-body">
-                            <form method="POST" action="{{ route('instructor.store') }}" enctype="multipart/form-data">
+                            <form method="POST" action="{{ route('trainers.store') }}" enctype="multipart/form-data">
                                 @csrf
                                 
                                 <div class="row">
@@ -153,7 +153,7 @@
                                     <button type="submit" class="btn btn-primary">
                                         <i class="fas fa-save"></i> {{ __('Create Trainer') }}
                                     </button>
-                                    <a href="{{ route('instructor.index') }}" class="btn btn-secondary ml-2">
+                                    <a href="{{ route('trainers.index') }}" class="btn btn-secondary ml-2">
                                         <i class="fas fa-times"></i> {{ __('Cancel') }}
                                     </a>
                                 </div>
