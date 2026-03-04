@@ -2,13 +2,13 @@
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
             <a href="{{ route('dashboard') }}">
-                {{-- Always use our Fit Flow logo --
-                    <img src="{{ $settingLogos['horizontal_logo'] }}" alt="{{ __('Logo') }}" class="img-fluid rounded"
-                        style="max-height: auto; width: 150px;">
-                @else
-                    <img src="{{ asset('img/fitflow-logo.png') }}" alt="Fit Flow" class="img-fluid" style="max-height: 45px;">
-                @endif
-            </a>
+{{-- replaced --
+{{-- replaced --
+{{-- replaced --
+{{-- replaced --
+{{-- replaced --
+{{-- replaced --
+{{-- replaced --
         </div>
         <div class="sidebar-brand sidebar-brand-sm">
             <a href="{{ route('dashboard') }}">FF</a>
@@ -28,85 +28,81 @@
             {{-- ********************************************************************** --}}
 
             {{-- ********************************************************************** --}}
+            {{-- Management --}}
+            @if(auth()->user()->can('categories-list') || auth()->user()->can('custom-form-fields-list') || auth()->user()->can('faqs-list') || auth()->user()->can('pages-list') || auth()->user()->can('taxes-list') || auth()->user()->can('promo-codes-list') || auth()->user()->can('certificates-list') || auth()->user()->can('instructors-list') || auth()->user()->can('notifications-list') || auth()->user()->can('assignments-list') || auth()->user()->can('ratings-list') || auth()->user()->can('orders-list') || auth()->user()->can('refunds-list') || auth()->user()->can('enrollments-list') || auth()->user()->can('tracking-list') || auth()->user()->can('users-list'))
 
-            {{-- ********************************************************************** --}}
             {{-- Fitness Section --}}
-            <li class="menu-header" style="color: #0D9488;">{{ __('Fitness') }}</li>
-            @if(\Illuminate\Support\Facades\Route::has('trainers.index'))
-            <li class="nav-item dropdown {{ in_array($type_menu ?? '', ['trainers']) ? 'active' : '' }}">
-                <a href="#" class="nav-link has-dropdown"><i class="fas fa-dumbbell"></i><span>{{ __('Trainers') }}</span></a>
+            <li class="menu-header" style="color: #0D9488;">{{ __("Fitness") }}</li>
+            @if(\Illuminate\Support\Facades\Route::has("trainers.index"))
+            <li class="nav-item dropdown">
+                <a href="#" class="nav-link has-dropdown"><i class="fas fa-dumbbell"></i><span>{{ __("Trainers") }}</span></a>
                 <ul class="dropdown-menu">
-                    <li class="{{ request()->routeIs('trainers.index') ? 'active' : '' }}"><a class="nav-link" href="{{ route('instructor.index') }}">{{ __('All Trainers') }}</a></li>
-                    @if(\Illuminate\Support\Facades\Route::has('trainers.create'))<li><a class="nav-link" href="{{ route('instructor.create') }}">{{ __('Add Trainer') }}</a></li>@endif
+                    <li><a class="nav-link" href="{{ route("trainers.index") }}">{{ __("All Trainers") }}</a></li>
+                    <li><a class="nav-link" href="{{ route("trainers.create") }}">{{ __("Add Trainer") }}</a></li>
                 </ul>
             </li>
             @endif
-            @if(\Illuminate\Support\Facades\Route::has('clients.index'))
-            <li class="nav-item dropdown {{ in_array($type_menu ?? '', ['clients']) ? 'active' : '' }}">
-                <a href="#" class="nav-link has-dropdown"><i class="fas fa-users"></i><span>{{ __('Clients') }}</span></a>
+            @if(\Illuminate\Support\Facades\Route::has("clients.index"))
+            <li class="nav-item dropdown">
+                <a href="#" class="nav-link has-dropdown"><i class="fas fa-users"></i><span>{{ __("Clients") }}</span></a>
                 <ul class="dropdown-menu">
-                    <li class="{{ request()->routeIs('clients.index') ? 'active' : '' }}"><a class="nav-link" href="{{ route('clients.index') }}">{{ __('All Clients') }}</a></li>
-                    @if(\Illuminate\Support\Facades\Route::has('clients.create'))<li><a class="nav-link" href="{{ route('clients.create') }}">{{ __('Add Client') }}</a></li>@endif
+                    <li><a class="nav-link" href="{{ route("clients.index") }}">{{ __("All Clients") }}</a></li>
                 </ul>
             </li>
             @endif
-            @if(\Illuminate\Support\Facades\Route::has('programs.index'))
-            <li class="nav-item dropdown {{ in_array($type_menu ?? '', ['programs']) ? 'active' : '' }}">
-                <a href="#" class="nav-link has-dropdown"><i class="fas fa-clipboard-list"></i><span>{{ __('Programs') }}</span></a>
+            @if(\Illuminate\Support\Facades\Route::has("programs.index"))
+            <li class="nav-item dropdown">
+                <a href="#" class="nav-link has-dropdown"><i class="fas fa-clipboard-list"></i><span>{{ __("Programs") }}</span></a>
                 <ul class="dropdown-menu">
-                    <li class="{{ request()->routeIs('programs.index') ? 'active' : '' }}"><a class="nav-link" href="{{ route('programs.index') }}">{{ __('All Programs') }}</a></li>
-                    @if(\Illuminate\Support\Facades\Route::has('programs.create'))<li><a class="nav-link" href="{{ route('programs.create') }}">{{ __('Create Program') }}</a></li>@endif
+                    <li><a class="nav-link" href="{{ route("programs.index") }}">{{ __("All Programs") }}</a></li>
                 </ul>
             </li>
             @endif
-            @if(\Illuminate\Support\Facades\Route::has('exercises.index'))
-            <li class="nav-item {{ ($type_menu ?? '') === 'exercises' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('exercises.index') }}"><i class="fas fa-running"></i><span>{{ __('Exercise Library') }}</span></a>
+            @if(\Illuminate\Support\Facades\Route::has("exercises.index"))
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route("exercises.index") }}"><i class="fas fa-running"></i><span>{{ __("Exercise Library") }}</span></a>
             </li>
             @endif
 
-            {{-- Health & Nutrition --}}
-            <li class="menu-header" style="color: #0D9488;">{{ __('Health & Nutrition') }}</li>
-            @if(\Illuminate\Support\Facades\Route::has('health.metrics.index'))
-            <li class="nav-item {{ ($type_menu ?? '') === 'health-metrics' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('health.metrics.index') }}"><i class="fas fa-heartbeat"></i><span>{{ __('Health Metrics') }}</span></a>
+            {{-- Health and Nutrition --}}
+            <li class="menu-header" style="color: #0D9488;">{{ __("Health & Nutrition") }}</li>
+            @if(\Illuminate\Support\Facades\Route::has("health.metrics.index"))
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route("health.metrics.index") }}"><i class="fas fa-heartbeat"></i><span>{{ __("Health Metrics") }}</span></a>
             </li>
             @endif
-            @if(\Illuminate\Support\Facades\Route::has('health.alerts.index'))
-            <li class="nav-item {{ ($type_menu ?? '') === 'health-alerts' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('health.alerts.index') }}"><i class="fas fa-exclamation-triangle"></i><span>{{ __('Health Alerts') }}</span></a>
+            @if(\Illuminate\Support\Facades\Route::has("health.alerts.index"))
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route("health.alerts.index") }}"><i class="fas fa-exclamation-triangle"></i><span>{{ __("Health Alerts") }}</span></a>
             </li>
             @endif
-            @if(\Illuminate\Support\Facades\Route::has('meal-plans.index'))
-            <li class="nav-item dropdown {{ in_array($type_menu ?? '', ['meal-plans']) ? 'active' : '' }}">
-                <a href="#" class="nav-link has-dropdown"><i class="fas fa-utensils"></i><span>{{ __('Meal Plans') }}</span></a>
+            @if(\Illuminate\Support\Facades\Route::has("meal-plans.index"))
+            <li class="nav-item dropdown">
+                <a href="#" class="nav-link has-dropdown"><i class="fas fa-utensils"></i><span>{{ __("Meal Plans") }}</span></a>
                 <ul class="dropdown-menu">
-                    <li class="{{ request()->routeIs('meal-plans.index') ? 'active' : '' }}"><a class="nav-link" href="{{ route('meal-plans.index') }}">{{ __('All Plans') }}</a></li>
-                    @if(\Illuminate\Support\Facades\Route::has('meal-plans.create'))<li><a class="nav-link" href="{{ route('meal-plans.create') }}">{{ __('Create Plan') }}</a></li>@endif
+                    <li><a class="nav-link" href="{{ route("meal-plans.index") }}">{{ __("All Plans") }}</a></li>
                 </ul>
             </li>
             @endif
 
             {{-- Scheduling --}}
-            <li class="menu-header" style="color: #0D9488;">{{ __('Scheduling') }}</li>
-            @if(\Illuminate\Support\Facades\Route::has('schedules.index'))
-            <li class="nav-item {{ ($type_menu ?? '') === 'schedules' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('schedules.index') }}"><i class="fas fa-calendar-alt"></i><span>{{ __('Calendar') }}</span></a>
+            <li class="menu-header" style="color: #0D9488;">{{ __("Scheduling") }}</li>
+            @if(\Illuminate\Support\Facades\Route::has("schedules.index"))
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route("schedules.index") }}"><i class="fas fa-calendar-alt"></i><span>{{ __("Calendar") }}</span></a>
             </li>
             @endif
-            @if(\Illuminate\Support\Facades\Route::has('facilities.index'))
-            <li class="nav-item {{ ($type_menu ?? '') === 'facilities' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('facilities.index') }}"><i class="fas fa-building"></i><span>{{ __('Facilities') }}</span></a>
+            @if(\Illuminate\Support\Facades\Route::has("facilities.index"))
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route("facilities.index") }}"><i class="fas fa-building"></i><span>{{ __("Facilities") }}</span></a>
             </li>
             @endif
-            @if(\Illuminate\Support\Facades\Route::has('subscriptions.index'))
-            <li class="nav-item {{ ($type_menu ?? '') === 'subscriptions' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('subscriptions.index') }}"><i class="fas fa-credit-card"></i><span>{{ __('Subscriptions') }}</span></a>
+            @if(\Illuminate\Support\Facades\Route::has("subscriptions.index"))
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route("subscriptions.index") }}"><i class="fas fa-credit-card"></i><span>{{ __("Subscriptions") }}</span></a>
             </li>
             @endif
 
-            {{-- Management --}}
-            @if(auth()->user()->can('categories-list') || auth()->user()->can('custom-form-fields-list') || auth()->user()->can('faqs-list') || auth()->user()->can('pages-list') || auth()->user()->can('taxes-list') || auth()->user()->can('promo-codes-list') || auth()->user()->can('certificates-list') || auth()->user()->can('trainers-list') || auth()->user()->can('notifications-list') || auth()->user()->can('assignments-list') || auth()->user()->can('ratings-list') || auth()->user()->can('orders-list') || auth()->user()->can('refunds-list') || auth()->user()->can('enrollments-list') || auth()->user()->can('tracking-list') || auth()->user()->can('users-list'))
                 <li class="menu-header" style="color: #0D9488;">{{ __('Management') }}</li>
             @endif
 
@@ -173,27 +169,27 @@
                 </li>
             @endcan
 
-            {{-- Trainer Management --}}
-            @can('trainers-list')
+            {{-- Instructor Management --}}
+            @can('instructors-list')
                 @if(!isset($isSingleInstructorMode) || !$isSingleInstructorMode)
                     <li
-                        class="nav-item dropdown {{ $type_menu === 'trainer' || $type_menu === 'instructor.wallet' || $type_menu === 'trainer-withdrawals' ? 'active' : '' }}">
+                        class="nav-item dropdown {{ $type_menu === 'instructor' || $type_menu === 'instructor-wallet' || $type_menu === 'instructor-withdrawals' ? 'active' : '' }}">
                         <a href="#" class="nav-link has-dropdown" data-toggle="dropdown">
                             <i class="fas fa-user-tie"></i><span>{{ __('Trainers') }}</span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li class="{{ $type_menu === 'trainer' ? 'active' : '' }}">
+                            <li class="{{ $type_menu === 'instructor' ? 'active' : '' }}">
                                 <a class="nav-link" href="{{ route('instructor.index') }}">
                                     <i class="fas fa-users mr-1"></i> {{ __('Trainer List') }}
                                 </a>
                             </li>
-                            <li class="{{ $type_menu === 'instructor.wallet' ? 'active' : '' }}">
-                                <a class="nav-link" href="{{ route('instructor-wallet-history') }}">
+                            <li class="{{ $type_menu === 'instructor-wallet' ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('instructor.wallet-history') }}">
                                     <i class="fas fa-wallet mr-1"></i> {{ __('Wallet History') }}
                                 </a>
                             </li>
-                            <li class="{{ $type_menu === 'trainer-withdrawals' ? 'active' : '' }}">
-                                <a class="nav-link" href="{{ route('instructor-withdrawal-requests') }}">
+                            <li class="{{ $type_menu === 'instructor-withdrawals' ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('instructor.withdrawal-requests') }}">
                                     <i class="fas fa-money-bill-wave mr-1"></i> {{ __('Withdrawal Requests') }}
                                 </a>
                             </li>
@@ -447,7 +443,7 @@
 
             {{-- ********************************************************************** --}}
             {{-- Reports --}}
-            @if(auth()->user()->can('reports-sales-list') || auth()->user()->can('reports-commission-list') || auth()->user()->can('reports-course-list') || auth()->user()->can('reports-trainer-list') || auth()->user()->can('reports-enrollment-list') || auth()->user()->can('reports-revenue-list'))
+            @if(auth()->user()->can('reports-sales-list') || auth()->user()->can('reports-commission-list') || auth()->user()->can('reports-course-list') || auth()->user()->can('reports-instructor-list') || auth()->user()->can('reports-enrollment-list') || auth()->user()->can('reports-revenue-list'))
                 <li class="menu-header" style="color: #0D9488;">{{ __('Reports') }}</li>
                 <li class="nav-item dropdown {{ $type_menu === 'reports' ? 'active' : '' }}">
                     <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-chart-bar"></i>
@@ -474,10 +470,10 @@
                                 </a>
                         </li> @endcan
 
-                        @can('reports-trainer-list')
+                        @can('reports-instructor-list')
                             @if(!isset($isSingleInstructorMode) || !$isSingleInstructorMode)
-                                <li class="{{ request()->is('reports/trainer*') ? 'active' : '' }}">
-                                    <a class="nav-link" href="{{ route('reports.trainer') }}">
+                                <li class="{{ request()->is('reports/instructor*') ? 'active' : '' }}">
+                                    <a class="nav-link" href="{{ route('reports.instructor') }}">
                                         <i class="fas fa-chalkboard-teacher mr-1"></i> {{ __('Trainer Reports') }}
                                     </a>
                                 </li>
@@ -503,7 +499,7 @@
 
             {{-- ********************************************************************** --}}
             {{-- Settings --}}
-            @if(auth()->user()->can('settings-system-list') || auth()->user()->can('settings-firebase-list') || auth()->user()->can('settings-trainer-terms-list') || auth()->user()->can('settings-refund-list') || auth()->user()->can('settings-app-list') || auth()->user()->can('settings-payment-gateway-list') || auth()->user()->can('settings-language-list') || auth()->user()->can('settings-hls-list'))
+            @if(auth()->user()->can('settings-system-list') || auth()->user()->can('settings-firebase-list') || auth()->user()->can('settings-instructor-terms-list') || auth()->user()->can('settings-refund-list') || auth()->user()->can('settings-app-list') || auth()->user()->can('settings-payment-gateway-list') || auth()->user()->can('settings-language-list') || auth()->user()->can('settings-hls-list'))
                 <li class="menu-header" style="color: #0D9488;">{{ __('Settings') }}</li>
                 <li class="nav-item dropdown {{ $type_menu === 'settings' ? 'active' : '' }}">
                     <a href="#" class="nav-link has-dropdown"><i
@@ -518,8 +514,8 @@
                                 <a class="nav-link" href="{{ route('settings.firebase') }}">{{ __('Firebase Settings') }}</a>
                         </li> @endcan
 
-                        @can('settings-trainer-terms-list')
-                            <li class="{{ request()->is('trainer-terms-settings') ? 'active' : '' }}">
+                        @can('settings-instructor-terms-list')
+                            <li class="{{ request()->is('instructor-terms-settings') ? 'active' : '' }}">
                                 <a class="nav-link"
                                     href="{{ route('settings.instructor-terms') }}">{{ __('Trainer Terms Settings') }}</a>
                         </li> @endcan
@@ -532,7 +528,7 @@
 
                         @can('settings-system-list')
                             @if(!isset($isSingleInstructorMode) || !$isSingleInstructorMode)
-                                <li class="{{ request()->is('become-trainer-settings') ? 'active' : '' }}">
+                                <li class="{{ request()->is('become-instructor-settings') ? 'active' : '' }}">
                                     <a class="nav-link"
                                         href="{{ route('settings.become-instructor') }}">{{ __('Become Trainer Settings') }}</a>
                                 </li>
