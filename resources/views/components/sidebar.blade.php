@@ -2,7 +2,7 @@
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
             <a href="{{ route('dashboard') }}">
-                @if (!empty($settingLogos['horizontal_logo']))
+                {{-- Always use our Fit Flow logo --
                     <img src="{{ $settingLogos['horizontal_logo'] }}" alt="{{ __('Logo') }}" class="img-fluid rounded"
                         style="max-height: auto; width: 150px;">
                 @else
