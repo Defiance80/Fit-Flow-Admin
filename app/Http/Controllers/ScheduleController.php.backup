@@ -20,7 +20,7 @@ class ScheduleController extends Controller
         $startDate = $request->get('start_date', now()->startOfMonth()->format('Y-m-d'));
         $endDate = $request->get('end_date', now()->endOfMonth()->format('Y-m-d'));
         
-        $query->whereBetween('start_at', [$startDate . ' 00:00:00', $endDate . ' 23:59:59']);
+        $query->whereBetween('start_time', [$startDate . ' 00:00:00', $endDate . ' 23:59:59']);
 
         // Filter by trainer
         if ($request->has('trainer_id') && !empty($request->trainer_id)) {
@@ -42,15 +42,15 @@ class ScheduleController extends Controller
             $query->where('status', $request->status);
         }
 
-        $schedules = $query->orderBy('start_at')->paginate(20);
-        $trainers = User::where('user_role', 'trainer')->where('is_active', 1)->get();
-        $clients = User::where('user_role', 'client')->where('is_active', 1)->get();
+        $schedules = $query->orderBy('start_time')->paginate(20);
+        $trainers = User::where('user_role', 'trainer')->where('status', 'active')->get();
+        $clients = User::where('user_role', 'client')->where('status', 'active')->get();
 
         // Upcoming sessions for today
         $todaysSchedules = Schedule::with(['trainer', 'client'])
-            ->whereDate('start_at', today())
-            ->where('start_at', '>=', now())
-            ->orderBy('start_at')
+            ->whereDate('start_time', today())
+            ->where('start_time', '>=', now())
+            ->orderBy('start_time')
             ->take(10)
             ->get();
 
@@ -66,8 +66,8 @@ class ScheduleController extends Controller
      */
     public function create()
     {
-        $trainers = User::where('user_role', 'trainer')->where('is_active', 1)->get();
-        $clients = User::where('user_role', 'client')->where('is_active', 1)->get();
+        $trainers = User::where('user_role', 'trainer')->where('status', 'active')->get();
+        $clients = User::where('user_role', 'client')->where('status', 'active')->get();
         
         return view('schedules.create', compact('trainers', 'clients'), [
             'type_menu' => 'calendar'
@@ -85,13 +85,13 @@ class ScheduleController extends Controller
             'session_type' => 'required|string|max:100',
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'start_at' => 'required|date|after:now',
-            'end_at' => 'required|date|after:start_at',
+            'start_time' => 'required|date|after:now',
+            'end_time' => 'required|date|after:start_time',
             'location' => 'nullable|string|max:255',
             'is_virtual' => 'boolean',
             'meeting_link' => 'nullable|url|max:500',
             'recurrence_type' => 'nullable|in:none,daily,weekly,monthly',
-            'recurrence_end_date' => 'nullable|date|after:start_at',
+            'recurrence_end_date' => 'nullable|date|after:start_time',
             'notes' => 'nullable|string',
         ]);
 
@@ -138,8 +138,8 @@ class ScheduleController extends Controller
      */
     public function edit(Schedule $schedule)
     {
-        $trainers = User::where('user_role', 'trainer')->where('is_active', 1)->get();
-        $clients = User::where('user_role', 'client')->where('is_active', 1)->get();
+        $trainers = User::where('user_role', 'trainer')->where('status', 'active')->get();
+        $clients = User::where('user_role', 'client')->where('status', 'active')->get();
         $schedule->load(['trainer', 'client']);
         
         return view('schedules.edit', compact('schedule', 'trainers', 'clients'), [
@@ -158,8 +158,8 @@ class ScheduleController extends Controller
             'session_type' => 'required|string|max:100',
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'start_at' => 'required|date',
-            'end_at' => 'required|date|after:start_at',
+            'start_time' => 'required|date',
+            'end_time' => 'required|date|after:start_time',
             'location' => 'nullable|string|max:255',
             'is_virtual' => 'boolean',
             'meeting_link' => 'nullable|url|max:500',
@@ -208,9 +208,9 @@ class ScheduleController extends Controller
             return;
         }
 
-        $currentDate = new \DateTime($data['start_at']);
+        $currentDate = new \DateTime($data['start_time']);
         $endDate = new \DateTime($data['recurrence_end_date']);
-        $duration = (new \DateTime($data['start_at']))->diff(new \DateTime($data['end_at']));
+        $duration = (new \DateTime($data['start_time']))->diff(new \DateTime($data['end_time']));
 
         while ($currentDate <= $endDate) {
             // Move to next occurrence
@@ -239,8 +239,8 @@ class ScheduleController extends Controller
                 'session_type' => $originalSchedule->session_type,
                 'title' => $originalSchedule->title,
                 'description' => $originalSchedule->description,
-                'start_at' => $currentDate->format('Y-m-d H:i:s'),
-                'end_at' => $newEndTime->format('Y-m-d H:i:s'),
+                'start_time' => $currentDate->format('Y-m-d H:i:s'),
+                'end_time' => $newEndTime->format('Y-m-d H:i:s'),
                 'location' => $originalSchedule->location,
                 'is_virtual' => $originalSchedule->is_virtual,
                 'meeting_link' => $originalSchedule->meeting_link,

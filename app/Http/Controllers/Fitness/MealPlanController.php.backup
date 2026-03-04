@@ -26,8 +26,8 @@ class MealPlanController extends Controller
                 $q->where('name', 'LIKE', "%{$search}%")
                   ->orWhere('goal', 'LIKE', "%{$search}%")
                   ->orWhereHas('client', function($subQ) use ($search) {
-                      $subQ->where('name', 'LIKE', "%{$search}%")
-                           ;
+                      $subQ->where('first_name', 'LIKE', "%{$search}%")
+                           ->orWhere('last_name', 'LIKE', "%{$search}%");
                   });
             });
         }
@@ -43,7 +43,7 @@ class MealPlanController extends Controller
         }
 
         $mealPlans = $query->orderBy('created_at', 'desc')->paginate(15);
-        $trainers = User::where('user_role', 'trainer')->where('is_active', 1)->get();
+        $trainers = User::where('user_role', 'trainer')->where('status', 'active')->get();
 
         return view('fitness.meal-plans.index', compact('mealPlans', 'trainers'), [
             'type_menu' => 'meal-plans'
@@ -55,8 +55,8 @@ class MealPlanController extends Controller
      */
     public function create()
     {
-        $trainers = User::where('user_role', 'trainer')->where('is_active', 1)->get();
-        $clients = User::where('user_role', 'client')->where('is_active', 1)->get();
+        $trainers = User::where('user_role', 'trainer')->where('status', 'active')->get();
+        $clients = User::where('user_role', 'client')->where('status', 'active')->get();
         
         return view('fitness.meal-plans.create', compact('trainers', 'clients'), [
             'type_menu' => 'meal-plans'
@@ -74,10 +74,10 @@ class MealPlanController extends Controller
             'client_id' => 'required|exists:users,id',
             'trainer_id' => 'required|exists:users,id',
             'goal' => 'required|string|max:100',
-            'daily_calories' => 'required|integer|min:1000|max:5000',
-            'protein_g' => 'nullable|integer|min:0|max:500',
-            'carbs_g' => 'nullable|integer|min:0|max:800',
-            'fats_g' => 'nullable|integer|min:0|max:300',
+            'daily_calories_target' => 'required|integer|min:1000|max:5000',
+            'daily_protein_grams' => 'nullable|integer|min:0|max:500',
+            'daily_carbs_grams' => 'nullable|integer|min:0|max:800',
+            'daily_fats_grams' => 'nullable|integer|min:0|max:300',
             'duration_days' => 'required|integer|min:1|max:365',
             'dietary_restrictions' => 'nullable|string',
             'notes' => 'nullable|string',
@@ -121,8 +121,8 @@ class MealPlanController extends Controller
      */
     public function edit(MealPlan $mealPlan)
     {
-        $trainers = User::where('user_role', 'trainer')->where('is_active', 1)->get();
-        $clients = User::where('user_role', 'client')->where('is_active', 1)->get();
+        $trainers = User::where('user_role', 'trainer')->where('status', 'active')->get();
+        $clients = User::where('user_role', 'client')->where('status', 'active')->get();
         $mealPlan->load(['client', 'trainer']);
 
         return view('fitness.meal-plans.edit', compact('mealPlan', 'trainers', 'clients'), [
@@ -141,14 +141,14 @@ class MealPlanController extends Controller
             'client_id' => 'required|exists:users,id',
             'trainer_id' => 'required|exists:users,id',
             'goal' => 'required|string|max:100',
-            'daily_calories' => 'required|integer|min:1000|max:5000',
-            'protein_g' => 'nullable|integer|min:0|max:500',
-            'carbs_g' => 'nullable|integer|min:0|max:800',
-            'fats_g' => 'nullable|integer|min:0|max:300',
+            'daily_calories_target' => 'required|integer|min:1000|max:5000',
+            'daily_protein_grams' => 'nullable|integer|min:0|max:500',
+            'daily_carbs_grams' => 'nullable|integer|min:0|max:800',
+            'daily_fats_grams' => 'nullable|integer|min:0|max:300',
             'duration_days' => 'required|integer|min:1|max:365',
             'dietary_restrictions' => 'nullable|string',
             'notes' => 'nullable|string',
-            'is_active' => 'required|boolean',
+            'status' => 'required|in:active,inactive,completed',
         ]);
 
         try {
@@ -169,7 +169,7 @@ class MealPlanController extends Controller
     public function destroy(MealPlan $mealPlan)
     {
         try {
-            $mealPlan->update(['is_active' => 0]);
+            $mealPlan->update(['status' => 'inactive']);
             
             return redirect()->route('meal-plans.index')
                 ->with('success', 'Meal plan deactivated successfully.');

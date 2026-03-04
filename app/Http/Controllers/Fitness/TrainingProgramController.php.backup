@@ -45,7 +45,7 @@ class TrainingProgramController extends Controller
         }
 
         $programs = $query->orderBy('created_at', 'desc')->paginate(15);
-        $trainers = User::where('user_role', 'trainer')->where('is_active', 1)->get();
+        $trainers = User::where('user_role', 'trainer')->where('status', 'active')->get();
 
         return view('fitness.programs.index', compact('programs', 'trainers'), [
             'type_menu' => 'training-programs'
@@ -57,8 +57,8 @@ class TrainingProgramController extends Controller
      */
     public function create()
     {
-        $trainers = User::where('user_role', 'trainer')->where('is_active', 1)->get();
-        $exercises = Exercise::whereNull('deleted_at')->get();
+        $trainers = User::where('user_role', 'trainer')->where('status', 'active')->get();
+        $exercises = Exercise::where('status', 'active')->get();
         
         return view('fitness.programs.create', compact('trainers', 'exercises'), [
             'type_menu' => 'training-programs'
@@ -156,11 +156,11 @@ class TrainingProgramController extends Controller
             },
             'phases.sessions.exercises',
             'clientPrograms' => function($query) {
-                $query->where('is_active', 1);
+                $query->where('status', 'active');
             }
         ]);
 
-        $activeClientsCount = $program->clientPrograms()->where('is_active', 1)->count();
+        $activeClientsCount = $program->clientPrograms()->where('status', 'active')->count();
 
         return view('fitness.programs.show', compact('program', 'activeClientsCount'), [
             'type_menu' => 'training-programs'
@@ -173,8 +173,8 @@ class TrainingProgramController extends Controller
     public function edit(TrainingProgram $program)
     {
         $program->load(['phases.sessions']);
-        $trainers = User::where('user_role', 'trainer')->where('is_active', 1)->get();
-        $exercises = Exercise::whereNull('deleted_at')->get();
+        $trainers = User::where('user_role', 'trainer')->where('status', 'active')->get();
+        $exercises = Exercise::where('status', 'active')->get();
 
         return view('fitness.programs.edit', compact('program', 'trainers', 'exercises'), [
             'type_menu' => 'training-programs'

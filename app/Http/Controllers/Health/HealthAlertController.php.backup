@@ -14,7 +14,7 @@ class HealthAlertController extends Controller
      */
     public function index(Request $request)
     {
-        $query = HealthAlert::with(['client']);
+        $query = HealthAlert::with(['user']);
 
         // Search functionality
         if ($request->has('search') && !empty($request->search)) {
@@ -23,15 +23,15 @@ class HealthAlertController extends Controller
                 $q->where('alert_type', 'LIKE', "%{$search}%")
                   ->orWhere('message', 'LIKE', "%{$search}%")
                   ->orWhereHas('user', function($subQ) use ($search) {
-                      $subQ->where('name', 'LIKE', "%{$search}%")
-                           ;
+                      $subQ->where('first_name', 'LIKE', "%{$search}%")
+                           ->orWhere('last_name', 'LIKE', "%{$search}%");
                   });
             });
         }
 
         // Filter by trainer (show alerts for trainer's clients)
         if ($request->has('trainer_id') && !empty($request->trainer_id)) {
-            $query->whereHas('client.trainerClients', function($q) use ($request) {
+            $query->whereHas('user.trainerClients', function($q) use ($request) {
                 $q->where('trainer_id', $request->trainer_id);
             });
         }
@@ -43,10 +43,10 @@ class HealthAlertController extends Controller
 
         // Filter by status
         if ($request->has('status') && !empty($request->status)) {
-            $query->where('acknowledged', $request->status === 'acknowledged');
+            $query->where('status', $request->status);
         } else {
             // Default: show unacknowledged first
-            $query->orderByRaw("CASE WHEN acknowledged = 0 THEN 0 ELSE 1 END");
+            $query->orderByRaw("CASE WHEN status = 'unacknowledged' THEN 0 ELSE 1 END");
         }
 
         $alerts = $query->orderByRaw("CASE 
@@ -54,15 +54,15 @@ class HealthAlertController extends Controller
             WHEN severity = 'high' THEN 1 
             WHEN severity = 'medium' THEN 2 
             ELSE 3 END")
-            ->orderBy('created_at', 'desc')
+            ->orderBy('triggered_at', 'desc')
             ->paginate(20);
 
-        $trainers = User::where('user_role', 'trainer')->where('is_active', 1)->get();
+        $trainers = User::where('user_role', 'trainer')->where('status', 'active')->get();
 
         // Summary stats
-        $unacknowledgedCount = HealthAlert::where('acknowledged', 0)->count();
-        $criticalCount = HealthAlert::where('severity', 'critical')->where('acknowledged', 0)->count();
-        $todaysAlertsCount = HealthAlert::whereDate('created_at', today())->count();
+        $unacknowledgedCount = HealthAlert::where('status', 'unacknowledged')->count();
+        $criticalCount = HealthAlert::where('severity', 'critical')->where('status', 'unacknowledged')->count();
+        $todaysAlertsCount = HealthAlert::whereDate('triggered_at', today())->count();
 
         return view('health.alerts', compact(
             'alerts', 'trainers', 'unacknowledgedCount', 'criticalCount', 'todaysAlertsCount'
@@ -78,7 +78,7 @@ class HealthAlertController extends Controller
     {
         try {
             $alert->update([
-                'acknowledged' => true,
+                'status' => 'acknowledged',
                 'acknowledged_at' => now(),
                 'acknowledged_by' => auth()->id(),
                 'notes' => $request->notes

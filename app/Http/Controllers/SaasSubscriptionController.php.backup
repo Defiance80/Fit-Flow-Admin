@@ -20,8 +20,8 @@ class SaasSubscriptionController extends Controller
             $search = $request->search;
             $query->where(function($q) use ($search) {
                 $q->whereHas('user', function($subQ) use ($search) {
-                    $subQ->where('name', 'LIKE', "%{$search}%")
-                         
+                    $subQ->where('first_name', 'LIKE', "%{$search}%")
+                         ->orWhere('last_name', 'LIKE', "%{$search}%")
                          ->orWhere('email', 'LIKE', "%{$search}%");
                 });
             });
@@ -45,7 +45,7 @@ class SaasSubscriptionController extends Controller
         $subscriptions = $query->orderBy('created_at', 'desc')->paginate(20);
 
         // Calculate summary statistics
-        $totalRevenue = SaasSubscription::where('status', 'active')->sum('price');
+        $totalRevenue = SaasSubscription::where('status', 'active')->sum('monthly_price');
         $activeSubscriptions = SaasSubscription::where('status', 'active')->count();
         $trialSubscriptions = SaasSubscription::where('status', 'trialing')->count();
         $churnedThisMonth = SaasSubscription::where('status', 'cancelled')
@@ -74,8 +74,8 @@ class SaasSubscriptionController extends Controller
             now()->diffInDays($subscription->current_period_end, false) : 0;
             
         $nextBillingAmount = $subscription->billing_cycle === 'monthly' ? 
-            $subscription->price : 
-            ($subscription->price * 12 * 0.9); // 10% annual discount
+            $subscription->monthly_price : 
+            ($subscription->monthly_price * 12 * 0.9); // 10% annual discount
 
         return view('subscriptions.show', compact(
             'subscription', 'paymentHistory', 'daysRemaining', 'nextBillingAmount'
@@ -93,7 +93,7 @@ class SaasSubscriptionController extends Controller
             'tier' => 'required|in:starter,professional,enterprise',
             'status' => 'required|in:trialing,active,past_due,cancelled,paused',
             'billing_cycle' => 'required|in:monthly,yearly',
-            'price' => 'required|numeric|min:0|max:999.99',
+            'monthly_price' => 'required|numeric|min:0|max:999.99',
             'max_trainers' => 'nullable|integer|min:1|max:1000',
             'max_clients' => 'nullable|integer|min:1|max:10000',
             'max_facilities' => 'nullable|integer|min:1|max:100',

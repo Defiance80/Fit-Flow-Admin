@@ -16,7 +16,7 @@ class HealthMetricController extends Controller
     public function index(Request $request)
     {
         $query = User::where('user_role', 'client')
-            ->where('is_active', 1)
+            ->where('status', 'active')
             ->with(['healthMetrics' => function($q) {
                 $q->orderBy('recorded_at', 'desc')->take(1);
             }]);
@@ -25,8 +25,8 @@ class HealthMetricController extends Controller
         if ($request->has('search') && !empty($request->search)) {
             $search = $request->search;
             $query->where(function($q) use ($search) {
-                $q->where('name', 'LIKE', "%{$search}%")
-                  
+                $q->where('first_name', 'LIKE', "%{$search}%")
+                  ->orWhere('last_name', 'LIKE', "%{$search}%")
                   ->orWhere('email', 'LIKE', "%{$search}%");
             });
         }
@@ -39,10 +39,10 @@ class HealthMetricController extends Controller
         }
 
         $clients = $query->paginate(20);
-        $trainers = User::where('user_role', 'trainer')->where('is_active', 1)->get();
+        $trainers = User::where('user_role', 'trainer')->where('status', 'active')->get();
 
         // Get summary statistics
-        $totalClients = User::where('user_role', 'client')->where('is_active', 1)->count();
+        $totalClients = User::where('user_role', 'client')->where('status', 'active')->count();
         $totalMetricsToday = HealthMetric::whereDate('recorded_at', today())->count();
         $avgHeartRate = HealthMetric::where('metric_type', 'heart_rate')
             ->whereDate('recorded_at', '>=', now()->subDays(7))
