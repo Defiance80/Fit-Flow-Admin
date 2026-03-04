@@ -10,7 +10,7 @@
 
 /* Sidebar styling */
 .main-sidebar {
-    background-color: #0F172A !important;
+    background-color: #1B2A4A !important;
 }
 
 .sidebar-menu .menu-header {
@@ -33,7 +33,7 @@
 }
 
 .sidebar-menu .dropdown-menu {
-    background-color: #1E293B !important;
+    background-color: #233354 !important;
 }
 
 .sidebar-menu .dropdown-menu .nav-link {
@@ -156,7 +156,7 @@ a:hover {
 
 /* Dark theme for sidebar menu items */
 .sidebar-style-2 .sidebar-menu > li > .dropdown-menu {
-    background: #1E293B;
+    background: #233354;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
@@ -210,4 +210,23 @@ a:hover {
 .quick-action-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Logo area - clean background for transparent logo */
+.sidebar-brand {
+    background-color: #1B2A4A !important;
+    padding: 15px 20px !important;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.sidebar-brand img {
+    max-height: 50px !important;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));
+}
+
+/* Navbar - softer blue to complement sidebar */
+.main-navbar, .navbar-bg {
+    background: linear-gradient(135deg, #1B2A4A, #263B63) !important;
+    border-bottom: 2px solid #0D9488;
 }
