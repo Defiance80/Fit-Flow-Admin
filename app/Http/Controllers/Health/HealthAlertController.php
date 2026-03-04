@@ -12,83 +12,59 @@ class HealthAlertController extends Controller
     /**
      * Display a listing of health alerts.
      */
-    public function index(Request $request)
+    public function index(Request )
     {
-        $query = HealthAlert::with(['client']);
+         = HealthAlert::with(['client', 'trainer']);
 
-        // Search functionality
-        if ($request->has('search') && !empty($request->search)) {
-            $search = $request->search;
-            $query->where(function($q) use ($search) {
-                $q->where('alert_type', 'LIKE', "%{$search}%")
-                  ->orWhere('message', 'LIKE', "%{$search}%")
-                  ->orWhereHas('user', function($subQ) use ($search) {
-                      $subQ->where('name', 'LIKE', "%{$search}%")
-                           ;
-                  });
-            });
-        }
-
-        // Filter by trainer (show alerts for trainer's clients)
-        if ($request->has('trainer_id') && !empty($request->trainer_id)) {
-            $query->whereHas('client.trainerClients', function($q) use ($request) {
-                $q->where('trainer_id', $request->trainer_id);
-            });
+        // Filter by trainer
+        if (->has('trainer_id') && !empty(->trainer_id)) {
+            ->where('trainer_id', ->trainer_id);
         }
 
         // Filter by severity
-        if ($request->has('severity') && !empty($request->severity)) {
-            $query->where('severity', $request->severity);
+        if (->has('severity') && !empty(->severity)) {
+            ->where('severity', ->severity);
         }
 
-        // Filter by status
-        if ($request->has('status') && !empty($request->status)) {
-            $query->where('acknowledged', $request->status === 'acknowledged');
-        } else {
-            // Default: show unacknowledged first
-            $query->orderByRaw("CASE WHEN acknowledged = 0 THEN 0 ELSE 1 END");
+        // Filter by acknowledged status
+        if (->has('acknowledged') && ->acknowledged !== '') {
+             = ->acknowledged === '1';
+            ->where('acknowledged', );
         }
 
-        $alerts = $query->orderByRaw("CASE 
-            WHEN severity = 'critical' THEN 0 
-            WHEN severity = 'high' THEN 1 
-            WHEN severity = 'medium' THEN 2 
-            ELSE 3 END")
+        // Order by: unacknowledged first, then by severity, then by date
+         = ->orderByRaw("CASE WHEN acknowledged = 0 THEN 0 ELSE 1 END")
+            ->orderByRaw("CASE 
+                WHEN severity = 'critical' THEN 0 
+                WHEN severity = 'warning' THEN 1 
+                ELSE 2 END")
             ->orderBy('created_at', 'desc')
             ->paginate(20);
 
-        $trainers = User::where('user_role', 'trainer')->where('is_active', 1)->get();
+        // Get trainers for filter
+         = User::where('user_role', 'trainer')->where('is_active', 1)->get();
 
-        // Summary stats
-        $unacknowledgedCount = HealthAlert::where('acknowledged', 0)->count();
-        $criticalCount = HealthAlert::where('severity', 'critical')->where('acknowledged', 0)->count();
-        $todaysAlertsCount = HealthAlert::whereDate('created_at', today())->count();
-
-        return view('health.alerts', compact(
-            'alerts', 'trainers', 'unacknowledgedCount', 'criticalCount', 'todaysAlertsCount'
-        ), [
+        return view('health.alerts', compact('alerts', 'trainers'), [
             'type_menu' => 'health-alerts'
         ]);
     }
 
     /**
-     * Mark an alert as acknowledged.
+     * Acknowledge an alert.
      */
-    public function acknowledge(HealthAlert $alert, Request $request)
+    public function acknowledge(HealthAlert , Request )
     {
         try {
-            $alert->update([
+            ->update([
                 'acknowledged' => true,
-                'acknowledged_at' => now(),
-                'acknowledged_by' => auth()->id(),
-                'notes' => $request->notes
+                'acknowledged_at' => now()
             ]);
 
             return redirect()->back()
                 ->with('success', 'Alert acknowledged successfully.');
-        } catch (\Exception $e) {
+        } catch (\Exception ) {
             return redirect()->back()
-                ->with('error', 'Failed to acknowledge alert: ' . $e->getMessage());
+                ->with('error', 'Failed to acknowledge alert: ' . ->getMessage());
         }
     }
 }

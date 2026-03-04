@@ -5,10 +5,7 @@ namespace App\Http\Controllers\Fitness;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Fitness\MealPlan;
-use App\Models\Fitness\MealPlanDay;
-use App\Models\Fitness\Meal;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class MealPlanController extends Controller
 {
@@ -19,27 +16,9 @@ class MealPlanController extends Controller
     {
         $query = MealPlan::with(['client', 'trainer']);
 
-        // Search functionality
-        if ($request->has('search') && !empty($request->search)) {
-            $search = $request->search;
-            $query->where(function($q) use ($search) {
-                $q->where('name', 'LIKE', "%{$search}%")
-                  ->orWhere('goal', 'LIKE', "%{$search}%")
-                  ->orWhereHas('client', function($subQ) use ($search) {
-                      $subQ->where('name', 'LIKE', "%{$search}%")
-                           ;
-                  });
-            });
-        }
-
         // Filter by trainer
         if ($request->has('trainer_id') && !empty($request->trainer_id)) {
             $query->where('trainer_id', $request->trainer_id);
-        }
-
-        // Filter by goal
-        if ($request->has('goal') && !empty($request->goal)) {
-            $query->where('goal', $request->goal);
         }
 
         $mealPlans = $query->orderBy('created_at', 'desc')->paginate(15);
@@ -78,16 +57,20 @@ class MealPlanController extends Controller
             'protein_g' => 'nullable|integer|min:0|max:500',
             'carbs_g' => 'nullable|integer|min:0|max:800',
             'fats_g' => 'nullable|integer|min:0|max:300',
-            'duration_days' => 'required|integer|min:1|max:365',
+            'fiber_g' => 'nullable|integer|min:0|max:100',
             'dietary_restrictions' => 'nullable|string',
+            'allergies' => 'nullable|string',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after:start_date',
             'notes' => 'nullable|string',
         ]);
 
         try {
+            $validatedData['is_active'] = true;
             $mealPlan = MealPlan::create($validatedData);
 
-            return redirect()->route('meal-plans.show', $mealPlan)
-                ->with('success', 'Meal plan created successfully. You can now add meals for each day.');
+            return redirect()->route('meal-plans.index')
+                ->with('success', 'Meal plan created successfully.');
         } catch (\Exception $e) {
             return redirect()->back()
                 ->withInput()
@@ -100,16 +83,7 @@ class MealPlanController extends Controller
      */
     public function show(MealPlan $mealPlan)
     {
-        $mealPlan->load([
-            'client', 
-            'trainer',
-            'mealPlanDays' => function($query) {
-                $query->orderBy('day_number');
-            },
-            'mealPlanDays.meals' => function($query) {
-                $query->orderBy('meal_order');
-            }
-        ]);
+        $mealPlan->load(['client', 'trainer', 'mealPlanDays.meals']);
 
         return view('fitness.meal-plans.show', compact('mealPlan'), [
             'type_menu' => 'meal-plans'
@@ -145,10 +119,13 @@ class MealPlanController extends Controller
             'protein_g' => 'nullable|integer|min:0|max:500',
             'carbs_g' => 'nullable|integer|min:0|max:800',
             'fats_g' => 'nullable|integer|min:0|max:300',
-            'duration_days' => 'required|integer|min:1|max:365',
+            'fiber_g' => 'nullable|integer|min:0|max:100',
             'dietary_restrictions' => 'nullable|string',
-            'notes' => 'nullable|string',
+            'allergies' => 'nullable|string',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after:start_date',
             'is_active' => 'required|boolean',
+            'notes' => 'nullable|string',
         ]);
 
         try {
@@ -169,7 +146,7 @@ class MealPlanController extends Controller
     public function destroy(MealPlan $mealPlan)
     {
         try {
-            $mealPlan->update(['is_active' => 0]);
+            $mealPlan->update(['is_active' => false]);
             
             return redirect()->route('meal-plans.index')
                 ->with('success', 'Meal plan deactivated successfully.');
