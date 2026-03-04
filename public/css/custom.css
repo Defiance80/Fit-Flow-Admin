@@ -1,165 +1,29 @@
-/* FitFlow Admin Dashboard Branding */
+/* FitFlow Admin - Brand Colors */
+/* Based on vanilla eLMS layout, purple (#6777ef) swapped to teal (#0D9488) */
 
-/* Override Stisla's primary color with FitFlow teal */
 :root {
-    --primary: #0D9488;
-    --secondary: #1E293B;
-    --accent: #F59E0B;
-    --success: #10B981;
+    --primary: #0D9488 !important;
 }
 
-/* Dark Sidebar - comprehensive overrides for Stisla */
-.main-sidebar,
-.main-sidebar .sidebar-menu {
-    background-color: #1B2A4A !important;
-}
-
-.main-sidebar .sidebar-brand {
-    background-color: #1B2A4A !important;
-}
-
-.main-sidebar .sidebar-brand a {
-    color: #fff !important;
-}
-
-/* All sidebar text white/light */
-.main-sidebar .sidebar-menu li a,
-.main-sidebar .sidebar-menu li a span,
-.main-sidebar .sidebar-menu li a i,
-.main-sidebar .sidebar-menu .nav-link,
-.main-sidebar .sidebar-menu .nav-link span,
-.main-sidebar .sidebar-menu .nav-link i,
-.main-sidebar .sidebar-menu li.nav-item > a,
-.sidebar-style-2 .sidebar-menu > li > a,
-.sidebar-style-2 .sidebar-menu > li > a span,
-.sidebar-style-2 .sidebar-menu > li > a i {
-    color: #CBD5E1 !important;
-}
-
-/* Section headers - teal */
-.main-sidebar .sidebar-menu .menu-header,
-.sidebar-menu li.menu-header {
-    color: #0D9488 !important;
-    font-weight: 600;
-    font-size: 11px;
-    letter-spacing: 0.5px;
-    padding: 10px 15px 5px !important;
-}
-
-/* Active item */
-.main-sidebar .sidebar-menu li.active > a,
-.main-sidebar .sidebar-menu .nav-item.active > .nav-link {
-    background-color: #0D9488 !important;
-    color: #fff !important;
-}
-
-.main-sidebar .sidebar-menu li.active > a span,
-.main-sidebar .sidebar-menu li.active > a i {
-    color: #fff !important;
-}
-
-/* Hover */
-.main-sidebar .sidebar-menu li a:hover,
-.main-sidebar .sidebar-menu .nav-link:hover {
-    background-color: rgba(13, 148, 136, 0.15) !important;
-    color: #fff !important;
-}
-
-.main-sidebar .sidebar-menu li a:hover span,
-.main-sidebar .sidebar-menu li a:hover i {
-    color: #fff !important;
-}
-
-/* Dropdown / submenu */
-.main-sidebar .sidebar-menu li ul.dropdown-menu,
-.sidebar-style-2 .sidebar-menu > li > ul.dropdown-menu {
-    background-color: #162240 !important;
-}
-
-.main-sidebar .sidebar-menu li ul.dropdown-menu li a,
-.main-sidebar .sidebar-menu li ul.dropdown-menu li a span {
-    color: #94A3B8 !important;
-    font-size: 13px;
-}
-
-.main-sidebar .sidebar-menu li ul.dropdown-menu li a:hover,
-.main-sidebar .sidebar-menu li ul.dropdown-menu li.active > a {
-    color: #fff !important;
-    background-color: rgba(13, 148, 136, 0.2) !important;
-}
-
-.main-sidebar .sidebar-menu li ul.dropdown-menu li.active > a span {
-    color: #fff !important;
-}
-
-/* Dropdown arrow */
-.main-sidebar .sidebar-menu .has-dropdown::after,
-.main-sidebar .sidebar-menu li a.has-dropdown::after {
-    color: #94A3B8 !important;
-}
-
-/* Sidebar mini text */
-.sidebar-brand-sm a {
-    color: #fff !important;
-}
-
-/* Navbar styling */
-.main-navbar {
-    background: linear-gradient(135deg, #1E293B, #374151) !important;
-    border-bottom: 2px solid #0D9488;
-}
-
-.navbar-bg {
-    background: linear-gradient(135deg, #1E293B, #374151) !important;
-}
-
-/* Primary buttons and elements */
-.btn-primary {
+/* Override Stisla primary purple to FitFlow teal everywhere */
+.btn-primary,
+.bg-primary,
+.badge-primary,
+.progress-bar {
     background-color: #0D9488 !important;
     border-color: #0D9488 !important;
 }
 
-.btn-primary:hover {
+.btn-primary:hover,
+.btn-primary:focus {
     background-color: #115E59 !important;
     border-color: #115E59 !important;
-}
-
-.bg-primary {
-    background-color: #0D9488 !important;
 }
 
 .text-primary {
     color: #0D9488 !important;
 }
 
-/* Card headers and section headers */
-.card-header h4 {
-    color: #1E293B;
-    font-weight: 600;
-}
-
-.section-header h1 {
-    color: #1E293B;
-}
-
-/* Stats cards styling */
-.card-statistic-1 .card-icon {
-    border-radius: 15px !important;
-}
-
-.card-statistic-1 .card-wrap .card-header h4 {
-    color: #6B7280;
-    font-size: 14px;
-    font-weight: 500;
-}
-
-.card-statistic-1 .card-wrap .card-body {
-    font-size: 28px;
-    font-weight: 700;
-    color: #1F2937;
-}
-
-/* Links and accents */
 a {
     color: #0D9488;
 }
@@ -168,106 +32,79 @@ a:hover {
     color: #115E59;
 }
 
-/* Badges and alerts */
-.badge-primary {
+/* Navbar - teal instead of purple */
+.navbar-bg {
     background-color: #0D9488 !important;
 }
 
-.alert-primary {
-    background-color: rgba(13, 148, 136, 0.1) !important;
-    border-color: #0D9488 !important;
-    color: #064E3B !important;
+/* Active sidebar item - teal */
+.sidebar-menu li.active a {
+    color: #0D9488 !important;
 }
 
-/* Form controls focus */
+.sidebar-style-2 .sidebar-menu > li.active > a::before {
+    background-color: #0D9488 !important;
+}
+
+/* Section headers in sidebar - teal */
+.sidebar-menu .menu-header {
+    color: #0D9488 !important;
+}
+
+/* Form focus */
 .form-control:focus {
     border-color: #0D9488 !important;
     box-shadow: 0 0 0 0.2rem rgba(13, 148, 136, 0.25) !important;
 }
 
-/* Navigation tabs */
+/* Nav tabs */
 .nav-tabs .nav-link.active {
     color: #0D9488 !important;
     border-bottom-color: #0D9488 !important;
 }
 
-/* Progress bars */
-.progress-bar {
-    background-color: #0D9488 !important;
+/* Card stat icon backgrounds - match vanilla colors */
+.card-statistic-1 .card-icon {
+    border-radius: 15px !important;
 }
 
-/* Custom avatar initials */
-.avatar-initial {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    text-transform: uppercase;
+/* Vanilla form extras */
+.form-group.mandatory .form-label:first-child:after {
+    color: #dc3545;
+    content: " *";
 }
 
-/* Logo in sidebar - ensure proper sizing */
+.custom-switch {
+    padding: 0 !important;
+}
+
+.custom-switch-2 {
+    padding-left: 2.25rem !important;
+}
+
+.pagination {
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.table:not(.table-sm):not(.table-md):not(.dataTable) td,
+.table:not(.table-sm):not(.table-md):not(.dataTable) th {
+    padding: 0 17px;
+}
+
+.btn.icon {
+    min-width: 30px !important;
+    min-height: 30px !important;
+}
+
+#table_list .dropdown {
+    padding: 0;
+    min-width: 20px !important;
+    min-height: 30px !important;
+    width: 40px;
+}
+
+/* Logo sizing */
 .sidebar-brand img {
-    max-width: 100%;
-    height: auto;
-    object-fit: contain;
-}
-
-/* (sidebar styles consolidated above) */
-
-/* Table styling */
-.table thead th {
-    border-bottom-color: #0D9488;
-    color: #1E293B;
-}
-
-/* Custom card styling for dashboard */
-.dashboard-card {
-    border: none;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    border-radius: 12px;
-}
-
-/* Activity timeline styling */
-.activity-timeline .activity-item {
-    padding: 15px 0;
-    border-bottom: 1px solid #E5E7EB;
-}
-
-.activity-timeline .activity-item:last-child {
-    border-bottom: none;
-}
-
-.activity-icon {
-    flex-shrink: 0;
-}
-
-/* Quick actions button styling */
-.quick-action-btn {
-    transition: all 0.3s ease;
-    border-radius: 12px;
-    padding: 20px;
-}
-
-.quick-action-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-}
-
-
-/* Logo area - clean background for transparent logo */
-.sidebar-brand {
-    background-color: #1B2A4A !important;
-    padding: 15px 20px !important;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-}
-
-.sidebar-brand img {
-    max-height: 50px !important;
-    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));
-}
-
-/* Navbar - softer blue to complement sidebar */
-.main-navbar, .navbar-bg {
-    background: linear-gradient(135deg, #1B2A4A, #263B63) !important;
-    border-bottom: 2px solid #0D9488;
+    max-height: 45px !important;
 }
