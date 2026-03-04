@@ -8,7 +8,7 @@
     <title>@yield('title') &mdash; {{ config('app.name') }}</title>
     @include('includes.css')
     @stack('style')
-    <link rel="stylesheet" href="{{ asset("css/custom.css?v=1772667769") }}">
+    <link rel="stylesheet" href="{{ asset("css/custom.css?v=1772667954") }}">
 </head>
 
 <body>

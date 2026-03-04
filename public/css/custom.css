@@ -8,41 +8,99 @@
     --success: #10B981;
 }
 
-/* Sidebar styling */
-.main-sidebar {
+/* Dark Sidebar - comprehensive overrides for Stisla */
+.main-sidebar,
+.main-sidebar .sidebar-menu {
     background-color: #1B2A4A !important;
 }
 
-.sidebar-menu .menu-header {
-    color: #0D9488 !important;
-    font-weight: 600;
+.main-sidebar .sidebar-brand {
+    background-color: #1B2A4A !important;
 }
 
-.sidebar-menu .nav-item.active > .nav-link {
-    background-color: #0D9488 !important;
-    color: white !important;
+.main-sidebar .sidebar-brand a {
+    color: #fff !important;
 }
 
-.sidebar-menu .nav-item:hover > .nav-link {
-    background-color: rgba(13, 148, 136, 0.1) !important;
-    color: #0D9488 !important;
-}
-
-.sidebar-menu .nav-link {
-    color: #94A3B8 !important;
-}
-
-.sidebar-menu .dropdown-menu {
-    background-color: #233354 !important;
-}
-
-.sidebar-menu .dropdown-menu .nav-link {
+/* All sidebar text white/light */
+.main-sidebar .sidebar-menu li a,
+.main-sidebar .sidebar-menu li a span,
+.main-sidebar .sidebar-menu li a i,
+.main-sidebar .sidebar-menu .nav-link,
+.main-sidebar .sidebar-menu .nav-link span,
+.main-sidebar .sidebar-menu .nav-link i,
+.main-sidebar .sidebar-menu li.nav-item > a,
+.sidebar-style-2 .sidebar-menu > li > a,
+.sidebar-style-2 .sidebar-menu > li > a span,
+.sidebar-style-2 .sidebar-menu > li > a i {
     color: #CBD5E1 !important;
 }
 
-.sidebar-menu .dropdown-menu .active .nav-link {
+/* Section headers - teal */
+.main-sidebar .sidebar-menu .menu-header,
+.sidebar-menu li.menu-header {
+    color: #0D9488 !important;
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    padding: 10px 15px 5px !important;
+}
+
+/* Active item */
+.main-sidebar .sidebar-menu li.active > a,
+.main-sidebar .sidebar-menu .nav-item.active > .nav-link {
     background-color: #0D9488 !important;
-    color: white !important;
+    color: #fff !important;
+}
+
+.main-sidebar .sidebar-menu li.active > a span,
+.main-sidebar .sidebar-menu li.active > a i {
+    color: #fff !important;
+}
+
+/* Hover */
+.main-sidebar .sidebar-menu li a:hover,
+.main-sidebar .sidebar-menu .nav-link:hover {
+    background-color: rgba(13, 148, 136, 0.15) !important;
+    color: #fff !important;
+}
+
+.main-sidebar .sidebar-menu li a:hover span,
+.main-sidebar .sidebar-menu li a:hover i {
+    color: #fff !important;
+}
+
+/* Dropdown / submenu */
+.main-sidebar .sidebar-menu li ul.dropdown-menu,
+.sidebar-style-2 .sidebar-menu > li > ul.dropdown-menu {
+    background-color: #162240 !important;
+}
+
+.main-sidebar .sidebar-menu li ul.dropdown-menu li a,
+.main-sidebar .sidebar-menu li ul.dropdown-menu li a span {
+    color: #94A3B8 !important;
+    font-size: 13px;
+}
+
+.main-sidebar .sidebar-menu li ul.dropdown-menu li a:hover,
+.main-sidebar .sidebar-menu li ul.dropdown-menu li.active > a {
+    color: #fff !important;
+    background-color: rgba(13, 148, 136, 0.2) !important;
+}
+
+.main-sidebar .sidebar-menu li ul.dropdown-menu li.active > a span {
+    color: #fff !important;
+}
+
+/* Dropdown arrow */
+.main-sidebar .sidebar-menu .has-dropdown::after,
+.main-sidebar .sidebar-menu li a.has-dropdown::after {
+    color: #94A3B8 !important;
+}
+
+/* Sidebar mini text */
+.sidebar-brand-sm a {
+    color: #fff !important;
 }
 
 /* Navbar styling */
@@ -154,24 +212,7 @@ a:hover {
     object-fit: contain;
 }
 
-/* Dark theme for sidebar menu items */
-.sidebar-style-2 .sidebar-menu > li > .dropdown-menu {
-    background: #233354;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
-
-/* Active state for nested dropdown items */
-.sidebar-menu .dropdown-menu .nav-item.active .nav-link,
-.sidebar-menu .dropdown-menu li.active .nav-link {
-    background-color: #0D9488 !important;
-    color: white !important;
-}
-
-/* Hover state for nested dropdown items */
-.sidebar-menu .dropdown-menu .nav-link:hover {
-    background-color: rgba(13, 148, 136, 0.1) !important;
-    color: #0D9488 !important;
-}
+/* (sidebar styles consolidated above) */
 
 /* Table styling */
 .table thead th {
