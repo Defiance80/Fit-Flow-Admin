@@ -1,0 +1,328 @@
+@extends('layouts.app')
+
+@section('title', __('Fit Flow Dashboard'))
+
+@push('style')
+    <!-- CSS Libraries -->
+    <link rel="stylesheet" href="{{ asset('library/jqvmap/dist/jqvmap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('library/summernote/dist/summernote-bs4.min.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+@endpush
+
+@section('main')
+<section class="section">
+    <div class="section-header">
+        <h1>{{ __('Fit Flow Dashboard') }}</h1>
+        <div class="section-header-button">
+            <button class="btn btn-primary" onclick="refreshDashboard()">
+                <i class="fas fa-sync-alt"></i> {{ __('Refresh Data') }}
+            </button>
+        </div>
+    </div>
+
+    <div class="section-body">
+        <!-- Overview Statistics Cards -->
+        <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <div class="card card-statistic-1">
+                    <div class="card-wrap">
+                        <div class="card-icon" style="background-color: var(--primary, #1E88E5);">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <div class="card-header">
+                            <h4>{{ __('Total Trainers') }}</h4>
+                        </div>
+                        <div class="card-body">
+                            <span id="total-trainers-count">
+                                {{ App\Models\User::where('user_role', 'trainer')->count() }}
+                            </span>
+                            <div class="text-small text-muted mt-1">
+                                <span class="text-success">
+                                    {{ App\Models\User::where('user_role', 'trainer')->where('status', 'active')->count() }}
+                                </span> {{ __('active') }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <div class="card card-statistic-1">
+                    <div class="card-wrap">
+                        <div class="card-icon" style="background-color: var(--success, #28a745);">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="card-header">
+                            <h4>{{ __('Total Clients') }}</h4>
+                        </div>
+                        <div class="card-body">
+                            <span id="total-clients-count">
+                                {{ App\Models\User::where('user_role', 'client')->count() }}
+                            </span>
+                            <div class="text-small text-muted mt-1">
+                                <span class="text-success">
+                                    {{ App\Models\User::where('user_role', 'client')->where('status', 'active')->count() }}
+                                </span> {{ __('active') }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <div class="card card-statistic-1">
+                    <div class="card-wrap">
+                        <div class="card-icon" style="background-color: var(--warning, #ffc107);">
+                            <i class="fas fa-dumbbell"></i>
+                        </div>
+                        <div class="card-header">
+                            <h4>{{ __('Active Programs') }}</h4>
+                        </div>
+                        <div class="card-body">
+                            <span id="active-programs-count">
+                                {{ App\Models\Fitness\TrainingProgram::where('status', 'active')->count() }}
+                            </span>
+                            <div class="text-small text-muted mt-1">
+                                {{ App\Models\Fitness\TrainingProgram::count() }} {{ __('total') }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <div class="card card-statistic-1">
+                    <div class="card-wrap">
+                        <div class="card-icon" style="background-color: #D4AF37;">
+                            <i class="fas fa-credit-card"></i>
+                        </div>
+                        <div class="card-header">
+                            <h4>{{ __('Monthly Revenue') }}</h4>
+                        </div>
+                        <div class="card-body">
+                            <span id="revenue-count">
+                                ${{ number_format(App\Models\SaasSubscription::where('status', 'active')->sum('monthly_price'), 0) }}
+                            </span>
+                            <div class="text-small text-muted mt-1">
+                                {{ App\Models\SaasSubscription::where('status', 'active')->count() }} {{ __('subscriptions') }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Health Alerts Widget -->
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>{{ __('Recent Health Alerts') }}</h4>
+                        <div class="card-header-action">
+                            <a href="{{ route('health.alerts.index') }}" class="btn btn-primary btn-sm">{{ __('View All') }}</a>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-striped mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>{{ __('Client') }}</th>
+                                        <th>{{ __('Alert Type') }}</th>
+                                        <th>{{ __('Severity') }}</th>
+                                        <th>{{ __('Time') }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse(App\Models\Health\HealthAlert::with('user')->where('status', 'unacknowledged')->orderBy('triggered_at', 'desc')->take(5)->get() as $alert)
+                                        <tr>
+                                            <td>
+                                                @if($alert->user)
+                                                    {{ $alert->user->first_name }} {{ $alert->user->last_name }}
+                                                @else
+                                                    <em>{{ __('Unknown') }}</em>
+                                                @endif
+                                            </td>
+                                            <td>{{ ucwords(str_replace('_', ' ', $alert->alert_type)) }}</td>
+                                            <td>
+                                                <span class="badge badge-{{ $alert->severity === 'critical' ? 'danger' : ($alert->severity === 'high' ? 'warning' : 'info') }}">
+                                                    {{ ucfirst($alert->severity) }}
+                                                </span>
+                                            </td>
+                                            <td>{{ $alert->triggered_at->diffForHumans() }}</td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="4" class="text-center text-muted py-4">
+                                                <i class="fas fa-check-circle text-success"></i> {{ __('No unacknowledged alerts') }}
+                                            </td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Today's Schedule Widget -->
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>{{ __('Today\'s Schedule') }}</h4>
+                        <div class="card-header-action">
+                            <a href="{{ route('schedules.index') }}" class="btn btn-primary btn-sm">{{ __('View Calendar') }}</a>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-striped mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>{{ __('Time') }}</th>
+                                        <th>{{ __('Trainer') }}</th>
+                                        <th>{{ __('Client') }}</th>
+                                        <th>{{ __('Type') }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse(App\Models\Schedule::with(['trainer', 'client'])->whereDate('start_time', today())->where('status', 'scheduled')->orderBy('start_time')->take(5)->get() as $session)
+                                        <tr>
+                                            <td>{{ $session->start_time->format('g:i A') }}</td>
+                                            <td>
+                                                @if($session->trainer)
+                                                    {{ $session->trainer->first_name }} {{ $session->trainer->last_name }}
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if($session->client)
+                                                    {{ $session->client->first_name }} {{ $session->client->last_name }}
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <span class="badge badge-info">{{ $session->session_type }}</span>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="4" class="text-center text-muted py-4">
+                                                <i class="fas fa-calendar-check"></i> {{ __('No sessions scheduled for today') }}
+                                            </td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>{{ __('Quick Actions') }}</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <a href="{{ route('trainers.create') }}" class="btn btn-primary btn-block btn-lg">
+                                    <i class="fas fa-user-tie mr-2"></i>
+                                    <div>
+                                        <strong>{{ __('Add Trainer') }}</strong>
+                                        <br><small>{{ __('Create new trainer account') }}</small>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <a href="{{ route('clients.create') }}" class="btn btn-success btn-block btn-lg">
+                                    <i class="fas fa-users mr-2"></i>
+                                    <div>
+                                        <strong>{{ __('Add Client') }}</strong>
+                                        <br><small>{{ __('Register new client') }}</small>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <a href="{{ route('programs.create') }}" class="btn btn-warning btn-block btn-lg">
+                                    <i class="fas fa-dumbbell mr-2"></i>
+                                    <div>
+                                        <strong>{{ __('Create Program') }}</strong>
+                                        <br><small>{{ __('Build training program') }}</small>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity Widget -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>{{ __('Recent Activity') }}</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>{{ __('Time') }}</th>
+                                        <th>{{ __('User') }}</th>
+                                        <th>{{ __('Activity') }}</th>
+                                        <th>{{ __('Status') }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse(App\Models\User::where('user_role', '!=', 'admin')->orderBy('updated_at', 'desc')->take(10)->get() as $user)
+                                        <tr>
+                                            <td>{{ $user->updated_at->diffForHumans() }}</td>
+                                            <td>{{ $user->first_name }} {{ $user->last_name }}</td>
+                                            <td>
+                                                @if($user->user_role === 'trainer')
+                                                    <i class="fas fa-user-tie text-primary mr-1"></i> {{ __('Trainer Activity') }}
+                                                @elseif($user->user_role === 'client')
+                                                    <i class="fas fa-users text-success mr-1"></i> {{ __('Client Activity') }}
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <span class="badge badge-{{ $user->status === 'active' ? 'success' : 'secondary' }}">
+                                                    {{ ucfirst($user->status) }}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="4" class="text-center text-muted py-4">
+                                                {{ __('No recent activity') }}
+                                            </td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@push('scripts')
+<script>
+function refreshDashboard() {
+    location.reload();
+}
+
+// Auto-refresh every 5 minutes
+setTimeout(function() {
+    refreshDashboard();
+}, 300000);
+</script>
+@endpush
+@endsection

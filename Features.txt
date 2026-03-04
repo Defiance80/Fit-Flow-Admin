@@ -1,0 +1,27 @@
+1. Super Admin / Staff Panel
+2. Customer App/Web -> Backend APIs
+3. Seller App/Web -> Backend APIs
+Roles :
+Super admin
+    Staff
+Author / Seller
+    Staff
+Customer
+Modules :
+1. Category management
+    3 Level :
+    Technology
+        Artificial Intelling
+            Deep Learning
+2. Course management
+    Single and Institute Author system
+    Chapters
+        Lectures
+            1. Videos
+            2. Questions / Quiz
+            3. Documents
+            4. Assignemnt
+3. Payment Gateway
+4. Coupon code
+5. Certificate management
+6. Custom fields management
