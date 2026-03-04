@@ -163,6 +163,14 @@ class User extends Authenticatable {
     /**
      * Clients this trainer manages
      */
+    /**
+     * Direct hasMany relationship for trainer clients (alternative to many-to-many)
+     */
+    public function trainerClients()
+    {
+        return $this->hasMany(User::class, "trainer_id");
+    }
+
     public function clients()
     {
         return $this->belongsToMany(User::class, 'trainer_clients', 'trainer_id', 'client_id')
