@@ -22,40 +22,6 @@
                     </ul>
                 </form>
                 <ul class="navbar-nav navbar-right">
-                    {{-- Language Switcher --}}
-                    @php
-                        try {
-                             = IlluminateSupportFacadesSchema::hasTable("languages") ? 
-                                IlluminateSupportFacadesDB::table("languages")->where("status", 1)->get(["code", "name", "flag"]) : 
-                                collect();
-                        } catch (Exception ) {
-                             = collect();
-                        }
-                    @endphp
-                    @if(->count() > 1)
-                    <li class="dropdown">
-                        <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg">
-                            <i class="fas fa-globe" style="color: #94A3B8; margin-right: 5px;"></i>
-                            <span style="color: #E2E8F0;">{{ strtoupper(->code ?? "EN") }}</span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <div class="dropdown-title">{{ __("Change Language") }}</div>
-                            @foreach( as )
-                                <a href="{{ route("language.set-current", ->code) }}" class="dropdown-item">
-                                    @if(->flag)
-                                        <img src="{{ asset("flags/" . ->flag) }}" alt="{{ ->name }}" class="mr-2" style="width: 20px; height: 15px;">
-                                    @else
-                                        <i class="fas fa-flag mr-2"></i>
-                                    @endif
-                                    {{ ->name }}
-                                    @if((->code ?? "en") === ->code)
-                                        <i class="fas fa-check text-success ml-2"></i>
-                                    @endif
-                                </a>
-                            @endforeach
-                        </div>
-                    </li>
-                    @endif
                     <li class="dropdown">
                         <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
                             <div style="background: #0D9488; color: white; width: 34px; height: 34px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px; margin-right: 8px;">

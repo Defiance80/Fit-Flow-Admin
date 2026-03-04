@@ -12,37 +12,34 @@ class HealthAlertController extends Controller
     /**
      * Display a listing of health alerts.
      */
-    public function index(Request )
+    public function index(Request $request)
     {
-         = HealthAlert::with(['client', 'trainer']);
+        $query = HealthAlert::with(['client', 'trainer']);
 
         // Filter by trainer
-        if (->has('trainer_id') && !empty(->trainer_id)) {
-            ->where('trainer_id', ->trainer_id);
+        if ($request->has('trainer_id') && !empty($request->trainer_id)) {
+            $query->where('trainer_id', $request->trainer_id);
         }
 
         // Filter by severity
-        if (->has('severity') && !empty(->severity)) {
-            ->where('severity', ->severity);
+        if ($request->has('severity') && !empty($request->severity)) {
+            $query->where('severity', $request->severity);
         }
 
         // Filter by acknowledged status
-        if (->has('acknowledged') && ->acknowledged !== '') {
-             = ->acknowledged === '1';
-            ->where('acknowledged', );
+        if ($request->has('acknowledged') && $request->acknowledged !== '') {
+            $acknowledged = $request->acknowledged === '1';
+            $query->where('acknowledged', $acknowledged);
         }
 
         // Order by: unacknowledged first, then by severity, then by date
-         = ->orderByRaw("CASE WHEN acknowledged = 0 THEN 0 ELSE 1 END")
-            ->orderByRaw("CASE 
-                WHEN severity = 'critical' THEN 0 
-                WHEN severity = 'warning' THEN 1 
-                ELSE 2 END")
+        $alerts = $query->orderByRaw("CASE WHEN acknowledged = 0 THEN 0 ELSE 1 END")
+            ->orderByRaw("CASE WHEN severity = 'critical' THEN 0 WHEN severity = 'warning' THEN 1 ELSE 2 END")
             ->orderBy('created_at', 'desc')
             ->paginate(20);
 
         // Get trainers for filter
-         = User::where('user_role', 'trainer')->where('is_active', 1)->get();
+        $trainers = User::where('user_role', 'trainer')->where('is_active', 1)->get();
 
         return view('health.alerts', compact('alerts', 'trainers'), [
             'type_menu' => 'health-alerts'
@@ -52,19 +49,19 @@ class HealthAlertController extends Controller
     /**
      * Acknowledge an alert.
      */
-    public function acknowledge(HealthAlert , Request )
+    public function acknowledge(HealthAlert $alert, Request $request)
     {
         try {
-            ->update([
+            $alert->update([
                 'acknowledged' => true,
                 'acknowledged_at' => now()
             ]);
 
             return redirect()->back()
                 ->with('success', 'Alert acknowledged successfully.');
-        } catch (\Exception ) {
+        } catch (\Exception $e) {
             return redirect()->back()
-                ->with('error', 'Failed to acknowledge alert: ' . ->getMessage());
+                ->with('error', 'Failed to acknowledge alert: ' . $e->getMessage());
         }
     }
 }

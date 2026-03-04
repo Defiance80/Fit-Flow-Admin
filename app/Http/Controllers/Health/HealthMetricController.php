@@ -14,61 +14,61 @@ class HealthMetricController extends Controller
     /**
      * Display the health metrics dashboard.
      */
-    public function index(Request )
+    public function index(Request $request)
     {
         // Get summary statistics
-         = User::where('user_role', 'client')->where('is_active', 1)->count();
-         = HealthAlert::where('created_at', '>=', now()->subWeek())->count();
+        $totalClients = User::where('user_role', 'client')->where('is_active', 1)->count();
+        $alertsThisWeek = HealthAlert::where('created_at', '>=', now()->subWeek())->count();
         
         // Average heart rate across all clients with recent data
-         = HealthMetric::where('metric_type', 'heart_rate')
+        $avgHeartRateValue = HealthMetric::where('metric_type', 'heart_rate')
             ->where('recorded_at', '>=', now()->subDays(7))
             ->avg('value');
-         =  ? round(, 1) : null;
+        $avgHeartRate = $avgHeartRateValue ? round($avgHeartRateValue, 1) : null;
 
         // Get trainers for filter dropdown
-         = User::where('user_role', 'trainer')->where('is_active', 1)->get();
+        $trainers = User::where('user_role', 'trainer')->where('is_active', 1)->get();
 
         // Base query for clients with their latest health metrics
-         = User::where('user_role', 'client')
+        $clientsQuery = User::where('user_role', 'client')
             ->where('is_active', 1)
             ->select('users.*')
             ->leftJoin('trainer_clients', 'users.id', '=', 'trainer_clients.client_id')
             ->leftJoin('users as trainers', 'trainer_clients.trainer_id', '=', 'trainers.id');
 
         // Filter by trainer if specified
-        if (->has('trainer_id') && !empty(->trainer_id)) {
-            ->where('trainer_clients.trainer_id', ->trainer_id);
+        if ($request->has('trainer_id') && !empty($request->trainer_id)) {
+            $clientsQuery->where('trainer_clients.trainer_id', $request->trainer_id);
         }
 
-         = ->with(['trainers' => function() {
-            ->select('users.id', 'users.name');
+        $clients = $clientsQuery->with(['trainers' => function($query) {
+            $query->select('users.id', 'users.name');
         }])->get();
 
         // Get latest metrics for each client
-         = [];
-        foreach ( as ) {
-             = HealthMetric::where('user_id', ->id)
+        $clientsWithMetrics = [];
+        foreach ($clients as $client) {
+            $latestMetrics = HealthMetric::where('user_id', $client->id)
                 ->select('metric_type', 'value', 'unit', 'recorded_at', 'source')
-                ->whereIn('id', function() use () {
-                    ->select(DB::raw('MAX(id)'))
+                ->whereIn('id', function($query) use ($client) {
+                    $query->select(DB::raw('MAX(id)'))
                         ->from('health_metrics')
-                        ->where('user_id', ->id)
+                        ->where('user_id', $client->id)
                         ->groupBy('metric_type');
                 })
                 ->get()
                 ->keyBy('metric_type');
 
-             = ->trainers->first() ? ->trainers->first()->name : 'Unassigned';
+            $trainerName = $client->trainers->first() ? $client->trainers->first()->name : 'Unassigned';
             
-            [] = [
-                'client' => ,
-                'trainer_name' => ,
-                'heart_rate' => ->get('heart_rate'),
-                'spo2' => ->get('spo2'),
-                'sleep_duration' => ->get('sleep_duration'),
-                'steps' => ->get('steps'),
-                'latest_update' => ->max('recorded_at')
+            $clientsWithMetrics[] = [
+                'client' => $client,
+                'trainer_name' => $trainerName,
+                'heart_rate' => $latestMetrics->get('heart_rate'),
+                'spo2' => $latestMetrics->get('spo2'),
+                'sleep_duration' => $latestMetrics->get('sleep_duration'),
+                'steps' => $latestMetrics->get('steps'),
+                'latest_update' => $latestMetrics->max('recorded_at')
             ];
         }
 
@@ -82,45 +82,45 @@ class HealthMetricController extends Controller
     /**
      * Display detailed metrics for a specific client.
      */
-    public function show(User , Request )
+    public function show(User $client, Request $request)
     {
-        if (->user_role !== 'client') {
+        if ($client->user_role !== 'client') {
             abort(404);
         }
 
         // Get latest metrics for overview cards
-         = HealthMetric::where('user_id', ->id)
+        $latestMetrics = HealthMetric::where('user_id', $client->id)
             ->select('metric_type', 'value', 'unit', 'recorded_at', 'source')
-            ->whereIn('id', function() use () {
-                ->select(DB::raw('MAX(id)'))
+            ->whereIn('id', function($query) use ($client) {
+                $query->select(DB::raw('MAX(id)'))
                     ->from('health_metrics')
-                    ->where('user_id', ->id)
+                    ->where('user_id', $client->id)
                     ->groupBy('metric_type');
             })
             ->get()
             ->keyBy('metric_type');
 
         // Get previous metrics for trend calculation
-         = [];
-        foreach ( as  => ) {
-             = HealthMetric::where('user_id', ->id)
-                ->where('metric_type', )
-                ->where('id', '<', ->id)
+        $previousMetrics = [];
+        foreach ($latestMetrics as $metricType => $latestMetric) {
+            $previousMetric = HealthMetric::where('user_id', $client->id)
+                ->where('metric_type', $metricType)
+                ->where('id', '<', $latestMetric->id)
                 ->orderBy('recorded_at', 'desc')
                 ->first();
             
-            if () {
-                [] = ;
+            if ($previousMetric) {
+                $previousMetrics[$metricType] = $previousMetric;
             }
         }
 
         // Get history table data (last 30 records)
-         = HealthMetric::where('user_id', ->id)
+        $metricsHistory = HealthMetric::where('user_id', $client->id)
             ->orderBy('recorded_at', 'desc')
             ->take(30)
             ->get()
-            ->groupBy(function() {
-                return ->recorded_at->format('Y-m-d H:i');
+            ->groupBy(function($metric) {
+                return $metric->recorded_at->format('Y-m-d H:i');
             });
 
         return view('health.metrics-detail', compact(
@@ -133,21 +133,21 @@ class HealthMetricController extends Controller
     /**
      * Helper function to check if a metric value is in normal range
      */
-    public static function isInNormalRange(, )
+    public static function isInNormalRange($metricType, $value)
     {
-        if (!) return null;
+        if (!$value) return null;
         
-        switch () {
+        switch ($metricType) {
             case 'heart_rate':
-                return  >= 60 &&  <= 100;
+                return $value >= 60 && $value <= 100;
             case 'spo2':
-                return  >= 95 &&  <= 100;
+                return $value >= 95 && $value <= 100;
             case 'respiratory_rate':
-                return  >= 12 &&  <= 20;
+                return $value >= 12 && $value <= 20;
             case 'temperature':
-                return  >= 97.0 &&  <= 99.0;
+                return $value >= 97.0 && $value <= 99.0;
             case 'hrv':
-                return  >= 20; // Simplified check
+                return $value >= 20; // Simplified check
             default:
                 return null;
         }
@@ -156,14 +156,14 @@ class HealthMetricController extends Controller
     /**
      * Get color class for metric value
      */
-    public static function getMetricColorClass(, )
+    public static function getMetricColorClass($metricType, $value)
     {
-         = self::isInNormalRange(, );
+        $isNormal = self::isInNormalRange($metricType, $value);
         
-        if ( === null) {
+        if ($isNormal === null) {
             return 'text-muted'; // Unknown range
         }
         
-        return  ? 'text-success' : 'text-danger';
+        return $isNormal ? 'text-success' : 'text-danger';
     }
 }
