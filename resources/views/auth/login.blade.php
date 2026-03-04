@@ -70,7 +70,7 @@
         </div>
 
         <div class="card-body">
-            <form method="POST" action="/admin/login" class="needs-validation" novalidate="">
+            <form method="POST" action="{{ route('login') }}" class="needs-validation" novalidate="">
                 @csrf
 
                 {{-- Email --}}

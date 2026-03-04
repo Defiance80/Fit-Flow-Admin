@@ -24,6 +24,10 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Force URL generator to use APP_URL (includes /admin prefix for proxy setup)
+        \Illuminate\Support\Facades\URL::forceRootUrl(config('app.url'));
+        \Illuminate\Support\Facades\URL::forceScheme('https');
+
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
@@ -34,7 +38,6 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/api.php'));
 
             Route::middleware('web')
-                ->prefix('admin')
                 ->group(base_path('routes/web.php'));
         });
     }
