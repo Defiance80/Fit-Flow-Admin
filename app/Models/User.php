@@ -255,4 +255,9 @@ public function trainerClients()    {        return $this->belongsToMany(User::c
         } while (self::where('invite_code', $code)->exists());
         return $code;
     }
+
+    public function clientPrograms()
+    {
+        return $this->belongsToMany(\App\Models\Fitness\TrainingProgram::class, 'client_programs', 'client_id', 'training_program_id');
+    }
 }
