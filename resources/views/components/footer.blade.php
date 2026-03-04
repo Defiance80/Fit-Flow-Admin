@@ -4,4 +4,3 @@
     </div>
     <div class="footer-right"> {{ __('2.3.0') }} </div>
 </footer>
-

@@ -1,5 +1,6 @@
-<div class="login-brand">
-    <img src="{{ asset("img/fitflow-logo.png") }}"
-         alt="Fit Flow"
-         width="200">
+﻿<div class="login-brand">
+    <img src="{{ !empty($settings['vertical_logo']) ? asset($settings['vertical_logo']) : asset('img/stisla-fill.svg') }}"
+         alt="logo"
+         width="200"
+         class="shadow-light rounded-circle">
 </div>
