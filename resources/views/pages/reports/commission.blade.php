@@ -43,12 +43,12 @@
                             </select>
                         </div>
                     </div>
-                    @if($shouldShowInstructorFilters ?? true)
+                    @if($shouldShowTrainerFilters ?? true)
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label> {{ __('Instructor') }} </label>
-                            <select class="form-control select2" id="instructorFilter" name="instructor_id">
-                                <option value=""> {{ __('All Instructors') }} </option>
+                            <label> {{ __('Trainer') }} </label>
+                            <select class="form-control select2" id="trainerFilter" name="trainer_id">
+                                <option value=""> {{ __('All Trainers') }} </option>
                             </select>
                         </div>
                     </div>
@@ -66,11 +66,11 @@
                     </div>
                 </div>
                 <div class="row">
-                    @if($shouldShowInstructorFilters ?? true)
+                    @if($shouldShowTrainerFilters ?? true)
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label> {{ __('Instructor Type') }} </label>
-                            <select class="form-control" id="instructorTypeFilter" name="instructor_type">
+                            <label> {{ __('Trainer Type') }} </label>
+                            <select class="form-control" id="trainerTypeFilter" name="trainer_type">
                                 <option value=""> {{ __('All Types') }} </option>
                                 <option value="individual"> {{ __('Individual') }} </option>
                                 <option value="team"> {{ __('Team') }} </option>
@@ -137,10 +137,10 @@
                                 <i class="fas fa-chalkboard-teacher"></i>
                             </div>
                             <div class="card-header">
-                                <h4> {{ __('Instructor Commission') }} </h4>
+                                <h4> {{ __('Trainer Commission') }} </h4>
                             </div>
                             <div class="card-body">
-                                <span id="totalInstructorCommission">{{ __('0') }}</span>
+                                <span id="totalTrainerCommission">{{ __('0') }}</span>
                             </div>
                         </div>
                     </div>
@@ -184,12 +184,12 @@
                                 <thead>
                                     <tr>
                                         <th> {{ __('Date') }} </th>
-                                        <th> {{ __('Instructor') }} </th>
+                                        <th> {{ __('Trainer') }} </th>
                                         <th> {{ __('Course') }} </th>
                                         <th> {{ __('Type') }} </th>
                                         <th> {{ __('Course Price') }} </th>
                                         <th> {{ __('Admin Commission') }} </th>
-                                        <th> {{ __('Instructor Commission') }} </th>
+                                        <th> {{ __('Trainer Commission') }} </th>
                                         <th> {{ __('Status') }} </th>
                                         <th> {{ __('Paid At') }} </th>
                                     </tr>
@@ -210,16 +210,16 @@
             </div>
         </div>
 
-        <!-- Top Instructors Section -->
-        <div id="top-instructors-section" class="row mt-4">
+        <!-- Top Trainers Section -->
+        <div id="top-trainers-section" class="row mt-4">
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">
-                        <h4><i class="fas fa-trophy"></i> {{ __('Top Earning Instructors') }} </h4>
+                        <h4><i class="fas fa-trophy"></i> {{ __('Top Earning Trainers') }} </h4>
                     </div>
                     <div class="card-body">
-                        <div id="topInstructorsList">
-                            <!-- Top instructors will be loaded here -->
+                        <div id="topTrainersList">
+                            <!-- Top trainers will be loaded here -->
                         </div>
                     </div>
                 </div>
@@ -297,10 +297,10 @@
                         $('#courseFilter').append(`<option value="${course.id}">${course.title}</option>`);
                     });
 
-                    // Populate instructors
-                    $('#instructorFilter').empty().append('<option value=""> {{ __('All Instructors') }} </option>');
-                    data.instructors.forEach(instructor => {
-                        $('#instructorFilter').append(`<option value="${instructor.id}">${instructor.name}</option>`);
+                    // Populate trainers
+                    $('#trainerFilter').empty().append('<option value=""> {{ __('All Trainers') }} </option>');
+                    data.trainers.forEach(trainer => {
+                        $('#trainerFilter').append(`<option value="${trainer.id}">${trainer.name}</option>`);
                     });
                 }
             });
@@ -320,9 +320,9 @@
                     date_from: moment(dateRange[0].trim(), 'DD/MM/YYYY').format('YYYY-MM-DD'),
                     date_to: moment(dateRange[1].trim(), 'DD/MM/YYYY').format('YYYY-MM-DD'),
                     course_id: $('#courseFilter').val(),
-                    instructor_id: $('#instructorFilter').val(),
+                    trainer_id: $('#trainerFilter').val(),
                     status: $('#statusFilter').val(),
-                    instructor_type: $('#instructorTypeFilter').val()
+                    trainer_type: $('#trainerTypeFilter').val()
                 };
 
                 // Remove empty values
@@ -356,11 +356,11 @@
                         
                         $('#totalCommissions').text((data.total_commissions || 0).toLocaleString());
                         $('#totalAdminCommission').text(currencySymbol + (data.total_admin_commission || 0).toLocaleString());
-                        $('#totalInstructorCommission').text(currencySymbol + (data.total_instructor_commission || 0).toLocaleString());
+                        $('#totalTrainerCommission').text(currencySymbol + (data.total_trainer_commission || 0).toLocaleString());
                         $('#paidCommissions').text((data.paid_commissions || 0).toLocaleString());
 
-                        // Load top instructors
-                        loadTopInstructors(data.top_earning_instructors || []);
+                        // Load top trainers
+                        loadTopTrainers(data.top_earning_trainers || []);
                         
                         // Load commission by course
                         loadCommissionByCourse(data.commission_by_course || []);
@@ -420,19 +420,19 @@
             });
         }
 
-        function loadTopInstructors(topInstructors) {
+        function loadTopTrainers(topTrainers) {
             let html = '';
-            if (Array.isArray(topInstructors) && topInstructors.length > 0) {
-                topInstructors.forEach((instructor, index) => {
-                    const instructorName = instructor.instructor?.name || 'Unknown Instructor';
-                    const totalCommission = instructor.total_commission || 0;
-                    const commissionCount = instructor.commission_count || 0;
+            if (Array.isArray(topTrainers) && topTrainers.length > 0) {
+                topTrainers.forEach((trainer, index) => {
+                    const trainerName = trainer.trainer?.name || 'Unknown Trainer';
+                    const totalCommission = trainer.total_commission || 0;
+                    const commissionCount = trainer.commission_count || 0;
                     
                     html += `
                         <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom">
                             <div>
                                 <span class="badge badge-primary">#${index + 1}</span>
-                                <strong class="ml-2">${instructorName}</strong>
+                                <strong class="ml-2">${trainerName}</strong>
                             </div>
                             <div class="text-right">
                                 <div>${currencySymbol}${totalCommission.toLocaleString()}</div>
@@ -442,9 +442,9 @@
                     `;
                 });
             } else {
-                html = '<div class="text-center text-muted"> {{ __('No top instructors data available') }} </div>';
+                html = '<div class="text-center text-muted"> {{ __('No top trainers data available') }} </div>';
             }
-            $('#topInstructorsList').html(html);
+            $('#topTrainersList').html(html);
         }
 
         function loadCommissionByCourse(commissionByCourse) {
@@ -486,7 +486,7 @@
             } else {
                 commissions.forEach(commission => {
                     const statusBadge = getStatusBadge(commission.status);
-                    const typeBadge = getTypeBadge(commission.instructor_type);
+                    const typeBadge = getTypeBadge(commission.trainer_type);
                     
                     // Parse dates properly to avoid deprecation warnings
                     const createdAt = commission.created_at ? moment(commission.created_at, moment.ISO_8601).format('DD MMM YYYY') : 'N/A';
@@ -495,12 +495,12 @@
                     html += `
                         <tr>
                             <td>${createdAt}</td>
-                            <td>${commission.instructor?.name || 'N/A'}</td>
+                            <td>${commission.trainer?.name || 'N/A'}</td>
                             <td>${commission.course?.title || 'N/A'}</td>
                             <td>${typeBadge}</td>
                             <td>${currencySymbol}${(commission.discounted_price || commission.course_price || 0).toLocaleString()}</td>
                             <td>${currencySymbol}${(commission.admin_commission_amount || 0).toLocaleString()}</td>
-                            <td>${currencySymbol}${(commission.instructor_commission_amount || 0).toLocaleString()}</td>
+                            <td>${currencySymbol}${(commission.trainer_commission_amount || 0).toLocaleString()}</td>
                             <td>${statusBadge}</td>
                             <td>${paidAt}</td>
                         </tr>
@@ -562,9 +562,9 @@
         function getFilterValues() {
             const filters = {
                 course_id: $('#courseFilter').val(),
-                instructor_id: $('#instructorFilter').val(),
+                trainer_id: $('#trainerFilter').val(),
                 status: $('#statusFilter').val(),
-                instructor_type: $('#instructorTypeFilter').val()
+                trainer_type: $('#trainerTypeFilter').val()
             };
 
             // Handle date range
@@ -636,7 +636,7 @@
         function showLoading(show) {
             if (show) {
                 $('#loading-state').show();
-                $('#summary-section, #table-section, #top-instructors-section').addClass('opacity-50');
+                $('#summary-section, #table-section, #top-trainers-section').addClass('opacity-50');
                 
                 // Safety timeout - ensure loading is hidden after 15 seconds max
                 setTimeout(function() {
@@ -648,7 +648,7 @@
                 }, 15000);
             } else {
                 $('#loading-state').hide();
-                $('#summary-section, #chart-section, #table-section, #top-instructors-section').removeClass('opacity-50');
+                $('#summary-section, #chart-section, #table-section, #top-trainers-section').removeClass('opacity-50');
             }
         }
 

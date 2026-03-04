@@ -1,13 +1,13 @@
 ﻿﻿@extends('layouts.app')
 
 @section('title')
-    {{ __('Instructor Form Details') }}
+    {{ __('Trainer Form Details') }}
 @endsection
 
 @section('page-title')
     <h1 class="mb-0">@yield('title')</h1>
     <div class="section-header-button ml-auto">
-        <a class="btn btn-primary" href="{{ route('instructor.index') }}">← {{ __('Back to All Instructors') }}</a>
+        <a class="btn btn-primary" href="{{ route('instructor.index') }}">← {{ __('Back to All Trainers') }}</a>
     </div>
 @endsection
 
@@ -21,7 +21,7 @@
                         <div class="divider">
                             <div class="divider-text">
                                 {{-- Title --}}
-                                <h4 class="card-title">{{ __('Instructor User Details') }}</h4>
+                                <h4 class="card-title">{{ __('Trainer User Details') }}</h4>
                             </div>
                         </div>
                     </div>
@@ -30,57 +30,57 @@
                             {{-- ID --}}
                             <div class="form-group col-md-6 col-lg-4">
                                 <label>{{ __('ID') }}</label>
-                                <input type="text" class="form-control" value="{{ $instructor->id }}" disabled>
+                                <input type="text" class="form-control" value="{{ $trainer->id }}" disabled>
                             </div>
 
                             {{-- User ID --}}
                             <div class="form-group col-md-6 col-lg-4">
                                 <label>{{ __('User ID') }}</label>
-                                <input type="text" class="form-control" value="{{ $instructor->user_id }}" disabled>
+                                <input type="text" class="form-control" value="{{ $trainer->user_id }}" disabled>
                             </div>
 
                             {{-- Name --}}
                             <div class="form-group col-md-6 col-lg-4">
                                 <label>{{ __('Name') }}</label>
-                                <input type="text" class="form-control" value="{{ $instructor->user->name }}" disabled>
+                                <input type="text" class="form-control" value="{{ $trainer->user->name }}" disabled>
                             </div>
 
                             {{-- Email --}}
                             <div class="form-group col-md-6 col-lg-4">
                                 <label>{{ __('Email') }}</label>
-                                <input type="text" class="form-control" value="{{ $instructor->user->email }}" disabled>
+                                <input type="text" class="form-control" value="{{ $trainer->user->email }}" disabled>
                             </div>
 
                             {{-- Type --}}
                             <div class="form-group col-md-6 col-lg-4">
                                 <label>{{ __('Type') }}</label>
-                                <input type="text" class="form-control" value="@if(isset($instructor->type) && $instructor->type == 'individual'){{ __('Individual') }}@elseif(isset($instructor->type) && $instructor->type == 'team'){{ __('Team') }}@else{{ __('N/A') }}@endif" disabled>
+                                <input type="text" class="form-control" value="@if(isset($trainer->type) && $trainer->type == 'individual'){{ __('Individual') }}@elseif(isset($trainer->type) && $trainer->type == 'team'){{ __('Team') }}@else{{ __('N/A') }}@endif" disabled>
                             </div>
 
                             {{-- Status --}}
                             <div class="form-group col-md-6 col-lg-4">
                                 <label>{{ __('Status') }}</label>
-                                <input type="text" class="form-control" value="@if($instructor->status == 'approved'){{ __('Approved') }}@elseif($instructor->status == 'rejected'){{ __('Rejected') }}@elseif($instructor->status == 'suspended'){{ __('Suspended') }}@else{{ __('Pending') }}@endif" disabled>
+                                <input type="text" class="form-control" value="@if($trainer->status == 'approved'){{ __('Approved') }}@elseif($trainer->status == 'rejected'){{ __('Rejected') }}@elseif($trainer->status == 'suspended'){{ __('Suspended') }}@else{{ __('Pending') }}@endif" disabled>
                             </div>
 
                             {{-- Reason --}}
-                            @if($instructor->reason)
+                            @if($trainer->reason)
                             <div class="form-group col-md-6 col-lg-4">
                                 <label>{{ __('Reason') }}</label>
-                                <textarea class="form-control" disabled>{{ $instructor->reason }}</textarea>
+                                <textarea class="form-control" disabled>{{ $trainer->reason }}</textarea>
                             </div>
                             @endif
 
                             {{-- Created At --}}
                             <div class="form-group col-md-6 col-lg-4">
                                 <label>{{ __('Created At') }}</label>
-                                <input type="text" class="form-control" value="{{ $instructor->created_at ? $instructor->created_at->format('F d, Y \a\t g:i A') : __('N/A') }}" disabled>
+                                <input type="text" class="form-control" value="{{ $trainer->created_at ? $trainer->created_at->format('F d, Y \a\t g:i A') : __('N/A') }}" disabled>
                             </div>
 
                             {{-- Updated At --}}
                             <div class="form-group col-md-6 col-lg-4">
                                 <label>{{ __('Updated At') }}</label>
-                                <input type="text" class="form-control" value="{{ $instructor->updated_at ? $instructor->updated_at->format('F d, Y \a\t g:i A') : __('N/A') }}" disabled>
+                                <input type="text" class="form-control" value="{{ $trainer->updated_at ? $trainer->updated_at->format('F d, Y \a\t g:i A') : __('N/A') }}" disabled>
                             </div>
                         </div>
 
@@ -93,7 +93,7 @@
                         <div class="divider">
                             <div class="divider-text">
                                 {{-- Title --}}
-                                <h4 class="card-title">{{ __('Instructor Personal Details') }}</h4>
+                                <h4 class="card-title">{{ __('Trainer Personal Details') }}</h4>
                             </div>
                         </div>
                     </div>
@@ -101,41 +101,41 @@
                         <div class="row">
                             {{-- Qualification --}}
                             <div class="form-group col-md-6 col-lg-4">
-                                <label>{{ __('Qualification') }}</label> @if($instructor->personal_details && $instructor->personal_details->qualification) <textarea class="form-control" disabled>{{ $instructor->personal_details->qualification }}</textarea> @else <p class="text-muted">{{ __('N/A') }}</p> @endif </div>
+                                <label>{{ __('Qualification') }}</label> @if($trainer->personal_details && $trainer->personal_details->qualification) <textarea class="form-control" disabled>{{ $trainer->personal_details->qualification }}</textarea> @else <p class="text-muted">{{ __('N/A') }}</p> @endif </div>
 
                             {{-- Experience --}}
                             <div class="form-group col-md-6 col-lg-4">
-                                <label>{{ __('Years of Experience') }}</label> @if($instructor->personal_details && $instructor->personal_details->years_of_experience) <input type="number" class="form-control" value="{{ $instructor->personal_details->years_of_experience }}" disabled> @else <p class="text-muted">{{ __('N/A') }}</p> @endif </div>
+                                <label>{{ __('Years of Experience') }}</label> @if($trainer->personal_details && $trainer->personal_details->years_of_experience) <input type="number" class="form-control" value="{{ $trainer->personal_details->years_of_experience }}" disabled> @else <p class="text-muted">{{ __('N/A') }}</p> @endif </div>
 
                             {{-- Skills --}}
                             <div class="form-group col-md-6 col-lg-4">
-                                <label>{{ __('Skills') }}</label> @if($instructor->personal_details && $instructor->personal_details->skills) <textarea class="form-control" disabled>{{ $instructor->personal_details->skills }}</textarea> @else <p class="text-muted">{{ __('N/A') }}</p> @endif </div>
+                                <label>{{ __('Skills') }}</label> @if($trainer->personal_details && $trainer->personal_details->skills) <textarea class="form-control" disabled>{{ $trainer->personal_details->skills }}</textarea> @else <p class="text-muted">{{ __('N/A') }}</p> @endif </div>
 
                             {{-- Bank Account Number --}}
                             <div class="form-group col-md-6 col-lg-4">
-                                <label>{{ __('Bank Account Number') }}</label> @if($instructor->personal_details && $instructor->personal_details->bank_account_number) <input type="text" class="form-control" value="{{ $instructor->personal_details->bank_account_number }}" disabled> @else <p class="text-muted">{{ __('N/A') }}</p> @endif </div>
+                                <label>{{ __('Bank Account Number') }}</label> @if($trainer->personal_details && $trainer->personal_details->bank_account_number) <input type="text" class="form-control" value="{{ $trainer->personal_details->bank_account_number }}" disabled> @else <p class="text-muted">{{ __('N/A') }}</p> @endif </div>
 
                             {{-- Bank Name --}}
                             <div class="form-group col-md-6 col-lg-4">
-                                <label>{{ __('Bank Name') }}</label> @if($instructor->personal_details && $instructor->personal_details->bank_name) <input type="text" class="form-control" value="{{ $instructor->personal_details->bank_name }}" disabled> @else <p class="text-muted">{{ __('N/A') }}</p> @endif </div>
+                                <label>{{ __('Bank Name') }}</label> @if($trainer->personal_details && $trainer->personal_details->bank_name) <input type="text" class="form-control" value="{{ $trainer->personal_details->bank_name }}" disabled> @else <p class="text-muted">{{ __('N/A') }}</p> @endif </div>
 
                             {{-- Bank Account Holder Name --}}
                             <div class="form-group col-md-6 col-lg-4">
-                                <label>{{ __('Bank Account Holder Name') }}</label> @if($instructor->personal_details && $instructor->personal_details->bank_account_holder_name) <input type="text" class="form-control" value="{{ $instructor->personal_details->bank_account_holder_name }}" disabled> @else <p class="text-muted">{{ __('N/A') }}</p> @endif </div>
+                                <label>{{ __('Bank Account Holder Name') }}</label> @if($trainer->personal_details && $trainer->personal_details->bank_account_holder_name) <input type="text" class="form-control" value="{{ $trainer->personal_details->bank_account_holder_name }}" disabled> @else <p class="text-muted">{{ __('N/A') }}</p> @endif </div>
 
                             {{-- Bank IFSC Code --}}
                             <div class="form-group col-md-6 col-lg-4">
-                                <label>{{ __('Bank IFSC Code') }}</label> @if($instructor->personal_details && $instructor->personal_details->bank_ifsc_code) <input type="text" class="form-control" value="{{ $instructor->personal_details->bank_ifsc_code }}" disabled> @else <p class="text-muted">{{ __('N/A') }}</p> @endif </div>
+                                <label>{{ __('Bank IFSC Code') }}</label> @if($trainer->personal_details && $trainer->personal_details->bank_ifsc_code) <input type="text" class="form-control" value="{{ $trainer->personal_details->bank_ifsc_code }}" disabled> @else <p class="text-muted">{{ __('N/A') }}</p> @endif </div>
 
                             {{-- Team Name --}}
                             <div class="form-group col-md-6 col-lg-4">
-                                <label>{{ __('Team Name') }}</label> @if($instructor->personal_details && $instructor->personal_details->team_name) <input type="text" class="form-control" value="{{ $instructor->personal_details->team_name }}" disabled> @else <p class="text-muted">{{ __('N/A') }}</p> @endif </div>
+                                <label>{{ __('Team Name') }}</label> @if($trainer->personal_details && $trainer->personal_details->team_name) <input type="text" class="form-control" value="{{ $trainer->personal_details->team_name }}" disabled> @else <p class="text-muted">{{ __('N/A') }}</p> @endif </div>
 
                             {{-- Team Logo --}}
                             <div class="form-group col-md-6 col-lg-4">
                                 <label>{{ __('Team Logo') }}</label>
-                                @if($instructor->personal_details && $instructor->personal_details->getRawOriginal('team_logo'))
-                                    <a href="{{ $instructor->personal_details->team_logo }}" target="_blank" class="btn btn-primary">{{ __('View Team Logo') }}</a>
+                                @if($trainer->personal_details && $trainer->personal_details->getRawOriginal('team_logo'))
+                                    <a href="{{ $trainer->personal_details->team_logo }}" target="_blank" class="btn btn-primary">{{ __('View Team Logo') }}</a>
                                 @else
                                     <p class="text-muted">{{ __('N/A') }}</p>
                                 @endif
@@ -144,9 +144,9 @@
                             {{-- About Me --}}
                             <div class="form-group col-md-12 col-lg-12">
                                 <label>{{ __('About Me') }}</label>
-                                @if($instructor->personal_details && $instructor->personal_details->about_me)
+                                @if($trainer->personal_details && $trainer->personal_details->about_me)
                                     <div class="form-control" style="min-height: 150px; padding: 15px; background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 0.25rem;">
-                                        {!! $instructor->personal_details->about_me !!}
+                                        {!! $trainer->personal_details->about_me !!}
                                     </div>
                                 @else
                                     <p class="text-muted">{{ __('N/A') }}</p>
@@ -156,9 +156,9 @@
                             {{-- ID Proof --}}
                             <div class="form-group col-md-6 col-lg-4">
                                 <label>{{ __('ID Proof') }}</label>
-                                @if($instructor->personal_details && $instructor->personal_details->getRawOriginal('id_proof'))
+                                @if($trainer->personal_details && $trainer->personal_details->getRawOriginal('id_proof'))
                                     <div>
-                                        <a href="{{ $instructor->personal_details->id_proof }}" target="_blank" class="btn btn-primary">{{ __('View ID Proof') }}</a>
+                                        <a href="{{ $trainer->personal_details->id_proof }}" target="_blank" class="btn btn-primary">{{ __('View ID Proof') }}</a>
                                     </div>
                                 @else
                                     <p class="text-muted">{{ __('N/A') }}</p>
@@ -168,9 +168,9 @@
                             {{-- Preview Video --}}
                             <div class="form-group col-md-6 col-lg-4">
                                 <label>{{ __('Preview Video') }}</label>
-                                @if($instructor->personal_details && $instructor->personal_details->getRawOriginal('preview_video'))
+                                @if($trainer->personal_details && $trainer->personal_details->getRawOriginal('preview_video'))
                                     <div>
-                                        <a href="{{ $instructor->personal_details->preview_video }}" target="_blank" class="btn btn-primary">{{ __('View Video') }}</a>
+                                        <a href="{{ $trainer->personal_details->preview_video }}" target="_blank" class="btn btn-primary">{{ __('View Video') }}</a>
                                     </div>
                                 @else
                                     <p class="text-muted">{{ __('N/A') }}</p>
@@ -187,14 +187,14 @@
                         <div class="divider">
                             <div class="divider-text">
                                 {{-- Title --}}
-                                <h4 class="card-title">{{ __('Instructor Social Media') }}</h4>
+                                <h4 class="card-title">{{ __('Trainer Social Media') }}</h4>
                             </div>
                         </div>
                     </div>
                     <div class="card-body mt-4">
-                        @if($instructor->social_medias && $instructor->social_medias->count() > 0)
+                        @if($trainer->social_medias && $trainer->social_medias->count() > 0)
                             <div class="row">
-                                @foreach($instructor->social_medias as $key => $socialMedia)
+                                @foreach($trainer->social_medias as $key => $socialMedia)
                                     <div class="form-group col-md-6 col-lg-4">
                                         <label class="form-label">{{ $key + 1 }}. {{ ($socialMedia->social_media && $socialMedia->social_media->name) ? $socialMedia->social_media->name : ($socialMedia->title ?? __('N/A')) }}</label>
                                         <div>
@@ -222,16 +222,16 @@
                         <div class="divider">
                             <div class="divider-text">
                                 {{-- Title --}}
-                                <h4 class="card-title">{{ __('Instructor Other Details') }}</h4>
+                                <h4 class="card-title">{{ __('Trainer Other Details') }}</h4>
                             </div>
                         </div>
                     </div>
                     <div class="card-body mt-4">
-                        @if($instructor->other_details && $instructor->other_details->count() > 0)
+                        @if($trainer->other_details && $trainer->other_details->count() > 0)
                             <div class="row">
                                 @php
                                     // Group other_details by custom_form_field_id to handle checkbox duplicates
-                                    $groupedDetails = $instructor->other_details->groupBy('custom_form_field_id');
+                                    $groupedDetails = $trainer->other_details->groupBy('custom_form_field_id');
                                 @endphp
                                 @foreach ($groupedDetails as $fieldId => $details)
                                     @php

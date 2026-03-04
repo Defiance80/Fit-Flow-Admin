@@ -1,7 +1,7 @@
 ﻿@extends('layouts.app')
 
 @section('title')
-    {{ __('Manage Instructors') }}
+    {{ __('Manage Trainers') }}
 @endsection
 
 @section('page-title')
@@ -11,14 +11,14 @@
 @section('main')
     <div class="content-wrapper">
         @if(isset($isSingleInstructorMode) && $isSingleInstructorMode)
-            <!-- Single Instructor Mode Message -->
+            <!-- Single Trainer Mode Message -->
             <div class="row">
                 <div class="col-md-12 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body">
                             <div class="alert alert-info text-center">
-                                <h4 class="alert-heading">{{ __('Instructor List Disabled') }}</h4>
-                                <p class="mb-0">{{ __('Instructor list is disabled in Single Instructor mode.') }}</p>
+                                <h4 class="alert-heading">{{ __('Trainer List Disabled') }}</h4>
+                                <p class="mb-0">{{ __('Trainer list is disabled in Single Trainer mode.') }}</p>
                             </div>
                         </div>
                     </div>
@@ -32,12 +32,12 @@
                         <div class="card-body">
                             {{-- Title --}}
                             <h4 class="card-title">
-                                {{ __('List Instructors') }}
+                                {{ __('List Trainers') }}
                             </h4>
 
                             <div id="toolbar"></div>
 
-                            <table aria-describedby="mydesc" class="table" id="table_list" data-table="instructors" data-toggle="table" data-url="{{ route('instructor.show', 0) }}" data-click-to-select="true" data-side-pagination="server" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]" data-search="true" data-toolbar="#toolbar" data-show-columns="true" data-show-refresh="true" data-trim-on-search="false" data-mobile-responsive="true" data-use-row-attr-func="true" data-maintain-selected="true" data-export-data-type="all" data-export-options='{ "fileName": "{{ __('instructors') }}-<?= date('d-m-y') ?>","ignoreColumn":["operate"]}' data-show-export="true" data-query-params="instructorQueryParams" data-status-column="is_active">
+                            <table aria-describedby="mydesc" class="table" id="table_list" data-table="trainers" data-toggle="table" data-url="{{ route('instructor.show', 0) }}" data-click-to-select="true" data-side-pagination="server" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]" data-search="true" data-toolbar="#toolbar" data-show-columns="true" data-show-refresh="true" data-trim-on-search="false" data-mobile-responsive="true" data-use-row-attr-func="true" data-maintain-selected="true" data-export-data-type="all" data-export-options='{ "fileName": "{{ __('trainers') }}-<?= date('d-m-y') ?>","ignoreColumn":["operate"]}' data-show-export="true" data-query-params="trainerQueryParams" data-status-column="is_active">
                                 <thead>
                                     <tr>
                                         <th scope="col" data-field="id" data-sortable="true" data-visible="false" data-escape="true"> {{ __('id') }}</th>
@@ -45,7 +45,7 @@
                                         <th scope="col" data-field="user.name" data-sortable="false" data-formatter="capitalizeNameFormatter" data-escape="false">{{ __('Name') }}</th>
                                         <th scope="col" data-field="type" data-sortable="true"  data-escape="false">{{ __('Type') }}</th>
                                         <th scope="col" data-field="status" data-sortable="true" data-escape="false">{{ __('Status') }}</th>
-                                        <th scope="col" data-field="operate" data-sortable="false" data-events="instructorEvents" data-escape="false">{{ __('Action') }}</th>
+                                        <th scope="col" data-field="operate" data-sortable="false" data-events="trainerEvents" data-escape="false">{{ __('Action') }}</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -57,20 +57,20 @@
 
 
         <!-- Edit Modal -->
-        <div class="modal fade" id="instructorEditModal" tabindex="-1" role="dialog"
-            aria-labelledby="instructorEditModalLabel" aria-hidden="true">
+        <div class="modal fade" id="trainerEditModal" tabindex="-1" role="dialog"
+            aria-labelledby="trainerEditModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content rounded shadow-lg">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="instructorEditModalLabel">{{ __('Change Status')}}</h5>
+                        <h5 class="modal-title" id="trainerEditModalLabel">{{ __('Change Status')}}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="{{ __('Close') }}" style="display: block !important; visibility: visible !important; opacity: 1 !important;">
                             <span aria-hidden="true" style="font-size: 1.5rem; font-weight: 700; line-height: 1; color: #000; text-shadow: 0 1px 0 #fff;">&times;</span>
                         </button>
                     </div>
-                    <form class="pt-3 mt-6 edit-form" method="POST" data-parsley-validate id="instructorEditForm">
+                    <form class="pt-3 mt-6 edit-form" method="POST" data-parsley-validate id="trainerEditForm">
                          @method('PUT')
                           <div class="modal-body">
-                            <input type="hidden" name="edit_id" id="edit_instructor_id">
+                            <input type="hidden" name="edit_id" id="edit_trainer_id">
 
                             <div class="form-group mandatory col-sm-12 col-md-6">
                                 <label class="form-label d-block" for="status">{{ __('Status') }} </label>
@@ -107,8 +107,8 @@
     </div> @endsection
 @section('script')
     <script>
-        // Define instructorQueryParams function for pagination
-        function instructorQueryParams(params) {
+        // Define trainerQueryParams function for pagination
+        function trainerQueryParams(params) {
             return {
                 offset: params.offset,
                 limit: params.limit,
@@ -153,9 +153,9 @@
             });
 
             // Reset modal when closed
-            $('#instructorEditModal').on('hidden.bs.modal', function() {
-                $('#instructorEditForm')[0].reset();
-                $('#edit_instructor_id').val('');
+            $('#trainerEditModal').on('hidden.bs.modal', function() {
+                $('#trainerEditForm')[0].reset();
+                $('#edit_trainer_id').val('');
                 $('#reason-field').hide();
                 $('#reason').removeAttr('required');
                 $('input[name="status"]').prop('checked', false);

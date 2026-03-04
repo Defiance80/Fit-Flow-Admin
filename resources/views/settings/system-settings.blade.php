@@ -346,15 +346,15 @@
                         </div>
                         <div class="card-body mt-4">
                             <div class="row">
-                                <!-- Individual Instructor Admin Commission -->
+                                <!-- Individual Trainer Admin Commission -->
                                 <div class="col-sm-12 col-md-6 col-lg-4 mt-2 form-group mandatory">
-                                    <label class="form-label" for="individual_admin_commission">{{ __('Individual Instructor Admin Commission (%)') }}</label>
+                                    <label class="form-label" for="individual_admin_commission">{{ __('Individual Trainer Admin Commission (%)') }}</label>
                                     <input 
                                         name="individual_admin_commission" 
                                         type="number" 
                                         id="individual_admin_commission" 
                                         class="form-control" 
-                                        placeholder="{{ __('Enter admin commission for individual instructors') }}" 
+                                        placeholder="{{ __('Enter admin commission for individual trainers') }}" 
                                         required 
                                         min="0" 
                                         max="100"
@@ -363,15 +363,15 @@
                                     >
                                 </div>
                                 
-                                <!-- Team Instructor Admin Commission -->
+                                <!-- Team Trainer Admin Commission -->
                                 <div class="col-sm-12 col-md-6 col-lg-4 mt-2 form-group mandatory">
-                                    <label class="form-label" for="team_admin_commission">{{ __('Team Instructor Admin Commission (%)') }}</label>
+                                    <label class="form-label" for="team_admin_commission">{{ __('Team Trainer Admin Commission (%)') }}</label>
                                     <input 
                                         name="team_admin_commission" 
                                         type="number" 
                                         id="team_admin_commission" 
                                         class="form-control" 
-                                        placeholder="{{ __('Enter admin commission for team instructors') }}" 
+                                        placeholder="{{ __('Enter admin commission for team trainers') }}" 
                                         required 
                                         min="0" 
                                         max="100"
@@ -380,29 +380,29 @@
                                     >
                                 </div>
                                 
-                                <!-- Individual Instructor Commission (auto-calculated) -->
+                                <!-- Individual Trainer Commission (auto-calculated) -->
                                 <div class="col-sm-12 col-md-6 col-lg-4 mt-2 form-group">
-                                    <label class="form-label" for="individual_instructor_commission">{{ __('Individual Instructor Commission (%)') }}</label>
+                                    <label class="form-label" for="individual_trainer_commission">{{ __('Individual Trainer Commission (%)') }}</label>
                                     <input 
-                                        name="individual_instructor_commission" 
+                                        name="individual_trainer_commission" 
                                         type="number" 
-                                        id="individual_instructor_commission" 
+                                        id="individual_trainer_commission" 
                                         class="form-control" 
-                                        placeholder="{{ __('Individual instructor commission percentage') }}" 
+                                        placeholder="{{ __('Individual trainer commission percentage') }}" 
                                         readonly
                                         value="{{ isset($settings['individual_admin_commission']) ? (100 - $settings['individual_admin_commission']) : '95' }}"
                                     >
                                 </div>
                                 
-                                <!-- Team Instructor Commission (auto-calculated) -->
+                                <!-- Team Trainer Commission (auto-calculated) -->
                                 <div class="col-sm-12 col-md-6 col-lg-4 mt-2 form-group">
-                                    <label class="form-label" for="team_instructor_commission">{{ __('Team Instructor Commission (%)') }}</label>
+                                    <label class="form-label" for="team_trainer_commission">{{ __('Team Trainer Commission (%)') }}</label>
                                     <input 
-                                        name="team_instructor_commission" 
+                                        name="team_trainer_commission" 
                                         type="number" 
-                                        id="team_instructor_commission" 
+                                        id="team_trainer_commission" 
                                         class="form-control" 
-                                        placeholder="{{ __('Team instructor commission percentage') }}" 
+                                        placeholder="{{ __('Team trainer commission percentage') }}" 
                                         readonly
                                         value="{{ isset($settings['team_admin_commission']) ? (100 - $settings['team_admin_commission']) : '90' }}"
                                     >
@@ -413,15 +413,15 @@
                                     <div class="alert alert-info">
                                         <strong>{{ __('Commission Distribution Methodology:') }}</strong>
                                         <ul class="mb-0 mt-2">
-                                            <li>{{ __('Admin commission (5% for individual instructors, 10% for team instructors) applied to discounted course prices') }}</li>
-                                            <li>{{ __('Individual instructors receive 95% commission, Team instructors receive 90% commission') }}</li>
+                                            <li>{{ __('Admin commission (5% for individual trainers, 10% for team trainers) applied to discounted course prices') }}</li>
+                                            <li>{{ __('Individual trainers receive 95% commission, Team trainers receive 90% commission') }}</li>
                                             <li>{{ __('Coupon discount allocated proportionally based on each course\'s contribution to original cart total') }}</li>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
                             <small class="text-muted">
-                                {{ __('The admin commission varies based on instructor type. Individual instructors have 5% admin commission, while team instructors have 10% admin commission. Instructor commissions are automatically calculated as the remainder.') }}
+                                {{ __('The admin commission varies based on trainer type. Individual trainers have 5% admin commission, while team trainers have 10% admin commission. Trainer commissions are automatically calculated as the remainder.') }}
                             </small>
                         </div>
                     </div>
@@ -430,25 +430,25 @@
                             <div class="divider">
                                 <div class="divider-text">
                                     {{-- Title --}}
-                                    <h4 class="card-title">{{ __('Instructor Mode Settings') }}</h4>
+                                    <h4 class="card-title">{{ __('Trainer Mode Settings') }}</h4>
                                 </div>
                             </div>
                         </div>
                         <div class="card-body mt-4">
                             <div class="row">
-                                <!-- Instructor Mode -->
+                                <!-- Trainer Mode -->
                                 <div class="col-sm-12 col-md-6 col-lg-4 mt-2 form-group mandatory">
-                                    <label class="form-label" for="instructor_mode">{{ __('Instructor Mode') }}</label>
-                                    <select name="instructor_mode" id="instructor_mode" class="form-control" required>
-                                        <option value="single" {{ (isset($settings['instructor_mode']) && $settings['instructor_mode'] == 'single') ? 'selected' : '' }}>
-                                            {{ __('Single Instructor (Admin as Instructor)') }}
+                                    <label class="form-label" for="trainer_mode">{{ __('Trainer Mode') }}</label>
+                                    <select name="trainer_mode" id="trainer_mode" class="form-control" required>
+                                        <option value="single" {{ (isset($settings['trainer_mode']) && $settings['trainer_mode'] == 'single') ? 'selected' : '' }}>
+                                            {{ __('Single Trainer (Admin as Trainer)') }}
                                         </option>
-                                        <option value="multi" {{ (isset($settings['instructor_mode']) && $settings['instructor_mode'] == 'multi') ? 'selected' : '' }}>
-                                            {{ __('Multi Instructor System') }}
+                                        <option value="multi" {{ (isset($settings['trainer_mode']) && $settings['trainer_mode'] == 'multi') ? 'selected' : '' }}>
+                                            {{ __('Multi Trainer System') }}
                                         </option>
                                     </select>
                                     <small class="form-text text-muted">
-                                        {{ __('Single: Admin acts as the only instructor. Multi: Separate instructor accounts allowed.') }}
+                                        {{ __('Single: Admin acts as the only trainer. Multi: Separate trainer accounts allowed.') }}
                                     </small>
                                 </div>
                             </div>
@@ -457,9 +457,9 @@
                                     <div class="alert alert-info">
                                         <strong>{{ __('Note:') }}</strong>
                                         <ul class="mb-0 mt-2">
-                                            <li>{{ __('Single Instructor Mode: Admin will have instructor permissions and capabilities. Instructor lists and filters will be hidden.') }}</li>
-                                            <li>{{ __('Multi Instructor Mode: Separate instructor accounts can be created and managed. Full instructor management features available.') }}</li>
-                                            <li>{{ __('Changing this setting will affect how the system handles instructor-related functionality.') }}</li>
+                                            <li>{{ __('Single Trainer Mode: Admin will have trainer permissions and capabilities. Trainer lists and filters will be hidden.') }}</li>
+                                            <li>{{ __('Multi Trainer Mode: Separate trainer accounts can be created and managed. Full trainer management features available.') }}</li>
+                                            <li>{{ __('Changing this setting will affect how the system handles trainer-related functionality.') }}</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -666,17 +666,17 @@
         }
     
         function updateCommissions() {
-            // Update Individual Instructor Commission
+            // Update Individual Trainer Commission
             var individualAdminCommission = parseFloat(document.getElementById('individual_admin_commission').value) || 0;
-            var individualInstructorCommission = 100 - individualAdminCommission;
-            if(individualInstructorCommission < 0) individualInstructorCommission = 0;
-            document.getElementById('individual_instructor_commission').value = individualInstructorCommission;
+            var individualTrainerCommission = 100 - individualAdminCommission;
+            if(individualTrainerCommission < 0) individualTrainerCommission = 0;
+            document.getElementById('individual_trainer_commission').value = individualTrainerCommission;
             
-            // Update Team Instructor Commission
+            // Update Team Trainer Commission
             var teamAdminCommission = parseFloat(document.getElementById('team_admin_commission').value) || 0;
-            var teamInstructorCommission = 100 - teamAdminCommission;
-            if(teamInstructorCommission < 0) teamInstructorCommission = 0;
-            document.getElementById('team_instructor_commission').value = teamInstructorCommission;
+            var teamTrainerCommission = 100 - teamAdminCommission;
+            if(teamTrainerCommission < 0) teamTrainerCommission = 0;
+            document.getElementById('team_trainer_commission').value = teamTrainerCommission;
         }
         
         // Initialize on page load

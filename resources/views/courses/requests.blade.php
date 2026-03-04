@@ -19,14 +19,14 @@
                     <div class="card-body">
                         <div id="requestsToolbar" class="mb-3">
                             <div class="row align-items-end">
-                                @if($shouldShowInstructorFilters ?? true)
+                                @if($shouldShowTrainerFilters ?? true)
                                 <div class="col-md-10">
                                     <div class="form-group">
-                                        <label class="form-label mb-1">{{ __('Filter by Instructor') }}</label>
-                                        <select id="request_instructor_id" class="form-control select2" style="width: 100%;">
+                                        <label class="form-label mb-1">{{ __('Filter by Trainer') }}</label>
+                                        <select id="request_trainer_id" class="form-control select2" style="width: 100%;">
                                             <option value="">{{ __('All') }}</option>
-                                            @foreach ($instructors as $instructor)
-                                                <option value="{{ $instructor->id }}">{{ $instructor->name }}</option>
+                                            @foreach ($trainers as $trainer)
+                                                <option value="{{ $trainer->id }}">{{ $trainer->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -47,7 +47,7 @@
                                     <th scope="col" data-field="id" data-sortable="true" data-visible="false" data-escape="true">{{ __('id') }}</th>
                                     <th scope="col" data-field="no" data-escape="true">{{ __('no.') }}</th>
                                     <th scope="col" data-field="title" data-sortable="true" data-escape="true">{{ __('Title') }}</th>
-                                    <th scope="col" data-field="instructor_name" data-sortable="true" data-escape="true">{{ __('Instructor') }}</th>
+                                    <th scope="col" data-field="trainer_name" data-sortable="true" data-escape="true">{{ __('Trainer') }}</th>
                                     <th scope="col" data-field="category.name" data-sortable="true" data-escape="true">{{ __('Category') }}</th>
                                     <th scope="col" data-field="operate" data-formatter="requestOperateFormatter" data-escape="false">{{ __('Action') }}</th>
                                 </tr>
@@ -64,24 +64,24 @@
     <script>
         $(document).ready(function(){
             // Initialize Select2
-            $('#request_instructor_id').select2({
+            $('#request_trainer_id').select2({
                 placeholder: '{{ __("All") }}',
                 allowClear: true,
                 width: '100%'
             });
             
-            $('#request_instructor_id').on('change', function(){
+            $('#request_trainer_id').on('change', function(){
                 $('#table_requests').bootstrapTable('refresh');
             });
             
             $('#reset_request_filters').on('click', function(){
-                $('#request_instructor_id').val(null).trigger('change');
+                $('#request_trainer_id').val(null).trigger('change');
                 $('#table_requests').bootstrapTable('refresh');
             });
             
             // Ensure button height matches select2 height after Select2 is initialized
             setTimeout(function() {
-                const select2Height = $('#request_instructor_id').next('.select2-container').find('.select2-selection').outerHeight();
+                const select2Height = $('#request_trainer_id').next('.select2-container').find('.select2-selection').outerHeight();
                 if (select2Height) {
                     $('#reset_request_filters').css({
                         'height': select2Height + 'px',
@@ -92,7 +92,7 @@
         });
 
         function requestQueryParams(params){
-            params.instructor_id = $('#request_instructor_id').val();
+            params.trainer_id = $('#request_trainer_id').val();
             return params;
         }
 

@@ -36,8 +36,8 @@
             <li class="nav-item dropdown {{ in_array($type_menu ?? '', ['trainers']) ? 'active' : '' }}">
                 <a href="#" class="nav-link has-dropdown"><i class="fas fa-dumbbell"></i><span>{{ __('Trainers') }}</span></a>
                 <ul class="dropdown-menu">
-                    <li class="{{ request()->routeIs('trainers.index') ? 'active' : '' }}"><a class="nav-link" href="{{ route('trainers.index') }}">{{ __('All Trainers') }}</a></li>
-                    @if(\Illuminate\Support\Facades\Route::has('trainers.create'))<li><a class="nav-link" href="{{ route('trainers.create') }}">{{ __('Add Trainer') }}</a></li>@endif
+                    <li class="{{ request()->routeIs('trainers.index') ? 'active' : '' }}"><a class="nav-link" href="{{ route('instructor.index') }}">{{ __('All Trainers') }}</a></li>
+                    @if(\Illuminate\Support\Facades\Route::has('trainers.create'))<li><a class="nav-link" href="{{ route('instructor.create') }}">{{ __('Add Trainer') }}</a></li>@endif
                 </ul>
             </li>
             @endif
@@ -106,7 +106,7 @@
             @endif
 
             {{-- Management --}}
-            @if(auth()->user()->can('categories-list') || auth()->user()->can('custom-form-fields-list') || auth()->user()->can('faqs-list') || auth()->user()->can('pages-list') || auth()->user()->can('taxes-list') || auth()->user()->can('promo-codes-list') || auth()->user()->can('certificates-list') || auth()->user()->can('instructors-list') || auth()->user()->can('notifications-list') || auth()->user()->can('assignments-list') || auth()->user()->can('ratings-list') || auth()->user()->can('orders-list') || auth()->user()->can('refunds-list') || auth()->user()->can('enrollments-list') || auth()->user()->can('tracking-list') || auth()->user()->can('users-list'))
+            @if(auth()->user()->can('categories-list') || auth()->user()->can('custom-form-fields-list') || auth()->user()->can('faqs-list') || auth()->user()->can('pages-list') || auth()->user()->can('taxes-list') || auth()->user()->can('promo-codes-list') || auth()->user()->can('certificates-list') || auth()->user()->can('trainers-list') || auth()->user()->can('notifications-list') || auth()->user()->can('assignments-list') || auth()->user()->can('ratings-list') || auth()->user()->can('orders-list') || auth()->user()->can('refunds-list') || auth()->user()->can('enrollments-list') || auth()->user()->can('tracking-list') || auth()->user()->can('users-list'))
                 <li class="menu-header" style="color: #0D9488;">{{ __('Management') }}</li>
             @endif
 
@@ -173,27 +173,27 @@
                 </li>
             @endcan
 
-            {{-- Instructor Management --}}
-            @can('instructors-list')
+            {{-- Trainer Management --}}
+            @can('trainers-list')
                 @if(!isset($isSingleInstructorMode) || !$isSingleInstructorMode)
                     <li
-                        class="nav-item dropdown {{ $type_menu === 'instructor' || $type_menu === 'instructor-wallet' || $type_menu === 'instructor-withdrawals' ? 'active' : '' }}">
+                        class="nav-item dropdown {{ $type_menu === 'trainer' || $type_menu === 'instructor.wallet' || $type_menu === 'trainer-withdrawals' ? 'active' : '' }}">
                         <a href="#" class="nav-link has-dropdown" data-toggle="dropdown">
-                            <i class="fas fa-user-tie"></i><span>{{ __('Instructors') }}</span>
+                            <i class="fas fa-user-tie"></i><span>{{ __('Trainers') }}</span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li class="{{ $type_menu === 'instructor' ? 'active' : '' }}">
+                            <li class="{{ $type_menu === 'trainer' ? 'active' : '' }}">
                                 <a class="nav-link" href="{{ route('instructor.index') }}">
-                                    <i class="fas fa-users mr-1"></i> {{ __('Instructor List') }}
+                                    <i class="fas fa-users mr-1"></i> {{ __('Trainer List') }}
                                 </a>
                             </li>
-                            <li class="{{ $type_menu === 'instructor-wallet' ? 'active' : '' }}">
-                                <a class="nav-link" href="{{ route('instructor.wallet-history') }}">
+                            <li class="{{ $type_menu === 'instructor.wallet' ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('instructor-wallet-history') }}">
                                     <i class="fas fa-wallet mr-1"></i> {{ __('Wallet History') }}
                                 </a>
                             </li>
-                            <li class="{{ $type_menu === 'instructor-withdrawals' ? 'active' : '' }}">
-                                <a class="nav-link" href="{{ route('instructor.withdrawal-requests') }}">
+                            <li class="{{ $type_menu === 'trainer-withdrawals' ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('instructor-withdrawal-requests') }}">
                                     <i class="fas fa-money-bill-wave mr-1"></i> {{ __('Withdrawal Requests') }}
                                 </a>
                             </li>
@@ -447,7 +447,7 @@
 
             {{-- ********************************************************************** --}}
             {{-- Reports --}}
-            @if(auth()->user()->can('reports-sales-list') || auth()->user()->can('reports-commission-list') || auth()->user()->can('reports-course-list') || auth()->user()->can('reports-instructor-list') || auth()->user()->can('reports-enrollment-list') || auth()->user()->can('reports-revenue-list'))
+            @if(auth()->user()->can('reports-sales-list') || auth()->user()->can('reports-commission-list') || auth()->user()->can('reports-course-list') || auth()->user()->can('reports-trainer-list') || auth()->user()->can('reports-enrollment-list') || auth()->user()->can('reports-revenue-list'))
                 <li class="menu-header" style="color: #0D9488;">{{ __('Reports') }}</li>
                 <li class="nav-item dropdown {{ $type_menu === 'reports' ? 'active' : '' }}">
                     <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-chart-bar"></i>
@@ -474,11 +474,11 @@
                                 </a>
                         </li> @endcan
 
-                        @can('reports-instructor-list')
+                        @can('reports-trainer-list')
                             @if(!isset($isSingleInstructorMode) || !$isSingleInstructorMode)
-                                <li class="{{ request()->is('reports/instructor*') ? 'active' : '' }}">
-                                    <a class="nav-link" href="{{ route('reports.instructor') }}">
-                                        <i class="fas fa-chalkboard-teacher mr-1"></i> {{ __('Instructor Reports') }}
+                                <li class="{{ request()->is('reports/trainer*') ? 'active' : '' }}">
+                                    <a class="nav-link" href="{{ route('reports.trainer') }}">
+                                        <i class="fas fa-chalkboard-teacher mr-1"></i> {{ __('Trainer Reports') }}
                                     </a>
                                 </li>
                             @endif
@@ -503,7 +503,7 @@
 
             {{-- ********************************************************************** --}}
             {{-- Settings --}}
-            @if(auth()->user()->can('settings-system-list') || auth()->user()->can('settings-firebase-list') || auth()->user()->can('settings-instructor-terms-list') || auth()->user()->can('settings-refund-list') || auth()->user()->can('settings-app-list') || auth()->user()->can('settings-payment-gateway-list') || auth()->user()->can('settings-language-list') || auth()->user()->can('settings-hls-list'))
+            @if(auth()->user()->can('settings-system-list') || auth()->user()->can('settings-firebase-list') || auth()->user()->can('settings-trainer-terms-list') || auth()->user()->can('settings-refund-list') || auth()->user()->can('settings-app-list') || auth()->user()->can('settings-payment-gateway-list') || auth()->user()->can('settings-language-list') || auth()->user()->can('settings-hls-list'))
                 <li class="menu-header" style="color: #0D9488;">{{ __('Settings') }}</li>
                 <li class="nav-item dropdown {{ $type_menu === 'settings' ? 'active' : '' }}">
                     <a href="#" class="nav-link has-dropdown"><i
@@ -518,10 +518,10 @@
                                 <a class="nav-link" href="{{ route('settings.firebase') }}">{{ __('Firebase Settings') }}</a>
                         </li> @endcan
 
-                        @can('settings-instructor-terms-list')
-                            <li class="{{ request()->is('instructor-terms-settings') ? 'active' : '' }}">
+                        @can('settings-trainer-terms-list')
+                            <li class="{{ request()->is('trainer-terms-settings') ? 'active' : '' }}">
                                 <a class="nav-link"
-                                    href="{{ route('settings.instructor-terms') }}">{{ __('Instructor Terms Settings') }}</a>
+                                    href="{{ route('settings.instructor-terms') }}">{{ __('Trainer Terms Settings') }}</a>
                         </li> @endcan
 
                         @can('settings-system-list')
@@ -532,9 +532,9 @@
 
                         @can('settings-system-list')
                             @if(!isset($isSingleInstructorMode) || !$isSingleInstructorMode)
-                                <li class="{{ request()->is('become-instructor-settings') ? 'active' : '' }}">
+                                <li class="{{ request()->is('become-trainer-settings') ? 'active' : '' }}">
                                     <a class="nav-link"
-                                        href="{{ route('settings.become-instructor') }}">{{ __('Become Instructor Settings') }}</a>
+                                        href="{{ route('settings.become-instructor') }}">{{ __('Become Trainer Settings') }}</a>
                                 </li>
                             @endif
                         @endcan

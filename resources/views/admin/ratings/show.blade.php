@@ -41,8 +41,8 @@
                                     <td>
                                         @if($rating->rateable_type == 'App\\Models\\Course\\Course')
                                             <span class="badge badge-info">{{ __('Course') }}</span>
-                                        @elseif($rating->rateable_type == 'App\\Models\\Instructor')
-                                            <span class="badge badge-warning">{{ __('Instructor') }}</span>
+                                        @elseif($rating->rateable_type == 'App\\Models\\Trainer')
+                                            <span class="badge badge-warning">{{ __('Trainer') }}</span>
                                         @else
                                             <span class="badge badge-secondary">{{ __('Unknown') }}</span>
                                         @endif
@@ -165,8 +165,8 @@
                     <h4>
                         @if($rating->rateable_type == 'App\\Models\\Course\\Course')
                             {{ __('Course Information') }}
-                        @elseif($rating->rateable_type == 'App\\Models\\Instructor')
-                            {{ __('Instructor Information') }}
+                        @elseif($rating->rateable_type == 'App\\Models\\Trainer')
+                            {{ __('Trainer Information') }}
                         @else
                             {{ __('Item Information') }}
                         @endif
@@ -177,7 +177,7 @@
                     <div class="text-center mb-3">
                         @if($rating->rateable_type == 'App\\Models\\Course\\Course')
                             <i class="fas fa-book fa-3x text-primary mb-2"></i>
-                        @elseif($rating->rateable_type == 'App\\Models\\Instructor')
+                        @elseif($rating->rateable_type == 'App\\Models\\Trainer')
                             <i class="fas fa-chalkboard-teacher fa-3x text-warning mb-2"></i>
                         @else
                             <i class="fas fa-question-circle fa-3x text-secondary mb-2"></i>

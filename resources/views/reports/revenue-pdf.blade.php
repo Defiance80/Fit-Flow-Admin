@@ -88,9 +88,9 @@
                 <strong> {{ __('Course') }}:</strong> {{ $filters['course_name'] }}
             </div>
         @endif
-        @if(isset($filters['instructor_name']))
+        @if(isset($filters['trainer_name']))
             <div class="filter-item">
-                <strong> {{ __('Instructor') }}:</strong> {{ $filters['instructor_name'] }}
+                <strong> {{ __('Trainer') }}:</strong> {{ $filters['trainer_name'] }}
             </div>
         @endif
         @if(isset($filters['category_name']))
@@ -127,7 +127,7 @@
                 <th> {{ __('Customer Name') }} </th>
                 <th> {{ __('Customer Email') }} </th>
                 <th> {{ __('Course Title') }} </th>
-                <th> {{ __('Instructor') }} </th>
+                <th> {{ __('Trainer') }} </th>
                 <th> {{ __('Category') }} </th>
                 <th class="text-right"> {{ __('Course Price') }} </th>
                 <th class="text-right"> {{ __('Order Total') }} </th>

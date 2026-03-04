@@ -40,7 +40,7 @@
                                 <div class="col-md-6">
                                     <h6>Course Information</h6>
                                     <p><strong>Course:</strong> {{ $submission->assignment->chapter->course->title ?? 'N/A' }}</p>
-                                    <p><strong>Instructor:</strong> {{ $submission->assignment->chapter->course->user->name ?? 'N/A' }}</p>
+                                    <p><strong>Trainer:</strong> {{ $submission->assignment->chapter->course->user->name ?? 'N/A' }}</p>
                                 </div>
                                 <div class="col-md-6">
                                     <h6>Submission Details</h6>

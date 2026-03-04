@@ -117,9 +117,9 @@
             <strong>{{ __('Status:') }}</strong> {{ ucfirst($filters['status']) }}
         </div>
         @endif
-        @if(isset($filters['instructor_id']) && $filters['instructor_id'])
+        @if(isset($filters['trainer_id']) && $filters['trainer_id'])
         <div class="filter-item">
-            <strong>{{ __('Instructor:') }}</strong> {{ $filters['instructor_name'] ?? $filters['instructor_id'] }}
+            <strong>{{ __('Trainer:') }}</strong> {{ $filters['trainer_name'] ?? $filters['trainer_id'] }}
         </div>
         @endif
         @if(isset($filters['course_id']) && $filters['course_id'])
@@ -131,7 +131,7 @@
     @endif <div class="summary">
         <div class="summary-item">Total Commissions: {{ $commissions->count() }}</div>
         <div class="summary-item">Total Admin Commission: {{ $currency_symbol ?? '₹' }}{{ number_format($commissions->sum('admin_commission_amount') ?? 0, 2) }}</div>
-        <div class="summary-item">Total Instructor Commission: {{ $currency_symbol ?? '₹' }}{{ number_format($commissions->sum('instructor_commission_amount') ?? 0, 2) }}</div>
+        <div class="summary-item">Total Trainer Commission: {{ $currency_symbol ?? '₹' }}{{ number_format($commissions->sum('trainer_commission_amount') ?? 0, 2) }}</div>
         <div class="summary-item">Paid: {{ $commissions->where('status', 'paid')->count() }}</div>
         <div class="summary-item">Pending: {{ $commissions->where('status', 'pending')->count() }}</div>
     </div>
@@ -141,7 +141,7 @@
             <tr>
                 <th>{{ __('ID') }}</th>
                 <th>{{ __('Date') }}</th>
-                <th>{{ __('Instructor') }}</th>
+                <th>{{ __('Trainer') }}</th>
                 <th>{{ __('Course') }}</th>
                 <th>{{ __('Type') }}</th>
                 <th>{{ __('Order') }}</th>
@@ -157,23 +157,23 @@
         <tbody>
             @forelse($commissions as $commission)
             @php
-                $instructorType = 'N/A';
-                if ($commission->instructor && $commission->instructor->instructor_details) {
-                    $instructorType = ucfirst($commission->instructor->instructor_details->type ?? 'N/A');
+                $trainerType = 'N/A';
+                if ($commission->trainer && $commission->trainer->trainer_details) {
+                    $trainerType = ucfirst($commission->trainer->trainer_details->type ?? 'N/A');
                 }
             @endphp
             <tr>
                 <td>{{ $commission->id }}</td>
                 <td>{{ $commission->created_at->format('d M Y') }}</td>
-                <td>{{ $commission->instructor->name ?? 'N/A' }}</td>
+                <td>{{ $commission->trainer->name ?? 'N/A' }}</td>
                 <td>{{ $commission->course->title ?? 'N/A' }}</td>
-                <td>{{ $instructorType }}</td>
+                <td>{{ $trainerType }}</td>
                 <td>{{ $commission->order_id ?? 'N/A' }}</td>
                 <td class="text-right">{{ $currency_symbol ?? '₹' }}{{ number_format($commission->discounted_price ?? $commission->course_price ?? 0, 2) }}</td>
                 <td class="text-right">{{ number_format($commission->admin_commission_rate ?? 0, 2) }}%</td>
                 <td class="text-right">{{ $currency_symbol ?? '₹' }}{{ number_format($commission->admin_commission_amount ?? 0, 2) }}</td>
-                <td class="text-right">{{ number_format($commission->instructor_commission_rate ?? 0, 2) }}%</td>
-                <td class="text-right">{{ $currency_symbol ?? '₹' }}{{ number_format($commission->instructor_commission_amount ?? 0, 2) }}</td>
+                <td class="text-right">{{ number_format($commission->trainer_commission_rate ?? 0, 2) }}%</td>
+                <td class="text-right">{{ $currency_symbol ?? '₹' }}{{ number_format($commission->trainer_commission_amount ?? 0, 2) }}</td>
                 <td class="text-center">
                     <span class="status {{ strtolower($commission->status) }}">
                         {{ ucfirst($commission->status ?? 'N/A') }}
@@ -191,7 +191,7 @@
 
     <div class="footer">
         <p> {{ __('This report was generated automatically from the Learning Management System') }} </p>
-        <p>Report contains {{ $commissions->count() }} commission records with total admin commission of {{ $currency_symbol ?? '₹' }}{{ number_format($commissions->sum('admin_commission_amount') ?? 0, 2) }} and total instructor commission of {{ $currency_symbol ?? '₹' }}{{ number_format($commissions->sum('instructor_commission_amount') ?? 0, 2) }}</p>
+        <p>Report contains {{ $commissions->count() }} commission records with total admin commission of {{ $currency_symbol ?? '₹' }}{{ number_format($commissions->sum('admin_commission_amount') ?? 0, 2) }} and total trainer commission of {{ $currency_symbol ?? '₹' }}{{ number_format($commissions->sum('trainer_commission_amount') ?? 0, 2) }}</p>
     </div>
 </body>
 </html>

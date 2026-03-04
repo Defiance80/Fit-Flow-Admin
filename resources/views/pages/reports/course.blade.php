@@ -42,12 +42,12 @@
                             </select>
                         </div>
                     </div>
-                    @if($shouldShowInstructorFilters ?? true)
+                    @if($shouldShowTrainerFilters ?? true)
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label> {{ __('Instructor') }} </label>
-                            <select class="form-control select2" id="instructorFilter" name="instructor_id">
-                                <option value=""> {{ __('All Instructors') }} </option>
+                            <label> {{ __('Trainer') }} </label>
+                            <select class="form-control select2" id="trainerFilter" name="trainer_id">
+                                <option value=""> {{ __('All Trainers') }} </option>
                             </select>
                         </div>
                     </div>
@@ -198,7 +198,7 @@
                                 <thead>
                                     <tr>
                                         <th> {{ __('Course') }} </th>
-                                        <th> {{ __('Instructor') }} </th>
+                                        <th> {{ __('Trainer') }} </th>
                                         <th> {{ __('Category') }} </th>
                                         <th> {{ __('Type') }} </th>
                                         <th> {{ __('Level') }} </th>
@@ -329,10 +329,10 @@
                         $('#courseFilter').append(`<option value="${course.id}">${course.title}</option>`);
                     });
 
-                    // Populate instructors
-                    $('#instructorFilter').empty().append('<option value=""> {{ __('All Instructors') }} </option>');
-                    data.instructors.forEach(instructor => {
-                        $('#instructorFilter').append(`<option value="${instructor.id}">${instructor.name}</option>`);
+                    // Populate trainers
+                    $('#trainerFilter').empty().append('<option value=""> {{ __('All Trainers') }} </option>');
+                    data.trainers.forEach(trainer => {
+                        $('#trainerFilter').append(`<option value="${trainer.id}">${trainer.name}</option>`);
                     });
 
                     // Populate categories
@@ -360,7 +360,7 @@
         function getFilterValues() {
             const filters = {
                 course_id: $('#courseFilter').val(),
-                instructor_id: $('#instructorFilter').val(),
+                trainer_id: $('#trainerFilter').val(),
                 category_id: $('#categoryFilter').val(),
                 status: $('#statusFilter').val(),
                 course_type: $('#courseTypeFilter').val(),

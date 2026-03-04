@@ -114,9 +114,9 @@
             <span class="filter-label">{{ __('Course:') }}</span> {{ $filters['course_name'] ?? $filters['course_id'] }}
         </div>
         @endif
-        @if(isset($filters['instructor_id']) && $filters['instructor_id'])
+        @if(isset($filters['trainer_id']) && $filters['trainer_id'])
         <div class="filter-item">
-            <span class="filter-label">{{ __('Instructor:') }}</span> {{ $filters['instructor_name'] ?? $filters['instructor_id'] }}
+            <span class="filter-label">{{ __('Trainer:') }}</span> {{ $filters['trainer_name'] ?? $filters['trainer_id'] }}
         </div>
         @endif
         @if(isset($filters['category_id']) && $filters['category_id'])
@@ -137,7 +137,7 @@
                 <th>{{ __('Student Name') }}</th>
                 <th>{{ __('Student Email') }}</th>
                 <th>{{ __('Course Title') }}</th>
-                <th>{{ __('Instructor') }}</th>
+                <th>{{ __('Trainer') }}</th>
                 <th>{{ __('Category') }}</th>
                 <th>{{ __('Enrolled Date') }}</th>
                 <th>{{ __('Status') }}</th>

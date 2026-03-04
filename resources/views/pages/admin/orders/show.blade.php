@@ -135,7 +135,7 @@
                                 <thead>
                                     <tr>
                                         <th>{{ __('Course') }}</th>
-                                        <th>{{ __('Instructor') }}</th>
+                                        <th>{{ __('Trainer') }}</th>
                                         <th>{{ __('Price') }}</th>
                                         <th>{{ __('Status') }}</th>
                                     </tr>

@@ -102,8 +102,8 @@
                                         <td>
                                             @if($withdrawal->entry_type == 'user')
                                                 <span class="badge badge-primary">{{ __('User') }}</span>
-                                            @elseif($withdrawal->entry_type == 'instructor')
-                                                <span class="badge badge-warning">{{ __('Instructor') }}</span>
+                                            @elseif($withdrawal->entry_type == 'trainer')
+                                                <span class="badge badge-warning">{{ __('Trainer') }}</span>
                                             @elseif($withdrawal->entry_type == 'staff')
                                                 <span class="badge badge-info">{{ __('Staff') }}</span>
                                             @else

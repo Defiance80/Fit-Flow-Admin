@@ -113,9 +113,9 @@
             <span class="filter-label">{{ __('Category:') }}</span> {{ $filters['category_name'] ?? $filters['category_id'] }}
         </div>
         @endif
-        @if(isset($filters['instructor_id']) && $filters['instructor_id'])
+        @if(isset($filters['trainer_id']) && $filters['trainer_id'])
         <div class="filter-item">
-            <span class="filter-label">{{ __('Instructor:') }}</span> {{ $filters['instructor_name'] ?? $filters['instructor_id'] }}
+            <span class="filter-label">{{ __('Trainer:') }}</span> {{ $filters['trainer_name'] ?? $filters['trainer_id'] }}
         </div>
         @endif
         @if(isset($filters['status']) && $filters['status'])
@@ -139,7 +139,7 @@
         <thead>
             <tr>
                 <th> {{ __('Course Title') }} </th>
-                <th> {{ __('Instructor') }} </th>
+                <th> {{ __('Trainer') }} </th>
                 <th> {{ __('Category') }} </th>
                 <th> {{ __('Level') }} </th>
                 <th> {{ __('Type') }} </th>

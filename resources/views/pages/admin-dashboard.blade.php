@@ -94,9 +94,9 @@
                     <x-stat-card
                         icon="fas fa-chalkboard-teacher"
                         color="info"
-                        :title="__('Total Instructors')"
-                        title-id="total-instructors-label"
-                        value-id="total-instructors-count"
+                        :title="__('Total Trainers')"
+                        title-id="total-trainers-label"
+                        value-id="total-trainers-count"
                     />
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-4">
@@ -205,8 +205,8 @@
                                 </div>
                                 <div class="col-md-2">
                                     <div class="text-center">
-                                        <div class="h4 mb-0 text-warning" id="instructor-ratings-count">{{ __('0') }}</div>
-                                        <div class="text-muted">{{ __('Instructor Ratings') }}</div>
+                                        <div class="h4 mb-0 text-warning" id="trainer-ratings-count">{{ __('0') }}</div>
+                                        <div class="text-muted">{{ __('Trainer Ratings') }}</div>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -332,8 +332,8 @@
                             <div class="row">
                                 <div class="col-6">
                                     <div class="text-center">
-                                        <div class="h4 mb-0" id="instructor-requests"> {{ __('0') }} </div>
-                                        <div class="text-muted"> {{ __('Pending Instructors') }} </div>
+                                        <div class="h4 mb-0" id="trainer-requests"> {{ __('0') }} </div>
+                                        <div class="text-muted"> {{ __('Pending Trainers') }} </div>
                                     </div>
                                 </div>
                                 <div class="col-6">
@@ -353,7 +353,7 @@
                 <div class="col-lg-6 col-md-12 col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4> {{ __('Top Instructors') }} </h4>
+                            <h4> {{ __('Top Trainers') }} </h4>
                         </div>
                         <div class="card-body p-0">
                             <div class="table-responsive">
@@ -365,7 +365,7 @@
                                             <th> {{ __('Status') }} </th>
                                         </tr>
                                     </thead>
-                                    <tbody id="top-instructors-table">
+                                    <tbody id="top-trainers-table">
                                         <!-- Dynamic content -->
                                     </tbody>
                                 </table>
@@ -385,7 +385,7 @@
                                         <tr>
                                             <th> {{ __('Course Title') }} </th>
                                             <th> {{ __('Enrollments') }} </th>
-                                            <th> {{ __('Instructor') }} </th>
+                                            <th> {{ __('Trainer') }} </th>
                                         </tr>
                                     </thead>
                                     <tbody id="popular-courses-table">
@@ -579,7 +579,7 @@
             if (dashboardData.overview_stats) {
                 const stats = dashboardData.overview_stats;
                 
-                updateSimpleStatCard('total-instructors', stats.total_instructors);
+                updateSimpleStatCard('total-trainers', stats.total_trainers);
                 updateSimpleStatCard('active-courses', stats.active_courses);
                 updateSimpleStatCard('pending-approvals', stats.pending_approvals);
                 updateSimpleStatCard('total-categories', stats.total_categories);
@@ -609,7 +609,7 @@
                 document.getElementById('total-ratings').textContent = ratingStats.total_ratings || 0;
                 document.getElementById('overall-average-rating').textContent = ratingStats.overall_average || '0.0';
                 document.getElementById('course-ratings-count').textContent = ratingStats.course_ratings?.total || 0;
-                document.getElementById('instructor-ratings-count').textContent = ratingStats.instructor_ratings?.total || 0;
+                document.getElementById('trainer-ratings-count').textContent = ratingStats.trainer_ratings?.total || 0;
                 
                 // Update rating breakdown
                 if (ratingStats.rating_breakdown) {
@@ -632,7 +632,7 @@
                 document.getElementById('new-users-month').textContent = userStats.user_activity?.new_this_month || 0;
                 document.getElementById('total-discussions').textContent = engagementStats.discussion_stats?.total_discussions || 0;
                 document.getElementById('quiz-attempts').textContent = engagementStats.assessment_stats?.total_quiz_attempts || 0;
-                document.getElementById('instructor-requests').textContent = userStats.instructor_stats?.pending_requests || 0;
+                document.getElementById('trainer-requests').textContent = userStats.trainer_stats?.pending_requests || 0;
                 document.getElementById('helpdesk-questions').textContent = engagementStats.support_stats?.helpdesk_questions || 0;
             }
         }
@@ -846,23 +846,23 @@
         
         // Update top performers
         function updateTopPerformers() {
-            updateTopInstructorsTable();
+            updateTopTrainersTable();
             updatePopularCoursesTable();
         }
         
-        // Update top instructors table
-        function updateTopInstructorsTable() {
-            const instructors = dashboardData.top_performers?.top_instructors || [];
-            const table = document.getElementById('top-instructors-table');
+        // Update top trainers table
+        function updateTopTrainersTable() {
+            const trainers = dashboardData.top_performers?.top_trainers || [];
+            const table = document.getElementById('top-trainers-table');
             
             if (table) {
                 let html = '';
-                instructors.forEach(instructor => {
-                    const statusBadge = getStatusBadge(instructor.status);
+                trainers.forEach(trainer => {
+                    const statusBadge = getStatusBadge(trainer.status);
                     html += `
                         <tr>
-                            <td>${instructor.name}</td>
-                            <td>${instructor.total_courses}</td>
+                            <td>${trainer.name}</td>
+                            <td>${trainer.total_courses}</td>
                             <td>${statusBadge}</td>
                         </tr>
                     `;
@@ -883,7 +883,7 @@
                         <tr>
                             <td>${course.title}</td>
                             <td>${course.enrollments}</td>
-                            <td>${course.instructor}</td>
+                            <td>${course.trainer}</td>
                         </tr>
                     `;
                 });

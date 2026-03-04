@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>{{ __('Instructor Report') }}</title>
+    <title>{{ __('Trainer Report') }}</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -95,9 +95,9 @@
 </head>
 <body>
     <div class="header">
-        <h1>{{ __('Instructor Report') }}</h1>
+        <h1>{{ __('Trainer Report') }}</h1>
         <p>Generated on: {{ $generated_at }}</p>
-        <p>Total Instructors: {{ $instructors->count() }}</p>
+        <p>Total Trainers: {{ $trainers->count() }}</p>
     </div>
     @if(!empty($filters))
     <div class="filters">
@@ -112,14 +112,14 @@
             <span class="filter-label">{{ __('To:') }}</span> {{ $filters['date_to'] }}
         </div>
         @endif
-        @if(isset($filters['instructor_id']) && $filters['instructor_id'])
+        @if(isset($filters['trainer_id']) && $filters['trainer_id'])
         <div class="filter-item">
-            <span class="filter-label">{{ __('Instructor:') }}</span> {{ $filters['instructor_name'] ?? $filters['instructor_id'] }}
+            <span class="filter-label">{{ __('Trainer:') }}</span> {{ $filters['trainer_name'] ?? $filters['trainer_id'] }}
         </div>
         @endif
-        @if(isset($filters['instructor_type']) && $filters['instructor_type'])
+        @if(isset($filters['trainer_type']) && $filters['trainer_type'])
         <div class="filter-item">
-            <span class="filter-label">{{ __('Type:') }}</span> {{ ucfirst($filters['instructor_type']) }}
+            <span class="filter-label">{{ __('Type:') }}</span> {{ ucfirst($filters['trainer_type']) }}
         </div>
         @endif
         @if(isset($filters['status']) && $filters['status'])
@@ -132,7 +132,7 @@
     <table>
         <thead>
             <tr>
-                <th>{{ __('Instructor Name') }}</th>
+                <th>{{ __('Trainer Name') }}</th>
                 <th>{{ __('Email') }}</th>
                 <th>{{ __('Type') }}</th>
                 <th>{{ __('Status') }}</th>
@@ -143,28 +143,28 @@
             </tr>
         </thead>
         <tbody>
-            @forelse($instructors as $instructor)
+            @forelse($trainers as $trainer)
             <tr>
-                <td>{{ $instructor->name }}</td>
-                <td>{{ $instructor->email ?? 'N/A' }}</td>
+                <td>{{ $trainer->name }}</td>
+                <td>{{ $trainer->email ?? 'N/A' }}</td>
                 <td>
-                    <span class="badge badge-{{ $instructor->instructor_details->type === 'individual' ? 'info' : 'primary' }}">
-                        {{ ucfirst($instructor->instructor_details->type ?? 'N/A') }}
+                    <span class="badge badge-{{ $trainer->trainer_details->type === 'individual' ? 'info' : 'primary' }}">
+                        {{ ucfirst($trainer->trainer_details->type ?? 'N/A') }}
                     </span>
                 </td>
                 <td>
-                    <span class="badge badge-{{ $instructor->instructor_details->status === 'approved' ? 'success' : ($instructor->instructor_details->status === 'pending' ? 'warning' : 'danger') }}">
-                        {{ ucfirst($instructor->instructor_details->status ?? 'N/A') }}
+                    <span class="badge badge-{{ $trainer->trainer_details->status === 'approved' ? 'success' : ($trainer->trainer_details->status === 'pending' ? 'warning' : 'danger') }}">
+                        {{ ucfirst($trainer->trainer_details->status ?? 'N/A') }}
                     </span>
                 </td>
-                <td>{{ $instructor->total_courses ?? 0 }}</td>
-                <td>{{ $instructor->total_enrollments ?? 0 }}</td>
-                <td>{{ $currency_symbol ?? '₹' }}{{ number_format($instructor->total_revenue ?? 0, 2) }}</td>
-                <td>{{ $instructor->created_at->format('d M Y') }}</td>
+                <td>{{ $trainer->total_courses ?? 0 }}</td>
+                <td>{{ $trainer->total_enrollments ?? 0 }}</td>
+                <td>{{ $currency_symbol ?? '₹' }}{{ number_format($trainer->total_revenue ?? 0, 2) }}</td>
+                <td>{{ $trainer->created_at->format('d M Y') }}</td>
             </tr>
             @empty
             <tr>
-                <td colspan="8" style="text-align: center; padding: 20px; color: #666;">{{ __('No instructors found matching the selected criteria.') }}</td>
+                <td colspan="8" style="text-align: center; padding: 20px; color: #666;">{{ __('No trainers found matching the selected criteria.') }}</td>
             </tr>
             @endforelse
         </tbody>

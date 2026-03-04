@@ -244,7 +244,7 @@
                                 html += '<td><strong class="' + typeClass + '"><i class="fas ' + typeIcon + '"></i> {{ $currencySymbol }}' + row.amount + '</strong></td>';
                                 html += '<td><span class="badge badge-' + (row.type === 'Credit' ? 'success' : 'danger') + '">' + row.type + '</span></td>';
                                 html += '<td>' + row.transaction_type + '</td>';
-                                const entryTypeBadge = row.entry_type === 'User' ? 'primary' : (row.entry_type === 'Instructor' ? 'warning' : 'info');
+                                const entryTypeBadge = row.entry_type === 'User' ? 'primary' : (row.entry_type === 'Trainer' ? 'warning' : 'info');
                                 html += '<td><span class="badge badge-' + entryTypeBadge + '">' + row.entry_type + '</span></td>';
                                 html += '<td>' + (row.description || '-') + '</td>';
                                 html += '<td>{{ $currencySymbol }}' + row.balance_before + '</td>';

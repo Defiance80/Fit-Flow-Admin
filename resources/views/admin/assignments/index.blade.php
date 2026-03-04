@@ -31,12 +31,12 @@
                                 </select>
                             </div>
                             <div class="col-md-3 col-sm-6">
-                                <label class="form-label text-muted small mb-1">Instructor</label>
-                                <select name="instructor_id" class="form-control">
-                                    <option value="">All Instructors</option>
-                                    @foreach($instructors as $instructor)
-                                        <option value="{{ $instructor->id }}" {{ request('instructor_id') == $instructor->id ? 'selected' : '' }}>
-                                            {{ $instructor->name }}
+                                <label class="form-label text-muted small mb-1">Trainer</label>
+                                <select name="trainer_id" class="form-control">
+                                    <option value="">All Trainers</option>
+                                    @foreach($trainers as $trainer)
+                                        <option value="{{ $trainer->id }}" {{ request('trainer_id') == $trainer->id ? 'selected' : '' }}>
+                                            {{ $trainer->name }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -92,7 +92,7 @@
                                         <th>Student</th>
                                         <th>Assignment</th>
                                         <th>Course</th>
-                                        <th>Instructor</th>
+                                        <th>Trainer</th>
                                         <th>Status</th>
                                         <th>Points</th>
                                         <th>Submitted</th>
@@ -134,7 +134,7 @@
                                                     <div class="font-weight-600">{{ $submission->assignment->chapter->course->user->name }}</div>
                                                     <div class="text-small text-muted">{{ $submission->assignment->chapter->course->user->email }}</div>
                                                 @else
-                                                    <span class="text-muted">Instructor not found</span>
+                                                    <span class="text-muted">Trainer not found</span>
                                                 @endif
                                             </td>
                                             <td>

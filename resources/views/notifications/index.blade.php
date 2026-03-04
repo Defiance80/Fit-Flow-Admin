@@ -29,7 +29,7 @@
                                     <select name="type" id="type" class="form-control mb-3" required>
                                         <option value="default">{{ __('Default') }}</option>
                                         <option value="course">{{ __('Course') }}</option>
-                                        <option value="instructor">{{ __('Instructor') }}</option>
+                                        <option value="trainer">{{ __('Trainer') }}</option>
                                         <option value="url">{{ __('URL') }}</option>
                                     </select>
 
@@ -107,10 +107,10 @@
 <script>
 $(document).ready(function () {
     let courses = @json($courses ?? []);
-    let instructors = @json($instructors ?? []);
+    let trainers = @json($trainers ?? []);
     
     console.log('Courses data:', courses);
-    console.log('Instructors data:', instructors);
+    console.log('Trainers data:', trainers);
 
     function toggleFields() {
         let type = $('#type').val();
@@ -126,10 +126,10 @@ $(document).ready(function () {
             });
             $('#type_id_wrapper').removeClass('d-none');
         } 
-        else if (type === 'instructor') {
-            $('#type_id').empty().append('<option value="">{{ __("Select Instructor") }}</option>');
-            $.each(instructors, function (i, instructor) {
-                $('#type_id').append('<option value="'+instructor.id+'">'+instructor.name+'</option>');
+        else if (type === 'trainer') {
+            $('#type_id').empty().append('<option value="">{{ __("Select Trainer") }}</option>');
+            $.each(trainers, function (i, trainer) {
+                $('#type_id').append('<option value="'+trainer.id+'">'+trainer.name+'</option>');
             });
             $('#type_id_wrapper').removeClass('d-none');
         } 

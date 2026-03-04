@@ -72,12 +72,12 @@
             $courseLanguageName = safeString($course->language->name);
         }
         
-        // Get instructor names
-        $instructorNames = 'N/A';
-        if ($course->instructors && $course->instructors->count() > 0) {
-            $instructorNames = $course->instructors->pluck('name')->implode(', ');
+        // Get trainer names
+        $trainerNames = 'N/A';
+        if ($course->trainers && $course->trainers->count() > 0) {
+            $trainerNames = $course->trainers->pluck('name')->implode(', ');
         } elseif ($course->user) {
-            $instructorNames = safeString($course->user->name);
+            $trainerNames = safeString($course->user->name);
         }
         
         // Get tags
@@ -205,10 +205,10 @@
                                 <div class="form-control-plaintext">{!! e($courseLanguageName) !!}</div>
                             </div>
 
-                            {{-- Instructors --}}
+                            {{-- Trainers --}}
                             <div class="form-group col-sm-12 col-md-6">
-                                <label class="font-weight-bold">{{ __('Instructors') }}</label>
-                                <div class="form-control-plaintext">{!! e($instructorNames) !!}</div>
+                                <label class="font-weight-bold">{{ __('Trainers') }}</label>
+                                <div class="form-control-plaintext">{!! e($trainerNames) !!}</div>
                             </div>
 
                             {{-- Tags --}}

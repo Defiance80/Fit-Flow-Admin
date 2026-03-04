@@ -38,7 +38,7 @@
                                         <select name="type" class="form-control">
                                             <option value="">{{ __('All Types') }}</option>
                                             <option value="course" {{ request('type') == 'course' ? 'selected' : '' }}>{{ __('Courses') }}</option>
-                                            <option value="instructor" {{ request('type') == 'instructor' ? 'selected' : '' }}>{{ __('Instructors') }}</option>
+                                            <option value="trainer" {{ request('type') == 'trainer' ? 'selected' : '' }}>{{ __('Trainers') }}</option>
                                         </select>
                                     </div>
                                     <div class="col-md-2">
@@ -110,8 +110,8 @@
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between">
                                         <div>
-                                            <h6 class="card-title">{{ __('Instructor Ratings') }}</h6>
-                                            <h3>{{ $stats['instructor_ratings'] }}</h3>
+                                            <h6 class="card-title">{{ __('Trainer Ratings') }}</h6>
+                                            <h3>{{ $stats['trainer_ratings'] }}</h3>
                                         </div>
                                         <i class="fas fa-chalkboard-teacher fa-2x"></i>
                                     </div>
@@ -190,8 +190,8 @@
                                     <td>
                                         @if($rating->rateable_type == 'App\\Models\\Course\\Course')
                                             <span class="badge badge-info">{{ __('Course') }}</span>
-                                        @elseif($rating->rateable_type == 'App\\Models\\Instructor')
-                                            <span class="badge badge-warning">{{ __('Instructor') }}</span>
+                                        @elseif($rating->rateable_type == 'App\\Models\\Trainer')
+                                            <span class="badge badge-warning">{{ __('Trainer') }}</span>
                                         @else
                                             <span class="badge badge-secondary">{{ __('Unknown') }}</span>
                                         @endif

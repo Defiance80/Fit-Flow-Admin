@@ -2,7 +2,7 @@
 @extends('layouts.app')
 
 @section('title')
-    {{ __('Instructor Terms & Conditions') }}
+    {{ __('Trainer Terms & Conditions') }}
 @endsection
 
 @section('page-title')
@@ -15,21 +15,21 @@
             <div class="col-md-12 grid-margin stretch-card search-container">
                 <div class="card">
                     <div class="card-body">
-                        <form action="{{ route('settings.instructor-terms.update') }}" method="POST" class="create-form" data-success-function="formSuccessFunction" id="instructorTermsForm"> 
+                        <form action="{{ route('settings.instructor-terms.update') }}" method="POST" class="create-form" data-success-function="formSuccessFunction" id="trainerTermsForm"> 
                             @csrf 
 
                             <div class="row">
                                 <div class="col-12 mb-4">
                                     <div class="form-group mandatory">  
-                                        <label>{{ __('Individual Instructor Terms & Conditions') }}</label>
-                                        <textarea name="individual_instructor_terms" id="tinymce-individual" class="form-control tinymce-editor" required>{{ $settings['individual_instructor_terms'] ?? '' }}</textarea>
+                                        <label>{{ __('Individual Trainer Terms & Conditions') }}</label>
+                                        <textarea name="individual_trainer_terms" id="tinymce-individual" class="form-control tinymce-editor" required>{{ $settings['individual_trainer_terms'] ?? '' }}</textarea>
                                     </div>
                                 </div>
 
                                 <div class="col-12 mb-4">
                                     <div class="form-group mandatory">
-                                        <label>{{ __('Team Instructor Terms & Conditions') }}</label>
-                                        <textarea name="team_instructor_terms" id="tinymce-team" class="form-control tinymce-editor" required>{{ $settings['team_instructor_terms'] ?? '' }}</textarea>
+                                        <label>{{ __('Team Trainer Terms & Conditions') }}</label>
+                                        <textarea name="team_trainer_terms" id="tinymce-team" class="form-control tinymce-editor" required>{{ $settings['team_trainer_terms'] ?? '' }}</textarea>
                                     </div>
                                 </div>
                             </div>

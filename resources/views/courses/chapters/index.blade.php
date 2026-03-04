@@ -82,12 +82,12 @@
                         </table>
                         {{-- Filters Toolbar --}}
                         <div class="row mt-3" id="toolbar">
-                            @if($shouldShowInstructorFilters ?? true)
+                            @if($shouldShowTrainerFilters ?? true)
                             <div class="col-md-4">
-                                <label class="form-label mb-1">{{ __('Filter by Instructor') }}</label>
-                                <select id="filter_instructor_id" class="form-control select2">
-                                    <option value="">{{ __('All') }}</option> @if(isset($instructors) && collect($instructors)->isNotEmpty())
-                                        @foreach ($instructors as $instructor) <option value="{{ $instructor->id }}">{{ $instructor->name }}</option> @endforeach
+                                <label class="form-label mb-1">{{ __('Filter by Trainer') }}</label>
+                                <select id="filter_trainer_id" class="form-control select2">
+                                    <option value="">{{ __('All') }}</option> @if(isset($trainers) && collect($trainers)->isNotEmpty())
+                                        @foreach ($trainers as $trainer) <option value="{{ $trainer->id }}">{{ $trainer->name }}</option> @endforeach
                                     @endif </select>
                             </div>
                             @endif
@@ -173,19 +173,19 @@
     <script>
     let showDeleted = 0;
     function queryParams(params){
-        params.instructor_id = $('#filter_instructor_id').val();
+        params.trainer_id = $('#filter_trainer_id').val();
         params.course_id = $('#filter_course_id').val();
         params.show_deleted = showDeleted;
         return params;
     }
 
     $(document).ready(function(){
-        $('#filter_instructor_id').on('change', function(){
-            const instructorId = $(this).val();
-            // populate courses for selected instructor
+        $('#filter_trainer_id').on('change', function(){
+            const trainerId = $(this).val();
+            // populate courses for selected trainer
             $('#filter_course_id').empty().append(`<option value="">{{ __('All') }}</option>`);
-            if(instructorId){
-                $.get(`{{ route('course-chapters.instructor.courses', ['instructor_id' => 'INSTR_ID']) }}`.replace('INSTR_ID', instructorId), function(res){
+            if(trainerId){
+                $.get(`{{ route('course-chapters.trainer.courses', ['trainer_id' => 'INSTR_ID']) }}`.replace('INSTR_ID', trainerId), function(res){
                     if(Array.isArray(res)){
                         res.forEach(function(c){
                             $('#filter_course_id').append(`<option value="${c.id}">${c.title}</option>`);
@@ -207,7 +207,7 @@
         });
 
         $('#reset_filters').on('click', function(){
-            $('#filter_instructor_id').val('').trigger('change');
+            $('#filter_trainer_id').val('').trigger('change');
             $('#filter_course_id').val('').trigger('change');
             showDeleted = 0;
             $('.table-list-type').removeClass('active');

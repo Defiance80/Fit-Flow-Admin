@@ -14,16 +14,16 @@
         <div class="content">
             <p>Hello {{ $user->name }},</p>
             
-            <p>You have been invited by <strong>{{ $instructor->name }}</strong> to join their instructor team.</p>
+            <p>You have been invited by <strong>{{ $trainer->name }}</strong> to join their trainer team.</p>
             
             <p>By accepting this invitation, you will:</p>
             <ul>
-                <li>Join {{ $instructor->name }}'s instructor team</li>
-                <li>Be assigned the Instructor role (if you don't already have it)</li>
+                <li>Join {{ $trainer->name }}'s trainer team</li>
+                <li>Be assigned the Trainer role (if you don't already have it)</li>
                 <li>Be able to collaborate on courses and manage team resources</li>
             </ul>
             
-            <p><strong>Note:</strong> You must have an Instructor role to accept this invitation.</p>
+            <p><strong>Note:</strong> You must have an Trainer role to accept this invitation.</p>
             
             <div style="text-align: center;">
                 <a href="{{ $acceptUrl }}?action=accept" class="button" style="background-color: #28a745; margin-right: 10px;">Accept Invitation</a>

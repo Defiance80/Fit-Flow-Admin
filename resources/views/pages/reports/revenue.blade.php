@@ -42,12 +42,12 @@
                             </select>
                         </div>
                     </div>
-                    @if($shouldShowInstructorFilters ?? true)
+                    @if($shouldShowTrainerFilters ?? true)
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label> {{ __('Instructor') }} </label>
-                            <select class="form-control select2" id="instructorFilter" name="instructor_id">
-                                <option value=""> {{ __('All Instructors') }} </option>
+                            <label> {{ __('Trainer') }} </label>
+                            <select class="form-control select2" id="trainerFilter" name="trainer_id">
+                                <option value=""> {{ __('All Trainers') }} </option>
                             </select>
                         </div>
                     </div>
@@ -294,9 +294,9 @@
                         $('#courseFilter').append(`<option value="${course.id}">${course.title}</option>`);
                     });
 
-                    $('#instructorFilter').empty().append('<option value=""> {{ __('All Instructors') }} </option>');
-                    data.instructors.forEach(instructor => {
-                        $('#instructorFilter').append(`<option value="${instructor.id}">${instructor.name}</option>`);
+                    $('#trainerFilter').empty().append('<option value=""> {{ __('All Trainers') }} </option>');
+                    data.trainers.forEach(trainer => {
+                        $('#trainerFilter').append(`<option value="${trainer.id}">${trainer.name}</option>`);
                     });
 
                     $('#categoryFilter').empty().append('<option value=""> {{ __('All Categories') }} </option>');
@@ -319,7 +319,7 @@
                 date_from: moment(dateRange[0], 'DD/MM/YYYY').format('YYYY-MM-DD'),
                 date_to: moment(dateRange[1], 'DD/MM/YYYY').format('YYYY-MM-DD'),
                 course_id: $('#courseFilter').val(),
-                instructor_id: $('#instructorFilter').val(),
+                trainer_id: $('#trainerFilter').val(),
                 category_id: $('#categoryFilter').val(),
                 payment_method: $('#paymentMethodFilter').val()
             };
@@ -513,7 +513,7 @@
         function getFilterValues() {
             const filters = {
                 course_id: $('#courseFilter').val(),
-                instructor_id: $('#instructorFilter').val(),
+                trainer_id: $('#trainerFilter').val(),
                 category_id: $('#categoryFilter').val(),
                 payment_method: $('#paymentMethodFilter').val()
             };

@@ -64,7 +64,7 @@
                             <div class="col-sm-8">{{ $tracking->course->title ?? 'N/A' }}</div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-4"><strong>{{ __('Instructor') }}:</strong></div>
+                            <div class="col-sm-4"><strong>{{ __('Trainer') }}:</strong></div>
                             <div class="col-sm-8">{{ $tracking->course->user->name ?? 'N/A' }}</div>
                         </div>
                         <div class="row">

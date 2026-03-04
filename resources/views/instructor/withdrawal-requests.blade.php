@@ -32,10 +32,10 @@
                                 </select>
                             </div>
                             <div class="col-md-3 col-sm-6">
-                                <select class="form-control" id="instructor-filter">
-                                    <option value="">{{ __('All Instructors') }}</option>
-                                    @foreach($instructors as $instructor)
-                                        <option value="{{ $instructor->id }}">{{ $instructor->name }}</option>
+                                <select class="form-control" id="trainer-filter">
+                                    <option value="">{{ __('All Trainers') }}</option>
+                                    @foreach($trainers as $trainer)
+                                        <option value="{{ $trainer->id }}">{{ $trainer->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -138,7 +138,7 @@
                                 <thead>
                                     <tr>
                                         <th>{{ __('No') }}</th>
-                                        <th>{{ __('Instructor') }}</th>
+                                        <th>{{ __('Trainer') }}</th>
                                         <th>{{ __('Amount') }}</th>
                                         <th>{{ __('Status') }}</th>
                                         <th>{{ __('Payment Method') }}</th>
@@ -233,7 +233,7 @@ $(document).ready(function() {
     let currentLimit = 10;
     let currentSearch = '';
     let currentStatus = '';
-    let currentInstructor = '';
+    let currentTrainer = '';
 
     // Initialize DataTable
     loadWithdrawalRequests();
@@ -246,7 +246,7 @@ $(document).ready(function() {
     // Apply filter
     $('#apply-filter').click(function() {
         currentStatus = $('#status-filter').val();
-        currentInstructor = $('#instructor-filter').val();
+        currentTrainer = $('#trainer-filter').val();
         currentSearch = $('#search-input').val();
         currentPage = 1;
         loadWithdrawalRequests();
@@ -255,10 +255,10 @@ $(document).ready(function() {
     // Clear filter
     $('#clear-filter').click(function() {
         $('#status-filter').val('');
-        $('#instructor-filter').val('');
+        $('#trainer-filter').val('');
         $('#search-input').val('');
         currentStatus = '';
-        currentInstructor = '';
+        currentTrainer = '';
         currentSearch = '';
         currentPage = 1;
         loadWithdrawalRequests();
@@ -272,14 +272,14 @@ $(document).ready(function() {
     // Load withdrawal requests
     function loadWithdrawalRequests() {
         $.ajax({
-            url: '{{ route("instructor.withdrawal-requests.data") }}',
+            url: '{{ route("trainer.withdrawal-requests.data") }}',
             method: 'GET',
             data: {
                 limit: currentLimit,
                 offset: (currentPage - 1) * currentLimit,
                 search: currentSearch,
                 status: currentStatus,
-                instructor_id: currentInstructor,
+                trainer_id: currentTrainer,
                 sort: 'created_at',
                 order: 'desc'
             },
@@ -323,7 +323,7 @@ $(document).ready(function() {
         rows.forEach(function(row) {
             const tr = $('<tr>');
             tr.append('<td>' + row.no + '</td>');
-            tr.append('<td><div><strong>' + row.instructor_name + '</strong><br><small class="text-muted">' + row.instructor_email + '</small></div></td>');
+            tr.append('<td><div><strong>' + row.trainer_name + '</strong><br><small class="text-muted">' + row.trainer_email + '</small></div></td>');
             tr.append('<td>' + row.amount + '</td>');
             tr.append('<td>' + row.status + '</td>');
             tr.append('<td>' + row.payment_method + '</td>');
@@ -367,7 +367,7 @@ $(document).ready(function() {
     // Update summary
     function updateSummary() {
         $.ajax({
-            url: '{{ route("instructor.withdrawal-requests.data") }}',
+            url: '{{ route("trainer.withdrawal-requests.data") }}',
             method: 'GET',
             data: {
                 action: 'summary'
@@ -414,7 +414,7 @@ $(document).ready(function() {
     // Load withdrawal request details
     function loadWithdrawalRequestDetails(id) {
         $.ajax({
-            url: '{{ route("instructor.withdrawal-requests.data") }}',
+            url: '{{ route("trainer.withdrawal-requests.data") }}',
             method: 'GET',
             data: {
                 withdrawal_request_id: id,
@@ -481,8 +481,8 @@ $(document).ready(function() {
             </div>
             <div class="row">
                 <div class="col-md-6">
-                    <h6><strong>Instructor:</strong></h6>
-                    <p>${data.instructor_name} (${data.instructor_email})</p>
+                    <h6><strong>Trainer:</strong></h6>
+                    <p>${data.trainer_name} (${data.trainer_email})</p>
                 </div>
                 <div class="col-md-6">
                     <h6><strong>Amount:</strong></h6>
@@ -566,7 +566,7 @@ $(document).ready(function() {
         
         
         $.ajax({
-            url: '{{ route("instructor.withdrawal-request.update-status") }}',
+            url: '{{ route("trainer.withdrawal-request.update-status") }}',
             method: 'POST',
             data: $(this).serialize(),
             headers: {

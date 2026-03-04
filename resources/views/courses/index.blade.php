@@ -295,14 +295,14 @@
                                     </select>
                                 </div>
                             </div>
-                            @if($shouldShowInstructorFilters ?? true)
+                            @if($shouldShowTrainerFilters ?? true)
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label class="form-label mb-1">{{ __('Filter by Instructor') }}</label>
-                                    <select id="filter_instructor_id" class="form-control select2" style="width: 100%;">
+                                    <label class="form-label mb-1">{{ __('Filter by Trainer') }}</label>
+                                    <select id="filter_trainer_id" class="form-control select2" style="width: 100%;">
                                         <option value="">{{ __('All') }}</option>
-                                        @foreach ($instructors as $instructor)
-                                            <option value="{{ $instructor->id }}">{{ $instructor->name }}</option>
+                                        @foreach ($trainers as $trainer)
+                                            <option value="{{ $trainer->id }}">{{ $trainer->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -398,27 +398,27 @@
             // Initialize tooltips
             $('[data-toggle="tooltip"]').tooltip();
 
-            // Initialize Select2 for instructor filter
-            $('#filter_instructor_id').select2({
+            // Initialize Select2 for trainer filter
+            $('#filter_trainer_id').select2({
                 placeholder: '{{ __("All") }}',
                 allowClear: true,
                 width: '100%'
             });
 
             // Filters reload
-            $('#filter_is_active, #filter_instructor_id').on('change', function(){
+            $('#filter_is_active, #filter_trainer_id').on('change', function(){
                 $('#table_list').bootstrapTable('refresh');
             });
             
             $('#reset_filters').on('click', function(){
                 $('#filter_is_active').val('');
-                $('#filter_instructor_id').val(null).trigger('change');
+                $('#filter_trainer_id').val(null).trigger('change');
                 $('#table_list').bootstrapTable('refresh');
             });
             
             // Ensure button height matches select2 height after Select2 is initialized
             setTimeout(function() {
-                const select2Height = $('#filter_instructor_id').next('.select2-container').find('.select2-selection').outerHeight();
+                const select2Height = $('#filter_trainer_id').next('.select2-container').find('.select2-selection').outerHeight();
                 if (select2Height) {
                     $('#reset_filters').css({
                         'height': select2Height + 'px',
@@ -428,11 +428,11 @@
             }, 200);
 
             // Requests filters
-            $('#request_instructor_id').on('change', function(){
+            $('#request_trainer_id').on('change', function(){
                 $('#table_requests').bootstrapTable('refresh');
             });
             $('#reset_request_filters').on('click', function(){
-                $('#request_instructor_id').val('').trigger('change');
+                $('#request_trainer_id').val('').trigger('change');
                 $('#table_requests').bootstrapTable('refresh');
             });
         });
@@ -456,13 +456,13 @@
         // Attach filters to table query params
         function courseQueryParams(params) {
             params.is_active = $('#filter_is_active').val();
-            params.instructor_id = $('#filter_instructor_id').val();
+            params.trainer_id = $('#filter_trainer_id').val();
             params.show_deleted = showDeleted;
             return params;
         }
 
         function requestQueryParams(params){
-            params.instructor_id = $('#request_instructor_id').val();
+            params.trainer_id = $('#request_trainer_id').val();
             return params;
         }
 

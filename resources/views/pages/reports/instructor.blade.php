@@ -1,7 +1,7 @@
 ﻿@extends('layouts.app')
 
 @section('title')
-    {{ __('Instructor Reports') }}
+    {{ __('Trainer Reports') }}
 @endsection
 
 @push('style')
@@ -12,7 +12,7 @@
 @section('main')
     <section class="section">
         <div class="section-header">
-            <h1><i class="fas fa-chalkboard-teacher"></i> {{ __('Instructor Reports') }} </h1>
+            <h1><i class="fas fa-chalkboard-teacher"></i> {{ __('Trainer Reports') }} </h1>
             <div class="section-header-button">
                 <button class="btn btn-primary" onclick="exportReport('pdf')">
                     <i class="fas fa-file-pdf"></i> {{ __('Export PDF') }} </button>
@@ -34,19 +34,19 @@
                             <input type="text" class="form-control" id="dateRange" name="dateRange" readonly>
                         </div>
                     </div>
-                    @if($shouldShowInstructorFilters ?? true)
+                    @if($shouldShowTrainerFilters ?? true)
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label> {{ __('Instructor') }} </label>
-                            <select class="form-control select2" id="instructorFilter" name="instructor_id">
-                                <option value=""> {{ __('All Instructors') }} </option>
+                            <label> {{ __('Trainer') }} </label>
+                            <select class="form-control select2" id="trainerFilter" name="trainer_id">
+                                <option value=""> {{ __('All Trainers') }} </option>
                             </select>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label> {{ __('Instructor Type') }} </label>
-                            <select class="form-control" id="instructorTypeFilter" name="instructor_type">
+                            <label> {{ __('Trainer Type') }} </label>
+                            <select class="form-control" id="trainerTypeFilter" name="trainer_type">
                                 <option value=""> {{ __('All Types') }} </option>
                                 <option value="individual"> {{ __('Individual') }} </option>
                                 <option value="team"> {{ __('Team') }} </option>
@@ -83,7 +83,7 @@
             <div class="spinner-border text-primary" role="status">
                 <span class="sr-only"> {{ __('Loading...') }} </span>
             </div>
-            <p class="mt-2 text-muted"> {{ __('Loading instructor data...') }} </p>
+            <p class="mt-2 text-muted"> {{ __('Loading trainer data...') }} </p>
         </div>
 
         <!-- Summary Cards -->
@@ -96,10 +96,10 @@
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">
-                                <h4> {{ __('Total Instructors') }} </h4>
+                                <h4> {{ __('Total Trainers') }} </h4>
                             </div>
                             <div class="card-body">
-                                <span id="totalInstructors"> {{ __('0') }} </span>
+                                <span id="totalTrainers"> {{ __('0') }} </span>
                             </div>
                         </div>
                     </div>
@@ -114,7 +114,7 @@
                                 <h4> {{ __('Approved') }} </h4>
                             </div>
                             <div class="card-body">
-                                <span id="approvedInstructors"> {{ __('0') }} </span>
+                                <span id="approvedTrainers"> {{ __('0') }} </span>
                             </div>
                         </div>
                     </div>
@@ -144,7 +144,7 @@
                                 <h4> {{ __('Individual Type') }} </h4>
                             </div>
                             <div class="card-body">
-                                <span id="individualInstructors"> {{ __('0') }} </span>
+                                <span id="individualTrainers"> {{ __('0') }} </span>
                             </div>
                         </div>
                     </div>
@@ -152,19 +152,19 @@
             </div>
         </div>
 
-        <!-- Instructor Performance Table -->
+        <!-- Trainer Performance Table -->
         <div id="table-section" class="row mt-4">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4><i class="fas fa-table"></i> {{ __('Instructor Data') }} </h4>
+                        <h4><i class="fas fa-table"></i> {{ __('Trainer Data') }} </h4>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-striped" id="instructorTable">
+                            <table class="table table-striped" id="trainerTable">
                                 <thead>
                                     <tr>
-                                        <th> {{ __('Instructor') }} </th>
+                                        <th> {{ __('Trainer') }} </th>
                                         <th> {{ __('Type') }} </th>
                                         <th> {{ __('Status') }} </th>
                                         <th> {{ __('Courses') }} </th>
@@ -174,7 +174,7 @@
                                         <th> {{ __('Join Date') }} </th>
                                     </tr>
                                 </thead>
-                                <tbody id="instructorTableBody">
+                                <tbody id="trainerTableBody">
                                     <!-- Data will be loaded here -->
                                 </tbody>
                             </table>
@@ -231,9 +231,9 @@
                 if (response.success) {
                     const data = response.data;
                     
-                    $('#instructorFilter').empty().append('<option value=""> {{ __('All Instructors') }} </option>');
-                    data.instructors.forEach(instructor => {
-                        $('#instructorFilter').append(`<option value="${instructor.id}">${instructor.name}</option>`);
+                    $('#trainerFilter').empty().append('<option value=""> {{ __('All Trainers') }} </option>');
+                    data.trainers.forEach(trainer => {
+                        $('#trainerFilter').append(`<option value="${trainer.id}">${trainer.name}</option>`);
                     });
                 }
             });
@@ -250,8 +250,8 @@
             currentFilters = {
                 date_from: moment(dateRange[0].trim(), 'DD/MM/YYYY').format('YYYY-MM-DD'),
                 date_to: moment(dateRange[1].trim(), 'DD/MM/YYYY').format('YYYY-MM-DD'),
-                instructor_id: $('#instructorFilter').val(),
-                instructor_type: $('#instructorTypeFilter').val(),
+                trainer_id: $('#trainerFilter').val(),
+                trainer_type: $('#trainerTypeFilter').val(),
                 status: $('#statusFilter').val()
             };
 
@@ -265,74 +265,74 @@
         }
 
         function loadData() {
-            $.get('/reports/instructor-data', currentFilters, function(response) {
+            $.get('/reports/trainer-data', currentFilters, function(response) {
                 if (response.success) {
                     const data = response.data;
                     updateSummaryData(data);
-                    updateInstructorTable(data.instructors || data);
+                    updateTrainerTable(data.trainers || data);
                 }
                 showLoading(false);
             }).fail(function() {
-                showError('Failed to load instructor data');
+                showError('Failed to load trainer data');
                 showLoading(false);
             });
         }
 
         function updateSummaryData(data) {
-            $('#totalInstructors').text(data.total_instructors?.toLocaleString() || '0');
-            $('#approvedInstructors').text(data.approved_instructors?.toLocaleString() || '0');
+            $('#totalTrainers').text(data.total_trainers?.toLocaleString() || '0');
+            $('#approvedTrainers').text(data.approved_trainers?.toLocaleString() || '0');
             $('#totalCourses').text(data.total_courses_created?.toLocaleString() || '0');
-            $('#individualInstructors').text(data.individual_instructors?.toLocaleString() || '0');
+            $('#individualTrainers').text(data.individual_trainers?.toLocaleString() || '0');
         }
 
         function updatePerformanceTable(data) {
             // This function is not used anymore since we removed report_type dropdown
             // But keeping it for backward compatibility
-            updateInstructorTable(data);
+            updateTrainerTable(data);
         }
 
-        function updateInstructorTable(instructors) {
+        function updateTrainerTable(trainers) {
             let html = '';
             
-            // Ensure instructors is an array
-            if (!Array.isArray(instructors)) {
-                instructors = [];
+            // Ensure trainers is an array
+            if (!Array.isArray(trainers)) {
+                trainers = [];
             }
             
-            if (instructors.length === 0) {
-                html = '<tr><td colspan="8" class="text-center"> {{ __('No instructors found') }} </td></tr>';
+            if (trainers.length === 0) {
+                html = '<tr><td colspan="8" class="text-center"> {{ __('No trainers found') }} </td></tr>';
             } else {
-                instructors.forEach(instructor => {
+                trainers.forEach(trainer => {
                 html += `
                     <tr>
                         <td>
                             <div class="d-flex align-items-center">
-                                <img src="${instructor.profile || '/img/avatar/avatar-1.png'}" class="rounded-circle mr-2" width="40" height="40">
+                                <img src="${trainer.profile || '/img/avatar/avatar-1.png'}" class="rounded-circle mr-2" width="40" height="40">
                                 <div>
-                                    <strong>${instructor.name || 'N/A'}</strong><br>
-                                    <small class="text-muted">${instructor.email || 'N/A'}</small>
+                                    <strong>${trainer.name || 'N/A'}</strong><br>
+                                    <small class="text-muted">${trainer.email || 'N/A'}</small>
                                 </div>
                             </div>
                         </td>
-                        <td><span class="badge badge-${instructor.instructor_details?.type === 'individual' ? 'info' : 'primary'}">${capitalizeFirst(instructor.instructor_details?.type) || 'N/A'}</span></td>
-                        <td><span class="badge badge-${getStatusColor(instructor.instructor_details?.status)}">${capitalizeFirst(instructor.instructor_details?.status) || 'N/A'}</span></td>
-                        <td>${instructor.total_courses || instructor.courses?.length || 0}</td>
-                        <td>${instructor.total_enrollments?.toLocaleString() || '0'}</td>
-                        <td>${currencySymbol}${instructor.total_revenue?.toLocaleString() || '0'}</td>
+                        <td><span class="badge badge-${trainer.trainer_details?.type === 'individual' ? 'info' : 'primary'}">${capitalizeFirst(trainer.trainer_details?.type) || 'N/A'}</span></td>
+                        <td><span class="badge badge-${getStatusColor(trainer.trainer_details?.status)}">${capitalizeFirst(trainer.trainer_details?.status) || 'N/A'}</span></td>
+                        <td>${trainer.total_courses || trainer.courses?.length || 0}</td>
+                        <td>${trainer.total_enrollments?.toLocaleString() || '0'}</td>
+                        <td>${currencySymbol}${trainer.total_revenue?.toLocaleString() || '0'}</td>
                         <td>
-                            ${instructor.average_rating ? `
+                            ${trainer.average_rating ? `
                                 <div class="d-flex align-items-center">
-                                    <span class="mr-1">${instructor.average_rating.toFixed(1)}</span>
+                                    <span class="mr-1">${trainer.average_rating.toFixed(1)}</span>
                                     <i class="fas fa-star text-warning"></i>
                                 </div>
                             ` : '-'}
                         </td>
-                        <td>${instructor.created_at ? moment(instructor.created_at, moment.ISO_8601).format('DD MMM YYYY') : 'N/A'}</td>
+                        <td>${trainer.created_at ? moment(trainer.created_at, moment.ISO_8601).format('DD MMM YYYY') : 'N/A'}</td>
                     </tr>
                 `;
                 });
             }
-            $('#instructorTableBody').html(html);
+            $('#trainerTableBody').html(html);
         }
 
         function getStatusColor(status) {
@@ -355,8 +355,8 @@
 
         function getFilterValues() {
             const filters = {
-                instructor_id: $('#instructorFilter').val(),
-                instructor_type: $('#instructorTypeFilter').val(),
+                trainer_id: $('#trainerFilter').val(),
+                trainer_type: $('#trainerTypeFilter').val(),
                 status: $('#statusFilter').val()
             };
 
@@ -393,7 +393,7 @@
             // Create a form and submit it to the export endpoint
             const form = document.createElement('form');
             form.method = 'POST';
-            form.action = '/reports/instructor/export';
+            form.action = '/reports/trainer/export';
             form.target = '_blank';
 
             // Add CSRF token

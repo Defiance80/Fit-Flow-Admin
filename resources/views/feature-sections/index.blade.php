@@ -35,8 +35,8 @@
                                             <option value="offer"> {{ __('Offer') }} </option>
                                             <option value="why_choose_us"> {{ __('Why choose us') }} </option>
                                             <option value="free_courses"> {{ __('Free Courses') }} </option>
-                                            <option value="become_instructor"> {{ __('Become Instructor') }} </option>
-                                            <option value="top_rated_instructors"> {{ __('Top rated Instructors') }} </option>
+                                            <option value="become_trainer"> {{ __('Become Trainer') }} </option>
+                                            <option value="top_rated_trainers"> {{ __('Top rated Trainers') }} </option>
                                             <option value="wishlist"> {{ __('Wishlist') }} </option>
                                             <option value="searching_based"> {{ __('Based on Searching') }} </option>
                                             <option value="recommend_for_you"> {{ __('Recommend for you') }} </option>
@@ -141,8 +141,8 @@
                                         <option value="offer"> {{ __('Offer') }} </option>
                                         <option value="why_choose_us"> {{ __('Why choose us') }} </option>
                                         <option value="free_courses"> {{ __('Free Courses') }} </option>
-                                        <option value="become_instructor"> {{ __('Become Instructor') }} </option>
-                                        <option value="top_rated_instructors"> {{ __('Top rated Instructors') }} </option>
+                                        <option value="become_trainer"> {{ __('Become Trainer') }} </option>
+                                        <option value="top_rated_trainers"> {{ __('Top rated Trainers') }} </option>
                                         <option value="wishlist"> {{ __('Wishlist') }} </option>
                                         <option value="searching_based"> {{ __('Based on Searching') }} </option>
                                         <option value="recommend_for_you"> {{ __('Recommend for you') }} </option>
@@ -196,7 +196,7 @@
                     // Types that should hide both image and limit fields
                     var hideImageAndLimitTypes = [
                         'why_choose_us',
-                        'become_instructor'
+                        'become_trainer'
                     ];
 
                     // Show/hide limit field - only show for types that need it

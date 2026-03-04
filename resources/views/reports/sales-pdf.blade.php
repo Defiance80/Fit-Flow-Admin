@@ -124,9 +124,9 @@
             <strong>{{ __('Course:') }}</strong> {{ $filters['course_name'] ?? $filters['course_id'] }}
         </div>
         @endif
-        @if(isset($filters['instructor_id']) && $filters['instructor_id'])
+        @if(isset($filters['trainer_id']) && $filters['trainer_id'])
         <div class="filter-item">
-            <strong>{{ __('Instructor:') }}</strong> {{ $filters['instructor_name'] ?? $filters['instructor_id'] }}
+            <strong>{{ __('Trainer:') }}</strong> {{ $filters['trainer_name'] ?? $filters['trainer_id'] }}
         </div>
         @endif
         @if(isset($filters['category_id']) && $filters['category_id'])

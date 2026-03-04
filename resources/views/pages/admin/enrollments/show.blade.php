@@ -59,7 +59,7 @@
                         
                         <table class="table table-borderless">
                             <tr>
-                                <td><strong>{{ __('Instructor') }}:</strong></td>
+                                <td><strong>{{ __('Trainer') }}:</strong></td>
                                 <td>{{ $enrollment->course->user->name ?? 'N/A' }}</td>
                             </tr>
                             <tr>

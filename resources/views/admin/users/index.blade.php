@@ -97,10 +97,10 @@
 
     function statusFormatter(value, row) {
         let checked = (value == 1 || value == true) ? 'checked' : '';
-        let isInstructor = row.is_instructor == 1 ? 'data-is-instructor="1"' : '';
+        let isTrainer = row.is_trainer == 1 ? 'data-is-trainer="1"' : '';
         return `
             <div class="custom-control custom-switch custom-switch-2">
-                <input type="checkbox" class="custom-control-input update-user-status" id="status_${row.id}" ${checked} data-user-id="${row.id}" ${isInstructor}>
+                <input type="checkbox" class="custom-control-input update-user-status" id="status_${row.id}" ${checked} data-user-id="${row.id}" ${isTrainer}>
                 <label class="custom-control-label" for="status_${row.id}">&nbsp;</label>
             </div>
         `;
@@ -176,18 +176,18 @@
     // Handle status toggle change
     $(document).on('change', '.update-user-status', function () {
         let userId = $(this).data('user-id');
-        let isInstructor = $(this).data('is-instructor') == 1;
+        let isTrainer = $(this).data('is-trainer') == 1;
         let currentStatus = $(this).is(':checked') ? 1 : 0;
         let newStatus = currentStatus;
         
         let confirmMessage = 'Are you sure you want to ' + (newStatus == 1 ? 'activate' : 'deactivate') + ' this user?';
         
-        if (isInstructor) {
-            confirmMessage += '\n\nNote: This user is also an instructor. ';
+        if (isTrainer) {
+            confirmMessage += '\n\nNote: This user is also an trainer. ';
             if (newStatus == 1) {
-                confirmMessage += 'Activating will also activate the instructor account on both user and instructor sides.';
+                confirmMessage += 'Activating will also activate the trainer account on both user and trainer sides.';
             } else {
-                confirmMessage += 'Deactivating will also suspend the instructor account on both user and instructor sides.';
+                confirmMessage += 'Deactivating will also suspend the trainer account on both user and trainer sides.';
             }
         }
         

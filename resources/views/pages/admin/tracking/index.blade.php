@@ -160,12 +160,12 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label>{{ __('Instructor') }}</label>
-                                <select name="instructor_id" class="form-control select2">
-                                    <option value="">{{ __('All Instructors') }}</option>
-                                    @foreach($instructors as $instructor)
-                                        <option value="{{ $instructor->id }}" {{ request('instructor_id') == $instructor->id ? 'selected' : '' }}>
-                                            {{ $instructor->name }}
+                                <label>{{ __('Trainer') }}</label>
+                                <select name="trainer_id" class="form-control select2">
+                                    <option value="">{{ __('All Trainers') }}</option>
+                                    @foreach($trainers as $trainer)
+                                        <option value="{{ $trainer->id }}" {{ request('trainer_id') == $trainer->id ? 'selected' : '' }}>
+                                            {{ $trainer->name }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -232,7 +232,7 @@
                             <tr>
                                 <th>{{ __('Student') }}</th>
                                 <th>{{ __('Course') }}</th>
-                                <th>{{ __('Instructor') }}</th>
+                                <th>{{ __('Trainer') }}</th>
                                 <th>{{ __('Progress') }}</th>
                                 <th>{{ __('Status') }}</th>
                                 <th>{{ __('Enrollment Date') }}</th>

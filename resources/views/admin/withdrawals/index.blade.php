@@ -261,7 +261,7 @@
                                 html += '<td><strong class="text-success">{{ $currencySymbol }}' + row.amount + '</strong></td>';
                                 html += '<td>' + row.payment_method + '</td>';
                                 html += '<td>' + statusBadge + '</td>';
-                                const entryTypeBadge = row.entry_type === 'User' ? 'primary' : (row.entry_type === 'Instructor' ? 'warning' : 'info');
+                                const entryTypeBadge = row.entry_type === 'User' ? 'primary' : (row.entry_type === 'Trainer' ? 'warning' : 'info');
                                 html += '<td><span class="badge badge-' + entryTypeBadge + '">' + row.entry_type + '</span></td>';
                                 html += '<td>' + row.created_at + '</td>';
                                 html += '<td>' + row.operate + '</td>';

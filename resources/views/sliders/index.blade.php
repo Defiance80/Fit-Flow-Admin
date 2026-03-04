@@ -40,7 +40,7 @@
                 <option value="default">{{ __('Default') }}</option>
                 <option value="custom_link">{{ __('Custom Link') }}</option>
                 <option value="course">{{ __('Course') }}</option>
-                <option value="instructor">{{ __('Instructor') }}</option>
+                <option value="trainer">{{ __('Trainer') }}</option>
             </select>
         </div>
 
@@ -50,7 +50,7 @@
             <input type="url" name="third_party_link" id="third_party_link" class="form-control" placeholder="{{ __('Enter link') }}">
         </div>
 
-        {{-- Model ID Dropdown - only visible if model_type is Course or Instructor --}}
+        {{-- Model ID Dropdown - only visible if model_type is Course or Trainer --}}
         <div class="form-group col-sm-12 col-md-4" id="model-id-section" style="display: none;">
             <label>{{ __('Select Option') }} <span class="text-danger">*</span></label>
             <select name="model_id" id="model_id" class="form-control">
@@ -113,7 +113,7 @@
 @section('script')
     <script>
         let courses = {!! json_encode($courses ?? []) !!};
-        let instructors = {!! json_encode($instructors ?? []) !!};
+        let trainers = {!! json_encode($trainers ?? []) !!};
         
         // Ensure we have valid arrays
         if (typeof courses !== 'object' || !Array.isArray(courses)) {
@@ -123,11 +123,11 @@
             window.courses = courses;
         }
         
-        if (typeof instructors !== 'object' || !Array.isArray(instructors)) {
-            console.error('Instructors is not a valid array:', instructors);
-            window.instructors = [];
+        if (typeof trainers !== 'object' || !Array.isArray(trainers)) {
+            console.error('Trainers is not a valid array:', trainers);
+            window.trainers = [];
         } else {
-            window.instructors = instructors;
+            window.trainers = trainers;
         }
         
         document.getElementById('model_type').addEventListener('change', function () {
@@ -173,16 +173,16 @@
                         modelIdSelect.appendChild(option);
                     });
                 }
-            } else if (modelType === 'instructor') {
-                // Instructor: Show model id, hide third party link
+            } else if (modelType === 'trainer') {
+                // Trainer: Show model id, hide third party link
                 thirdPartyLinkSection.style.display = 'none';
                 modelIdSection.style.display = 'block';
                 modelIdSelect.setAttribute('required', 'required');
-                if (window.instructors && Array.isArray(window.instructors)) {
-                    window.instructors.forEach(item => {
+                if (window.trainers && Array.isArray(window.trainers)) {
+                    window.trainers.forEach(item => {
                         const option = document.createElement('option');
                         option.value = item.id;
-                        option.text = item.user ? item.user.name : 'Unknown Instructor';
+                        option.text = item.user ? item.user.name : 'Unknown Trainer';
                         modelIdSelect.appendChild(option);
                     });
                 }

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    {{ __('Instructor Wallet History') }}
+    {{ __('Trainer Wallet History') }}
 @endsection
 
 @section('page-title')
@@ -16,9 +16,9 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">
-                            {{ __('Instructor Wallet History') }}
+                            {{ __('Trainer Wallet History') }}
                         </h4>
-                        <p class="text-muted">{{ __('View all wallet transactions for instructors including commissions, withdrawals, and other activities.') }}</p>
+                        <p class="text-muted">{{ __('View all wallet transactions for trainers including commissions, withdrawals, and other activities.') }}</p>
                         
                         <!-- Filters -->
                         <div class="row mb-3">
@@ -31,11 +31,11 @@
                                 </select>
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label mb-1">{{ __('Filter by Instructor') }}</label>
-                                <select id="filter_instructor_id" class="form-control select2">
-                                    <option value="">{{ __('All Instructors') }}</option>
-                                    @foreach ($instructors as $instructor)
-                                        <option value="{{ $instructor->id }}">{{ $instructor->name }} ({{ $instructor->email }})</option>
+                                <label class="form-label mb-1">{{ __('Filter by Trainer') }}</label>
+                                <select id="filter_trainer_id" class="form-control select2">
+                                    <option value="">{{ __('All Trainers') }}</option>
+                                    @foreach ($trainers as $trainer)
+                                        <option value="{{ $trainer->id }}">{{ $trainer->name }} ({{ $trainer->email }})</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -51,14 +51,14 @@
                             data-show-columns="true" data-show-refresh="true" data-trim-on-search="false"
                             data-mobile-responsive="true" data-use-row-attr-func="true"
                             data-maintain-selected="true" data-export-data-type="all"   
-                            data-export-options='{ "fileName": "{{ __('instructor-wallet-history') }}-<?= date('d-m-y') ?>","ignoreColumn":["operate"]}'
+                            data-export-options='{ "fileName": "{{ __('trainer-wallet-history') }}-<?= date('d-m-y') ?>","ignoreColumn":["operate"]}'
                             data-show-export="true" data-query-params="queryParams">
                             <thead>
                                 <tr>
                                     <th data-field="id" data-visible="false">{{ __('ID') }}</th>
                                     <th data-field="no">{{ __('No.') }}</th>
-                                    <th data-field="instructor_name">{{ __('Instructor Name') }}</th>
-                                    <th data-field="instructor_email">{{ __('Email') }}</th>
+                                    <th data-field="trainer_name">{{ __('Trainer Name') }}</th>
+                                    <th data-field="trainer_email">{{ __('Email') }}</th>
                                     <th data-field="type">{{ __('Type') }}</th>
                                     <th data-field="transaction_type">{{ __('Transaction Type') }}</th>
                                     <th data-field="entry_type">{{ __('Entry Type') }}</th>
@@ -81,21 +81,21 @@
         // Initialize tooltips
         $('[data-toggle="tooltip"]').tooltip();
         
-        // Initialize select2 for instructor filter
-        $('#filter_instructor_id').select2({
-            placeholder: '{{ __("Select Instructor") }}',
+        // Initialize select2 for trainer filter
+        $('#filter_trainer_id').select2({
+            placeholder: '{{ __("Select Trainer") }}',
             allowClear: true
         });
         
         // Filter change handlers
-        $('#filter_transaction_type, #filter_instructor_id').on('change', function(){
+        $('#filter_transaction_type, #filter_trainer_id').on('change', function(){
             $('#table_list').bootstrapTable('refresh');
         });
         
         // Reset filters
         $('#reset_filters').on('click', function(){
             $('#filter_transaction_type').val('');
-            $('#filter_instructor_id').val('').trigger('change');
+            $('#filter_trainer_id').val('').trigger('change');
             $('#table_list').bootstrapTable('refresh');
         });
     });
@@ -103,7 +103,7 @@
     // Query params function for bootstrap table
     function queryParams(params) {
         params.transaction_type = $('#filter_transaction_type').val();
-        params.instructor_id = $('#filter_instructor_id').val();
+        params.trainer_id = $('#filter_trainer_id').val();
         return params;
     }
 </script>

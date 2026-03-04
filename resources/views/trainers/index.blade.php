@@ -13,7 +13,7 @@
         <div class="section-header">
             <h1>{{ __('Trainers') }}</h1>
             <div class="section-header-button">
-                <a href="{{ route('trainers.create') }}" class="btn btn-primary">
+                <a href="{{ route('instructor.create') }}" class="btn btn-primary">
                     <i class="fas fa-plus"></i> {{ __('Add New Trainer') }}
                 </a>
             </div>
@@ -33,7 +33,7 @@
                             </div>
                         </div>
                         <div class="card-body collapse" id="searchFilter">
-                            <form method="GET" action="{{ route('trainers.index') }}">
+                            <form method="GET" action="{{ route('instructor.index') }}">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
@@ -64,7 +64,7 @@
                                                 <button type="submit" class="btn btn-primary mr-2">
                                                     <i class="fas fa-search"></i> {{ __('Search') }}
                                                 </button>
-                                                <a href="{{ route('trainers.index') }}" class="btn btn-secondary">
+                                                <a href="{{ route('instructor.index') }}" class="btn btn-secondary">
                                                     <i class="fas fa-times"></i> {{ __('Clear') }}
                                                 </a>
                                             </div>
@@ -152,14 +152,14 @@
                                                             <i class="fas fa-ellipsis-v"></i>
                                                         </a>
                                                         <div class="dropdown-menu">
-                                                            <a href="{{ route('trainers.show', $trainer) }}" class="dropdown-item">
+                                                            <a href="{{ route('instructor.show', $trainer) }}" class="dropdown-item">
                                                                 <i class="fas fa-eye"></i> {{ __('View') }}
                                                             </a>
-                                                            <a href="{{ route('trainers.edit', $trainer) }}" class="dropdown-item">
+                                                            <a href="{{ route('instructor.edit', $trainer) }}" class="dropdown-item">
                                                                 <i class="fas fa-edit"></i> {{ __('Edit') }}
                                                             </a>
                                                             <div class="dropdown-divider"></div>
-                                                            <form method="POST" action="{{ route('trainers.destroy', $trainer) }}" 
+                                                            <form method="POST" action="{{ route('instructor.destroy', $trainer) }}" 
                                                                   onsubmit="return confirm('{{ __('Are you sure you want to deactivate this trainer?') }}')">
                                                                 @csrf
                                                                 @method('DELETE')
@@ -175,7 +175,7 @@
                                             <tr>
                                                 <td colspan="7" class="text-center">
                                                     <p class="mt-4 mb-4">{{ __('No trainers found.') }}</p>
-                                                    <a href="{{ route('trainers.create') }}" class="btn btn-primary">
+                                                    <a href="{{ route('instructor.create') }}" class="btn btn-primary">
                                                         <i class="fas fa-plus"></i> {{ __('Add First Trainer') }}
                                                     </a>
                                                 </td>

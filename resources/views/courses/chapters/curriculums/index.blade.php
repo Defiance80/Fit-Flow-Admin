@@ -474,7 +474,7 @@
                                     <th scope="col" data-field="type" data-align="center" data-formatter="capitalizeNameFormatter" data-escape="false">{{ __('Type') }}</th>
                                     <th scope="col" data-field="level" data-align="center" data-formatter="capitalizeNameFormatter" data-escape="false">{{ __('Level') }}</th>
                                     <th scope="col" data-field="course_type" data-align="center" data-formatter="capitalizeNameFormatter" data-escape="false">{{ __('Course Type') }}</th>
-                                    <th scope="col" data-field="instructor" data-align="center" data-escape="true">{{ __('Instructor') }}</th>
+                                    <th scope="col" data-field="trainer" data-align="center" data-escape="true">{{ __('Trainer') }}</th>
                                     <th scope="col" data-field="view_details" data-formatter="viewDetailsFormatter" data-align="center" data-escape="false">{{ __('View Details') }}</th>
                                     <th scope="col" data-field="duration" data-align="center" data-escape="true">{{ __('Duration') }}</th>
                                     <th scope="col" data-field="resources" data-align="center" data-formatter="yesAndNoStatusFormatter" data-escape="false">{{ __('Resources ?') }}</th>
