@@ -17,7 +17,7 @@ class HealthMetricController extends Controller
     public function index(Request $request)
     {
         // Get summary statistics
-        $totalClients = User::where('user_role', 'client')->where('is_active', 1)->count();
+        $totalClients = User::where('users.user_role', 'client')->where('users.is_active', 1)->count();
         $alertsThisWeek = HealthAlert::where('created_at', '>=', now()->subWeek())->count();
         
         // Average heart rate across all clients with recent data
@@ -27,11 +27,11 @@ class HealthMetricController extends Controller
         $avgHeartRate = $avgHeartRateValue ? round($avgHeartRateValue, 1) : null;
 
         // Get trainers for filter dropdown
-        $trainers = User::where('user_role', 'trainer')->where('is_active', 1)->get();
+        $trainers = User::where('users.user_role', 'trainer')->where('users.is_active', 1)->get();
 
         // Base query for clients with their latest health metrics
-        $clientsQuery = User::where('user_role', 'client')
-            ->where('is_active', 1)
+        $clientsQuery = User::where('users.user_role', 'client')
+            ->where('users.is_active', 1)
             ->select('users.*')
             ->leftJoin('trainer_clients', 'users.id', '=', 'trainer_clients.client_id')
             ->leftJoin('users as trainers', 'trainer_clients.trainer_id', '=', 'trainers.id');
