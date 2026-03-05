@@ -70,7 +70,14 @@ Route::post('login', [AuthController::class, 'login'])->name('login');
 Route::middleware([PanelAuthenticate::class])->group(function () {
     /** Dashboard Routes */
     Route::get('/', function () {
-        return view('pages.admin-dashboard', ['type_menu' => 'dashboard']);
+        $dashboardData = [];
+        try {
+            $controller = new \App\Http\Controllers\API\DashboardController();
+            $response = $controller->getDashboardData(request());
+            $jsonData = json_decode($response->getContent(), true);
+            if ($jsonData && isset($jsonData['data'])) { $dashboardData = $jsonData['data']; }
+        } catch (\Exception $e) { \Illuminate\Support\Facades\Log::error('Dashboard: ' . $e->getMessage()); }
+        return view('pages.admin-dashboard', ['type_menu' => 'dashboard', 'dashboardData' => $dashboardData]);
     })->name('dashboard');
 
     /***************************************************************************************************** */

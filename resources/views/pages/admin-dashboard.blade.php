@@ -508,46 +508,21 @@
         // Function to load comprehensive dashboard data from API
         async function loadDashboardData() {
             try {
-                // Show loading state
-                document.getElementById('loading-state').style.display = 'block';
-                document.getElementById('dashboard-content').style.display = 'none';
-                
-                const response = await fetch('/api/dashboard-data', {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'X-Requested-With': 'XMLHttpRequest'
-                    }
-                });
-                
-                // Check if response is JSON
-                const contentType = response.headers.get('content-type');
-                if (!contentType || !contentType.includes('application/json')) {
-                    const text = await response.text();
-                    console.error('Non-JSON response received:', text.substring(0, 200));
-                    throw new Error('Server returned non-JSON response. Status: ' + response.status);
-                }
-                
-                const result = await response.json();
-                
-                if (result.status) {
-                    dashboardData = result.data;
+                document.getElementById("loading-state").style.display = "block";
+                document.getElementById("dashboard-content").style.display = "none";
+                dashboardData = @json($dashboardData ?? []);
+                if (dashboardData && Object.keys(dashboardData).length > 0) {
                     updateDashboardUI();
-                    
-                    // Hide loading state and show content
-                    document.getElementById('loading-state').style.display = 'none';
-                    document.getElementById('dashboard-content').style.display = 'block';
+                    document.getElementById("loading-state").style.display = "none";
+                    document.getElementById("dashboard-content").style.display = "block";
                 } else {
-                    console.error('Failed to load dashboard data:', result.message);
-                    showErrorState(result.message);
+                    showErrorState("No dashboard data available. Try refreshing.");
                 }
             } catch (error) {
-                console.error('Error loading dashboard data:', error);
-                showErrorState(error.message || 'Failed to load dashboard data. Please refresh the page.');
+                console.error("Dashboard error:", error);
+                showErrorState(error.message);
             }
         }
-        
         // Function to update the entire dashboard UI with dynamic data
         function updateDashboardUI() {
             updateOverviewStats();
@@ -949,7 +924,7 @@
                     <i class="fas fa-exclamation-triangle"></i>
                     Failed to load dashboard data: ${message}
                 </div>
-                <button class="btn btn-primary" onclick="loadDashboardData()">
+                <button class="btn btn-primary" onclick="location.reload()">
                     <i class="fas fa-sync-alt"></i> {{ __('Retry') }} </button>
             `;
         }
